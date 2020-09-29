@@ -1,0 +1,14 @@
+/main.py:
+
+	- create barakaDialogInstance using "Elements"
+	- run the code out there
+
+/Elements.py:
+
+	- Archive UI methods to have a bunch of reusable UI elements.
+	(ex : confirmDialog | helpDialog | About | etc...)
+
+
+/
+
+

@@ -1,8 +1,9 @@
 #coding:utf-8
 
-from PySide2 import QtCore, QtGui, QtWidgets
+from PySide2.QtWidgets import QApplication, QWidget, QDialog, QHBoxLayout, QVBoxLayout, QGroupBox, QPushButton, QMessageBox
+from PySide2.QtGui import QIcon
 
-class BarakaToolsDialogInstance(QtWidgets.QWidget):
+class BarakaToolsDialogInstance(QWidget):
 	"""
 	"""
 	def __init__(self, parent = None):
@@ -12,16 +13,36 @@ class BarakaToolsDialogInstance(QtWidgets.QWidget):
 
 		self.setWindowTitle("BrkTools")
 		self.setGeometry(600, 400, 225, 300)
-		self.setMinimumSize(100, 200)
+		self.setMinimumSize(225, 200)
 		self.setMaximumSize(300, 500)
 
-		button = QtWidgets.QPushButton("Hello", self)
-		
+		quitMessage = QMessageBox()
 
-		#self.buttonsNames = ["Manager", "Autorig"]
-		#self.buttons = []
-		#for name in self.buttonsNames:
-		#	button = QtWidgets.QPushButton()
+		vbox = QVBoxLayout(self)
+
+		autorigButton = QPushButton("Autorig", self)
+		autorigButton.clicked.connect(self.quitApp)
+		vbox.addWidget(autorigButton)
+
+		managerButton = QPushButton("Manager", self)
+		managerButton.clicked.connect(self.quitApp)
+		vbox.addWidget(managerButton)
+
+		helpButton = QPushButton("Help", self)
+		helpButton.clicked.connect(self.quitApp)
+		vbox.addWidget(helpButton)
+
+
+	def printHello(self):
+		print("hello")
+
+
+	def quitApp(self):
+		userInfo = QMessageBox.question(self, "Confirmation", "Do you really want to quit ?",
+										QMessageBox.Yes | QMessageBox.No)
+
+		if userInfo == QMessageBox.Yes:
+			app.quit()
 		
 
 

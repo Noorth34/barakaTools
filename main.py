@@ -3,7 +3,7 @@
 """
 """
 import toolsDialog
-from PySide2 import QtWidgets
+from PySide2.QtWidgets import QApplication
 
 
 reload(toolsDialog)
@@ -12,7 +12,7 @@ reload(toolsDialog)
 
 if __name__ == "__main__":
 		
-	app = QtWidgets.QApplication.instance()
+	app = QApplication.instance()
 	widget = toolsDialog.BarakaToolsDialogInstance()
 	widget.show()
 	app.exec_()
