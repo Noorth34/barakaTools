@@ -1,7 +1,8 @@
 #coding:utf-8
 
-from PySide2.QtWidgets import QApplication, QWidget, QDialog, QHBoxLayout, QVBoxLayout, QGroupBox, QPushButton, QMessageBox
+from PySide2.QtWidgets import QApplication, QWidget, QDialog, QLabel, QHBoxLayout, QVBoxLayout, QCheckBox, QGroupBox, QPushButton, QMessageBox
 from PySide2.QtGui import QIcon
+from constants import *
 
 class BarakaToolsDialogInstance(QWidget):
 	"""
@@ -12,17 +13,16 @@ class BarakaToolsDialogInstance(QWidget):
 		super(BarakaToolsDialogInstance, self).__init__(parent)
 
 		self.setWindowTitle("BrkTools")
-		self.setGeometry(600, 400, 225, 300)
+		self.setWindowIcon(QIcon( BARAKA_PATH + "/icons/frites.png") )
+		self.setGeometry(600, 400, 225, 0)
 		self.setMinimumSize(225, 200)
-		self.setMaximumSize(300, 500)
-
-		quitMessage = QMessageBox()
+		self.setMaximumSize(600, 500)
+		
+		
 
 		vbox = QVBoxLayout(self)
 
 		autorigButton = QPushButton("Autorig", self)
-		autorigButton.setMinimumSize(100, 100)
-		autorigButton.setMaximumSize(300, 500)
 		autorigButton.clicked.connect(self.quitApp)
 		vbox.addWidget(autorigButton)
 		autorigButton.setToolTip("This is the autorig tool box")
@@ -35,9 +35,17 @@ class BarakaToolsDialogInstance(QWidget):
 		helpButton.clicked.connect(self.quitApp)
 		vbox.addWidget(helpButton)
 
+		hbox = QHBoxLayout(self)
+		vbox.addLayout(hbox)
+		checkLabel = QLabel("This is a checkbox", self)
+		check = QCheckBox(self)
+		hbox.addWidget(check)
+		hbox.addWidget(checkLabel)
+		
+
 
 	def printHello(self):
-		print("hello")
+		print(__file__)
 
 
 	def quitApp(self):

@@ -16,4 +16,5 @@ if __name__ == "__main__":
 	widget = toolsDialog.BarakaToolsDialogInstance()
 	widget.show()
 	app.exec_()
+	print(__name__)
 
