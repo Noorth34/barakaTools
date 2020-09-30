@@ -21,8 +21,11 @@ class BarakaToolsDialogInstance(QWidget):
 		vbox = QVBoxLayout(self)
 
 		autorigButton = QPushButton("Autorig", self)
+		autorigButton.setMinimumSize(100, 100)
+		autorigButton.setMaximumSize(300, 500)
 		autorigButton.clicked.connect(self.quitApp)
 		vbox.addWidget(autorigButton)
+		autorigButton.setToolTip("This is the autorig tool box")
 
 		managerButton = QPushButton("Manager", self)
 		managerButton.clicked.connect(self.quitApp)
