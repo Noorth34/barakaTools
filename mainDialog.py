@@ -54,6 +54,7 @@ class MainDialogInstance(QWidget):
 
 		VBoxAutorigButtons = QVBoxLayout(self.managerDialog)
 		ribbonButton = QPushButton("Ribbonize", self.managerDialog)
+		ribbonButton.clicked.connect(self.printHello)
 		VBoxAutorigButtons.addWidget(ribbonButton)
 
 	def openManager(self):
