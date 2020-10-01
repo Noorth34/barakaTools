@@ -3,28 +3,32 @@
 """
 """
 
-from PySide2 import QtCore, QtWidgets
+from PySide2.QtWidgets import QWidget, QPushButton, QVBoxLayout
+from PySide2.QtGui import QIcon
+from constants import *
 
 
-class BarakaManagerUI():
+class ManagerDialogInstance(QWidget):
 	"""
 	"""
 	def __init__(self):
 		"""
 		"""
-		super(monDialog, self).__init__(parent)
-		data = ["square", "rectangle",
-		"cube", "parallelepiped"]
-		self.setWindowTitle("exemple de dialogue")
-		#self.setFixedSize(300, 100)
-		listWidget = QtWidgets.QListWidget(self)
-		listWidget.addItems(data)
-		
+		super(ManagerDialogInstance,self).__init__()
+
+		self.setWindowTitle("BrkAutorig")
+		self.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/burger.png") )
+		self.setGeometry(600, 400, 225, 0)
+		self.setMinimumSize(225, 200)
+		self.setMaximumSize(600, 500)
+
+		VBoxAutorigButtons = QVBoxLayout(self)
+
+		ribbonButton = QPushButton("Ribbonize", self)
+		VBoxAutorigButtons.addWidget(ribbonButton)
 
 	def show(self):
-		"""
-		"""
-		app = QtWidgets.QApplication.instance()
-		d = monDialog()
-		d.show()
-		app.exec_()
+		self.show()
+
+
+		

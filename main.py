@@ -12,9 +12,9 @@ reload(mainDialog)
 
 if __name__ == "__main__":
 		
-	app = QApplication.instance()
-	widget = mainDialog.MainDialogInstance()
-	widget.show()
-	app.exec_()
+	mainApp = QApplication.instance()
+	mainWidget = mainDialog.MainDialogInstance()
+	mainWidget.show()
+	mainApp.exec_()
 
 
