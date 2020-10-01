@@ -13,25 +13,26 @@ class BarakaToolsDialogInstance(QWidget):
 		super(BarakaToolsDialogInstance, self).__init__(parent)
 
 		self.setWindowTitle("BrkTools")
-		self.setWindowIcon(QIcon( BARAKA_PATH + "/icons/frites.png") )
+		self.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/frites.png") )
 		self.setGeometry(600, 400, 225, 0)
 		self.setMinimumSize(225, 200)
 		self.setMaximumSize(600, 500)
-		
-		
 
 		vbox = QVBoxLayout(self)
 
 		autorigButton = QPushButton("Autorig", self)
+		autorigButton.setIcon(QIcon( BARAKA_ICONS_PATH + "/burger.png") )
 		autorigButton.clicked.connect(self.printHello)
-		vbox.addWidget(autorigButton)
 		autorigButton.setToolTip("This is the autorig tool box")
+		vbox.addWidget(autorigButton)
 
 		managerButton = QPushButton("Manager", self)
+		managerButton.setIcon(QIcon( BARAKA_ICONS_PATH + "/coca.png") )
 		managerButton.clicked.connect(self.printHello)
 		vbox.addWidget(managerButton)
 
 		helpButton = QPushButton("Help", self)
+		helpButton.setIcon(QIcon( BARAKA_ICONS_PATH + "/help.png") )
 		helpButton.clicked.connect(self.printHello)
 		vbox.addWidget(helpButton)
 	
