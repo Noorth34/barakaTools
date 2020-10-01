@@ -18,7 +18,7 @@ class MainDialogInstance(QWidget):
 		self.setMinimumSize(225, 200)
 		self.setMaximumSize(600, 500)
 
-		mainButtonsVBox = QVBoxLayout(self)
+		VBoxMainButtons = QVBoxLayout(self)
 
 		autorigButton = QPushButton("Autorig", self)
 		autorigButton.setIcon(QIcon( BARAKA_ICONS_PATH + "/burger.png") )
