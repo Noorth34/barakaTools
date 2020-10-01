@@ -4,13 +4,13 @@ from PySide2.QtWidgets import QApplication, QWidget, QDialog, QLabel, QHBoxLayou
 from PySide2.QtGui import QIcon
 from constants import *
 
-class BarakaToolsDialogInstance(QWidget):
+class MainDialogInstance(QWidget):
 	"""
 	"""
 	def __init__(self, parent = None):
 		"""
 		"""
-		super(BarakaToolsDialogInstance, self).__init__(parent)
+		super(MainDialogInstance, self).__init__(parent)
 
 		self.setWindowTitle("BrkTools")
 		self.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/frites.png") )
@@ -18,7 +18,7 @@ class BarakaToolsDialogInstance(QWidget):
 		self.setMinimumSize(225, 200)
 		self.setMaximumSize(600, 500)
 
-		vbox = QVBoxLayout(self)
+		mainButtonsVBox = QVBoxLayout(self)
 
 		autorigButton = QPushButton("Autorig", self)
 		autorigButton.setIcon(QIcon( BARAKA_ICONS_PATH + "/burger.png") )

@@ -13,7 +13,7 @@ reload(mainDialog)
 if __name__ == "__main__":
 		
 	app = QApplication.instance()
-	widget = mainDialog.BarakaToolsDialogInstance()
+	widget = mainDialog.MainDialogInstance()
 	widget.show()
 	app.exec_()
 
