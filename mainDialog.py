@@ -7,10 +7,10 @@ from constants import *
 class MainDialogInstance(QWidget):
 	"""
 	"""
-	def __init__(self, parent = None):
+	def __init__(self):
 		"""
 		"""
-		super(MainDialogInstance, self).__init__(parent)
+		super(MainDialogInstance, self).__init__()
 
 		self.setWindowTitle("BrkTools")
 		self.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/frites.png") )
@@ -24,17 +24,17 @@ class MainDialogInstance(QWidget):
 		autorigButton.setIcon(QIcon( BARAKA_ICONS_PATH + "/burger.png") )
 		autorigButton.clicked.connect(self.printHello)
 		autorigButton.setToolTip("This is the autorig tool box")
-		vbox.addWidget(autorigButton)
+		VBoxMainButtons.addWidget(autorigButton)
 
 		managerButton = QPushButton("Manager", self)
 		managerButton.setIcon(QIcon( BARAKA_ICONS_PATH + "/coca.png") )
 		managerButton.clicked.connect(self.printHello)
-		vbox.addWidget(managerButton)
+		VBoxMainButtons.addWidget(managerButton)
 
 		helpButton = QPushButton("Help", self)
 		helpButton.setIcon(QIcon( BARAKA_ICONS_PATH + "/help.png") )
 		helpButton.clicked.connect(self.printHello)
-		vbox.addWidget(helpButton)
+		VBoxMainButtons.addWidget(helpButton)
 	
 
 	def printHello(self):
