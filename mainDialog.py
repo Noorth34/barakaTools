@@ -1,6 +1,6 @@
 #coding:utf-8
 
-from PySide2.QtWidgets import QApplication, QMenuBar, QWidget, QDialog, QLabel, QHBoxLayout, QVBoxLayout, QCheckBox, QGroupBox, QPushButton, QMessageBox
+from PySide2.QtWidgets import QApplication, QMenuBar, QAction, QWidget, QDialog, QLabel, QHBoxLayout, QVBoxLayout, QCheckBox, QGroupBox, QPushButton, QMessageBox
 from PySide2.QtGui import QIcon
 from constants import *
 
@@ -20,12 +20,10 @@ class MainDialogInstance(QWidget):
 
 		self.initMainDialog()
 		self.initManagerDialog()
+		self.createMainMenuBar()
 
 
 	def initMainDialog(self):
-
-		mainMenu = QMenuBar(self)
-		fileMenu = mainMenu.addMenu("File")
 
 		mainButtonsVBox = QVBoxLayout(self)
 		self.setLayout(mainButtonsVBox)
@@ -62,6 +60,14 @@ class MainDialogInstance(QWidget):
 		ribbonButton.clicked.connect(self.printHello)
 		autorigButtonsVBox.addWidget(ribbonButton)
 		
+
+	def createMainMenuBar(self):
+		mainMenu = QMenuBar(self)
+		fileMenu = mainMenu.addMenu("File")
+		printAction = QAction("Print Hello", self)
+		printAction.triggered.connect(self.printHello)
+		fileMenu.addAction(printAction)
+
 
 
 	def openManager(self):
