@@ -1,6 +1,6 @@
 #coding:utf-8
 
-from PySide2.QtWidgets import QApplication, QWidget, QDialog, QLabel, QHBoxLayout, QVBoxLayout, QCheckBox, QGroupBox, QPushButton, QMessageBox
+from PySide2.QtWidgets import QApplication, QMenuBar, QWidget, QDialog, QLabel, QHBoxLayout, QVBoxLayout, QCheckBox, QGroupBox, QPushButton, QMessageBox
 from PySide2.QtGui import QIcon
 from constants import *
 
@@ -24,23 +24,27 @@ class MainDialogInstance(QWidget):
 
 	def initMainDialog(self):
 
-		VBoxMainButtons = QVBoxLayout(self)
+		mainMenu = QMenuBar(self)
+		fileMenu = mainMenu.addMenu("File")
+
+		mainButtonsVBox = QVBoxLayout(self)
+		self.setLayout(mainButtonsVBox)
 
 		autorigButton = QPushButton("Autorig", self)
 		autorigButton.setIcon( QIcon(BARAKA_ICONS_PATH + "/burger.png") )
 		autorigButton.clicked.connect(self.openManager)
 		autorigButton.setToolTip("This is the autorig tool box")
-		VBoxMainButtons.addWidget(autorigButton)
+		mainButtonsVBox.addWidget(autorigButton)
 
 		managerButton = QPushButton("Manager", self)
 		managerButton.setIcon( QIcon(BARAKA_ICONS_PATH + "/coca.png") )
 		managerButton.clicked.connect(self.printHello)
-		VBoxMainButtons.addWidget(managerButton)
+		mainButtonsVBox.addWidget(managerButton)
 
 		helpButton = QPushButton("Help", self)
 		helpButton.setIcon( QIcon(BARAKA_ICONS_PATH + "/help.png") )
 		helpButton.clicked.connect(self.printHello)
-		VBoxMainButtons.addWidget(helpButton)
+		mainButtonsVBox.addWidget(helpButton)
 	
 
 	def initManagerDialog(self):
@@ -52,10 +56,13 @@ class MainDialogInstance(QWidget):
 		self.managerDialog.setMinimumSize(225, 200)
 		self.managerDialog.setMaximumSize(600, 500)
 
-		VBoxAutorigButtons = QVBoxLayout(self.managerDialog)
+		autorigButtonsVBox = QVBoxLayout(self.managerDialog)
+
 		ribbonButton = QPushButton("Ribbonize", self.managerDialog)
 		ribbonButton.clicked.connect(self.printHello)
-		VBoxAutorigButtons.addWidget(ribbonButton)
+		autorigButtonsVBox.addWidget(ribbonButton)
+		
+
 
 	def openManager(self):
 
@@ -63,7 +70,7 @@ class MainDialogInstance(QWidget):
 
 
 	def printHello(self):
-		print(__file__)
+		print("Hello")
 
 
 
