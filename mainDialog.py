@@ -36,12 +36,12 @@ class MainDialogInstance(QWidget):
 
 		managerButton = QPushButton("Manager", self)
 		managerButton.setIcon( QIcon(BARAKA_ICONS_PATH + "/coca.png") )
-		managerButton.clicked.connect(self.printHello)
+		managerButton.clicked.connect(self.printSomething)
 		mainButtonsVBox.addWidget(managerButton)
 
 		helpButton = QPushButton("Help", self)
 		helpButton.setIcon( QIcon(BARAKA_ICONS_PATH + "/help.png") )
-		helpButton.clicked.connect(self.printHello)
+		helpButton.clicked.connect(self.printSomething)
 		mainButtonsVBox.addWidget(helpButton)
 	
 
@@ -57,7 +57,7 @@ class MainDialogInstance(QWidget):
 		autorigButtonsVBox = QVBoxLayout(self.managerDialog)
 
 		ribbonButton = QPushButton("Ribbonize", self.managerDialog)
-		ribbonButton.clicked.connect(self.printHello)
+		ribbonButton.clicked.connect(self.printSomething)
 		autorigButtonsVBox.addWidget(ribbonButton)
 		
 
@@ -65,7 +65,7 @@ class MainDialogInstance(QWidget):
 		mainMenu = QMenuBar(self)
 		fileMenu = mainMenu.addMenu("File")
 		printAction = QAction("Print Hello", self)
-		printAction.triggered.connect(self.printHello)
+		printAction.triggered.connect(self.printSomething)
 		fileMenu.addAction(printAction)
 
 
@@ -75,7 +75,7 @@ class MainDialogInstance(QWidget):
 		self.managerDialog.show()
 
 
-	def printHello(self):
+	def printSomething(self):
 		print("Hello")
 
 
