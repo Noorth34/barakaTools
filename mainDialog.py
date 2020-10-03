@@ -76,7 +76,7 @@ class MainDialogInstance(QWidget):
 
 
 	def printSomething(self):
-		print("Hello")
+		print("Hey buddy")
 
 
 
