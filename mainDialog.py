@@ -22,14 +22,14 @@ class MainDialogInstance(QDialog):
 		"""
 		super(MainDialogInstance, self).__init__(getMayaMainWindow())
 
-		self.setWindowTitle("BrkTools")
+		self.setWindowTitle("Baraka Tools")
 		self.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/frites.png") )
 		self.setGeometry(600, 400, 225, 0)
 		self.setMinimumSize(225, 200)
 		self.setMaximumSize(600, 500)
 
 		self.initMainDialog()
-		self.initManagerDialog()
+		self.initAutorigDialog()
 		self.createMainMenuBar()
 
 
@@ -40,7 +40,7 @@ class MainDialogInstance(QDialog):
 
 		autorigButton = QPushButton("Autorig", self)
 		autorigButton.setIcon( QIcon(BARAKA_ICONS_PATH + "/burger.png") )
-		autorigButton.clicked.connect(self.openManager)
+		autorigButton.clicked.connect(self.openAutorigDialog)
 		autorigButton.setToolTip("This is the autorig tool box")
 		mainButtonsVBox.addWidget(autorigButton)
 
@@ -55,23 +55,47 @@ class MainDialogInstance(QDialog):
 		mainButtonsVBox.addWidget(helpButton)
 	
 
+	def initAutorigDialog(self):
+
+		self.autorigDialog = QDialog(self)
+		self.autorigDialog.setWindowTitle("Autorig")
+		self.autorigDialog.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/burger.png") )
+		self.autorigDialog.setGeometry(600, 400, 225, 0)
+		self.autorigDialog.setMinimumSize(225, 200)
+		self.autorigDialog.setMaximumSize(600, 500)
+
+		autorigButtonsVBox = QVBoxLayout(self.autorigDialog)
+
+		limbButton = QPushButton("Limb", self.autorigDialog)
+		limbButton.clicked.connect(self.printSomething)
+		autorigButtonsVBox.addWidget(limbButton)
+
+		eyeButton = QPushButton("Eye", self.autorigDialog)
+		eyeButton.clicked.connect(self.printSomething)
+		autorigButtonsVBox.addWidget(eyeButton)
+
+		deltaShapeButton = QPushButton("Delta Shape", self.autorigDialog)
+		deltaShapeButton.clicked.connect(self.printSomething)
+		autorigButtonsVBox.addWidget(deltaShapeButton)
+
+		matrixButton = QPushButton("Matrix", self.autorigDialog)
+		matrixButton.clicked.connect(self.printSomething)
+		autorigButtonsVBox.addWidget(matrixButton)
+
+
 	def initManagerDialog(self):
 
-		self.managerDialog = QDialog(self)
-		self.managerDialog.setWindowTitle("BrkAutorig")
-		self.managerDialog.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/burger.png") )
-		self.managerDialog.setGeometry(600, 400, 225, 0)
-		self.managerDialog.setMinimumSize(225, 200)
-		self.managerDialog.setMaximumSize(600, 500)
+		self.autorigDialog = QDialog(self)
+		self.autorigDialog.setWindowTitle("Manager")
+		self.autorigDialog.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/frites.png") )
+		self.autorigDialog.setGeometry(600, 400, 225, 0)
+		self.autorigDialog.setMinimumSize(225, 200)
+		self.autorigDialog.setMaximumSize(600, 500)
 
-		autorigButtonsVBox = QVBoxLayout(self.managerDialog)
-
-		ribbonButton = QPushButton("Ribbonize", self.managerDialog)
-		ribbonButton.clicked.connect(self.printSomething)
-		autorigButtonsVBox.addWidget(ribbonButton)
 		
 
 	def createMainMenuBar(self):
+
 		mainMenu = QMenuBar(self)
 		fileMenu = mainMenu.addMenu("File")
 		printAction = QAction("Print Hello", self)
@@ -80,9 +104,9 @@ class MainDialogInstance(QDialog):
 
 
 
-	def openManager(self):
+	def openAutorigDialog(self):
 
-		self.managerDialog.show()
+		self.autorigDialog.show()
 
 
 	def printSomething(self):
