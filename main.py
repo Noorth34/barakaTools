@@ -11,11 +11,19 @@ reload(mainDialog)
 
 
 if __name__ == "__main__":
+	
+	global mainWidget
 
+	try:
+		mainWidget.close()
+	except:
+		pass		
+	
 	try:
 		mainApp = QApplication(sys.argv)
 	except:
 		mainApp = QApplication.instance()
+
 
 	mainWidget = mainDialog.MainDialogInstance()
 	mainWidget.show()

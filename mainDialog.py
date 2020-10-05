@@ -74,23 +74,19 @@ class MainDialogInstance(QDialog):
 		eyeButton.clicked.connect(self.printSomething)
 		autorigButtonsVBox.addWidget(eyeButton)
 
-		deltaShapeButton = QPushButton("Delta Shape", self.autorigDialog)
-		deltaShapeButton.clicked.connect(self.printSomething)
-		autorigButtonsVBox.addWidget(deltaShapeButton)
-
-		matrixButton = QPushButton("Matrix", self.autorigDialog)
-		matrixButton.clicked.connect(self.printSomething)
-		autorigButtonsVBox.addWidget(matrixButton)
+		utilsButton = QPushButton("Utils", self.autorigDialog)
+		utilsButton.clicked.connect(self.printSomething)
+		autorigButtonsVBox.addWidget(utilsButton)
 
 
 	def initManagerDialog(self):
 
-		self.autorigDialog = QDialog(self)
-		self.autorigDialog.setWindowTitle("Manager")
-		self.autorigDialog.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/frites.png") )
-		self.autorigDialog.setGeometry(600, 400, 225, 0)
-		self.autorigDialog.setMinimumSize(225, 200)
-		self.autorigDialog.setMaximumSize(600, 500)
+		self.managerDialog = QDialog(self)
+		self.managerDialog.setWindowTitle("Manager")
+		self.managerDialog.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/coca.png") )
+		self.managerDialog.setGeometry(600, 400, 225, 0)
+		self.managerDialog.setMinimumSize(225, 200)
+		self.managerDialog.setMaximumSize(600, 500)
 
 		
 
