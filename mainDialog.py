@@ -1,6 +1,6 @@
 #coding:utf-8
 
-from PySide2.QtWidgets import QApplication, QMainWindow, QMenuBar, QAction, QWidget, QDialog, QLabel, QHBoxLayout, QVBoxLayout, QCheckBox, QGroupBox, QPushButton, QMessageBox
+from PySide2.QtWidgets import QApplication, QMainWindow, QTabBar, QMenuBar, QAction, QWidget, QDialog, QLabel, QHBoxLayout, QVBoxLayout, QCheckBox, QGroupBox, QPushButton, QMessageBox
 from PySide2.QtGui import QIcon
 from constants import *
 from maya import OpenMayaUI as omui
@@ -10,17 +10,17 @@ from shiboken2 import wrapInstance
 def getMayaMainWindow():
 	omui.MQtUtil.mainWindow()    
 	ptr = omui.MQtUtil.mainWindow()    
-	widget = wrapInstance(long(ptr), QWidget)
+	widget = wrapInstance(long(ptr), QMainWindow)
 	return widget
 
 
-class MainDialogInstance(QDialog):
+class MainDialogInstance(QWidget):
 	"""
 	"""
 	def __init__(self):
 		"""
 		"""
-		super(MainDialogInstance, self).__init__(getMayaMainWindow())
+		super(MainDialogInstance, self).__init__()
 
 		self.setWindowTitle("Baraka Tools")
 		self.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/frites.png") )
@@ -65,18 +65,28 @@ class MainDialogInstance(QDialog):
 		self.autorigDialog.setMaximumSize(600, 500)
 
 		autorigButtonsVBox = QVBoxLayout(self.autorigDialog)
+		
+		tab = QTabBar(self.autorigDialog)
+		tab.addTab("Limb")
+		tab.addTab("Eye")
+		tab.addTab("Utils")
+		
 
+		"""
 		limbButton = QPushButton("Limb", self.autorigDialog)
 		limbButton.clicked.connect(self.printSomething)
 		autorigButtonsVBox.addWidget(limbButton)
+		
 
 		eyeButton = QPushButton("Eye", self.autorigDialog)
 		eyeButton.clicked.connect(self.printSomething)
-		autorigButtonsVBox.addWidget(eyeButton)
+		autorigButtonsVBox.addWidget(limbButton)
+		
 
 		utilsButton = QPushButton("Utils", self.autorigDialog)
 		utilsButton.clicked.connect(self.printSomething)
-		autorigButtonsVBox.addWidget(utilsButton)
+		autorigButtonsVBox.addWidget(limbButton)
+		"""
 
 
 	def initManagerDialog(self):
