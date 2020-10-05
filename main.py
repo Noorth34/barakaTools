@@ -7,7 +7,7 @@ import mainDialog
 from PySide2.QtWidgets import QApplication
 
 
-#reload(mainDialog)
+reload(mainDialog)
 
 
 if __name__ == "__main__":

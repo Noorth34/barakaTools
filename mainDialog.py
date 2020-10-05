@@ -1,16 +1,26 @@
 #coding:utf-8
 
-from PySide2.QtWidgets import QApplication, QMenuBar, QAction, QWidget, QDialog, QLabel, QHBoxLayout, QVBoxLayout, QCheckBox, QGroupBox, QPushButton, QMessageBox
+from PySide2.QtWidgets import QApplication, QMainWindow, QMenuBar, QAction, QWidget, QDialog, QLabel, QHBoxLayout, QVBoxLayout, QCheckBox, QGroupBox, QPushButton, QMessageBox
 from PySide2.QtGui import QIcon
 from constants import *
+from maya import OpenMayaUI as omui
+from shiboken2 import wrapInstance
 
-class MainDialogInstance(QWidget):
+
+def getMayaMainWindow():
+	omui.MQtUtil.mainWindow()    
+	ptr = omui.MQtUtil.mainWindow()    
+	widget = wrapInstance(long(ptr), QWidget)
+	return widget
+
+
+class MainDialogInstance(QDialog):
 	"""
 	"""
 	def __init__(self):
 		"""
 		"""
-		super(MainDialogInstance, self).__init__()
+		super(MainDialogInstance, self).__init__(getMayaMainWindow())
 
 		self.setWindowTitle("BrkTools")
 		self.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/frites.png") )
