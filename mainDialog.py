@@ -1,6 +1,6 @@
 #coding:utf-8
 
-from PySide2.QtWidgets import QApplication, QMainWindow, QTabBar, QMenuBar, QAction, QWidget, QDialog, QLabel, QHBoxLayout, QVBoxLayout, QCheckBox, QGroupBox, QPushButton, QMessageBox
+from PySide2.QtWidgets import *
 from PySide2.QtGui import QIcon
 from constants import *
 from maya import OpenMayaUI as omui
@@ -57,36 +57,20 @@ class MainDialogInstance(QWidget):
 
 	def initAutorigDialog(self):
 
-		self.autorigDialog = QDialog(self)
-		self.autorigDialog.setWindowTitle("Autorig")
-		self.autorigDialog.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/burger.png") )
-		self.autorigDialog.setGeometry(600, 400, 225, 0)
-		self.autorigDialog.setMinimumSize(225, 200)
-		self.autorigDialog.setMaximumSize(600, 500)
-
-		autorigButtonsVBox = QVBoxLayout(self.autorigDialog)
+		self.autorigTabWidget = QTabWidget()
 		
-		tab = QTabBar(self.autorigDialog)
-		tab.addTab("Limb")
-		tab.addTab("Eye")
-		tab.addTab("Utils")
+		limbWidget = QWidget()
+		eyesWidget = QWidget()
+		utilsWidget = QWidget()
 		
+		autorigVBox = QGridLayout()
+		autorigVBox.addWidget(limbWidget)
+		autorigVBox.addWidget(limbWidget)
+		autorigVBox.addWidget(utilsWidget)
 
-		"""
-		limbButton = QPushButton("Limb", self.autorigDialog)
-		limbButton.clicked.connect(self.printSomething)
-		autorigButtonsVBox.addWidget(limbButton)
-		
-
-		eyeButton = QPushButton("Eye", self.autorigDialog)
-		eyeButton.clicked.connect(self.printSomething)
-		autorigButtonsVBox.addWidget(limbButton)
-		
-
-		utilsButton = QPushButton("Utils", self.autorigDialog)
-		utilsButton.clicked.connect(self.printSomething)
-		autorigButtonsVBox.addWidget(limbButton)
-		"""
+		self.autorigTabWidget.addTab(limbWidget, "Limb")
+		self.autorigTabWidget.addTab(eyesWidget, "Eyes")
+		self.autorigTabWidget.addTab(utilsWidget, "Utils")
 
 
 	def initManagerDialog(self):
@@ -112,7 +96,7 @@ class MainDialogInstance(QWidget):
 
 	def openAutorigDialog(self):
 
-		self.autorigDialog.show()
+		self.autorigTabWidget.show()
 
 
 	def printSomething(self):
