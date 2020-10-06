@@ -2,13 +2,34 @@
 <ui version="4.0">
  <class>Autorig</class>
  <widget class="QWidget" name="Autorig">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>389</width>
+    <width>220</width>
     <height>300</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>220</width>
+    <height>300</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>220</width>
+    <height>300</height>
+   </size>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>220</width>
+    <height>300</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Autorig</string>
@@ -18,9 +39,39 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>371</width>
-     <height>281</height>
+     <width>200</width>
+     <height>280</height>
     </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>200</width>
+     <height>280</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>200</width>
+     <height>280</height>
+    </size>
+   </property>
+   <property name="baseSize">
+    <size>
+     <width>200</width>
+     <height>280</height>
+    </size>
+   </property>
+   <property name="acceptDrops">
+    <bool>false</bool>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="tabPosition">
+    <enum>QTabWidget::North</enum>
+   </property>
+   <property name="tabShape">
+    <enum>QTabWidget::Triangular</enum>
    </property>
    <property name="currentIndex">
     <number>0</number>
@@ -28,47 +79,155 @@
    <property name="elideMode">
     <enum>Qt::ElideNone</enum>
    </property>
-   <widget class="QWidget" name="QWidget_tab">
+   <property name="documentMode">
+    <bool>false</bool>
+   </property>
+   <property name="tabsClosable">
+    <bool>false</bool>
+   </property>
+   <property name="tabBarAutoHide">
+    <bool>false</bool>
+   </property>
+   <widget class="QWidget" name="limbTab">
     <attribute name="title">
      <string>Limb</string>
     </attribute>
-    <widget class="QWidget" name="gridLayoutWidget">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>20</y>
-       <width>321</width>
-       <height>221</height>
+       <x>10</x>
+       <y>10</y>
+       <width>171</width>
+       <height>241</height>
       </rect>
      </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QPushButton" name="pushButton_2">
-        <property name="text">
-         <string>PushButton</string>
-        </property>
+     <layout class="QVBoxLayout" name="limbVBox">
+      <item>
+       <widget class="QComboBox" name="limbRigMethod">
+        <item>
+         <property name="text">
+          <string>Ribbon</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Spline</string>
+         </property>
+        </item>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QPushButton" name="pushButton">
-        <property name="text">
-         <string>PushButton</string>
-        </property>
-       </widget>
+      <item>
+       <layout class="QHBoxLayout" name="HBoxDriverJoints">
+        <item alignment="Qt::AlignHCenter">
+         <widget class="QLabel" name="labelDriverJoints">
+          <property name="text">
+           <string>Driver Joints</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinBoxDriverJoints">
+          <property name="wrapping">
+           <bool>false</bool>
+          </property>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::UpDownArrows</enum>
+          </property>
+          <property name="showGroupSeparator" stdset="0">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
-      <item row="2" column="0">
-       <widget class="QPushButton" name="pushButton_3">
+      <item>
+       <layout class="QHBoxLayout" name="HBoxBindJoints">
+        <item alignment="Qt::AlignHCenter">
+         <widget class="QLabel" name="labelBindJoints">
+          <property name="text">
+           <string>Bind Joints</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinBoxBindJoints">
+          <property name="wrapping">
+           <bool>false</bool>
+          </property>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::UpDownArrows</enum>
+          </property>
+          <property name="showGroupSeparator" stdset="0">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="gridBoxRigFeatures">
+        <item row="1" column="0">
+         <widget class="QCheckBox" name="hasBend">
+          <property name="text">
+           <string>Bend</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="hasTwist">
+          <property name="text">
+           <string>Twist</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QCheckBox" name="hasStretch">
+          <property name="text">
+           <string>Stretch</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QCheckBox" name="hasVolumeConservation">
+          <property name="text">
+           <string>Keep Volume</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QCheckBox" name="checkBox">
+          <property name="text">
+           <string>CheckBox</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QCheckBox" name="checkBox_2">
+          <property name="text">
+           <string>CheckBox</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QPushButton" name="createButton">
         <property name="text">
-         <string>PushButton</string>
+         <string>Create</string>
         </property>
        </widget>
       </item>
      </layout>
     </widget>
    </widget>
-   <widget class="QWidget" name="QWidget_tab_2">
+   <widget class="QWidget" name="eyesTab">
     <attribute name="title">
      <string>Eyes</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="utilsTab">
+    <attribute name="title">
+     <string>Utils</string>
     </attribute>
    </widget>
   </widget>
