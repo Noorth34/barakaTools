@@ -4,10 +4,12 @@
 """
 import sys
 import mainDialog
+import constants
 from PySide2.QtWidgets import QApplication
 
 
 reload(mainDialog)
+reload(constants)
 
 
 if __name__ == "__main__":

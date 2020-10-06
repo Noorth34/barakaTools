@@ -26,19 +26,25 @@ class MainDialogInstance(QDialog):
 		self.autorigDialog = AutorigDialogInstance()
 		self.managerDialog = ManagerDialogInstance()
 
-		self.setWindowTitle("Baraka Tools")
+		self.width = 180
+		self.height = 300
+
+		self.setWindowTitle("BrkTools")
 		self.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/frites.png") )
-		self.setGeometry(600, 400, 225, 0)
-		self.setFixedSize(200, 280)
+		self.setGeometry(600, 400, self.width, self.height)
 
 		self.initUI()
-		self.createMainMenuBar()
+		
 
 
 	def initUI(self):
 
+		image = QLabel()
+		image.setObjectName("label")
+		image.setStyleSheet(open(BARAKA_STYLESHEETS_PATH + "/mainStyleSheet.css").read())
+
 		mainButtonsVBox = QVBoxLayout(self)
-		self.setLayout(mainButtonsVBox)
+		mainButtonsVBox.addWidget(image)
 
 		autorigButton = QPushButton("Autorig", self)
 		autorigButton.setIcon( QIcon(BARAKA_ICONS_PATH + "/burger.png") )
@@ -57,16 +63,8 @@ class MainDialogInstance(QDialog):
 		mainButtonsVBox.addWidget(helpButton)
 
 
-	def createMainMenuBar(self):
-
-		mainMenu = QMenuBar(self)
-		fileMenu = mainMenu.addMenu("File")
-		printAction = QAction("Print Hello", self)
-		printAction.triggered.connect(self.printSomething)
-		fileMenu.addAction(printAction)
-
-
 	def printSomething(self):
+
 		print("Hey buddy")
 
 
@@ -104,8 +102,6 @@ class AutorigDialogInstance(QDialog):
 	def open(self):
 		self.autorigTabWidget.show()
 		
-		
-
 
 
 class ManagerDialogInstance(QWidget):
