@@ -31,7 +31,9 @@ class MainDialogInstance(QDialog):
 
 		self.setWindowTitle("BrkTools")
 		self.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/frites.png") )
-		self.setGeometry(600, 400, self.width, self.height)
+		self.setGeometry(600, 400, 0, 0)
+		self.setFixedSize(self.width, self.height)
+
 
 		self.initUI()
 		
