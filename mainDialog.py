@@ -82,11 +82,14 @@ class AutorigDialogInstance(QDialog):
 		self.setMaximumSize(600, 500)
 
 		self.initUI()
+		self.createLimbTab()
 
 
 	def initUI(self):
+
 		self.autorigTabWidget = QTabWidget()
 		
+		"""
 		limbWidget = QWidget()
 		eyesWidget = QWidget()
 		utilsWidget = QWidget()
@@ -99,9 +102,58 @@ class AutorigDialogInstance(QDialog):
 		self.autorigTabWidget.addTab(limbWidget, "Limb")
 		self.autorigTabWidget.addTab(eyesWidget, "Eyes")
 		self.autorigTabWidget.addTab(utilsWidget, "Utils")
+		"""
+		self.limbTab = QWidget()
+		self.eyesTab = QWidget()
+		self.utilsTab = QWidget()
+
+		self.autorigTabWidget.addTab(self.limbTab, "Limb")
+		self.autorigTabWidget.addTab(self.eyesTab, "Eyes")
+		self.autorigTabWidget.addTab(self.utilsTab, "Utils")
+
+
+
+	def createLimbTab(self):
+
+		limbVBox = QVBoxLayout()
+		self.limbTab.setLayout(limbVBox)
+
+		driverJointsHBox = QHBoxLayout()
+		bindJointsHBox = QHBoxLayout()
+		rigFeaturesGridBox = QGridLayout()
+
+		limbRigMethod = QComboBox()
+		createButton = QPushButton()
+
+		limbVBox.addWidget(limbRigMethod)
+		limbVBox.layout().addLayout(driverJointsHBox)
+		limbVBox.layout().addLayout(bindJointsHBox)
+		limbVBox.layout().addLayout(rigFeaturesGridBox)
+
+		driverJointsLabel = QLabel("Driver Joints")
+		driverJointsSpinBox = QSpinBox()
+		driverJointsHBox.addWidget(driverJointsLabel)
+		driverJointsHBox.addWidget(driverJointsSpinBox)
+
+		bindJointsLabel = QLabel("Bind Joints")
+		bindJointsSpinBox = QSpinBox()
+		bindJointsHBox.addWidget(bindJointsLabel)
+		bindJointsHBox.addWidget(bindJointsSpinBox)
+
+		hasTwistCheckBox = QCheckBox()
+		hasBendCheckBox = QCheckBox()
+		hasStretchCheckBox = QCheckBox()
+		hasKeepVolumeCheckBox = QCheckBox()
+		rigFeaturesGridBox.addWidget(hasStretchCheckBox)
+		rigFeaturesGridBox.addWidget(hasBendCheckBox)
+		rigFeaturesGridBox.addWidget(hasKeepVolumeCheckBox)
+		rigFeaturesGridBox.addWidget(hasTwistCheckBox)
+
+		
 
 
 	def open(self):
+
 		self.autorigTabWidget.show()
 		
 
