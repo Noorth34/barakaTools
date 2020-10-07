@@ -123,12 +123,13 @@ class AutorigDialogInstance(QTabWidget):
 		rigFeaturesGridBox = QGridLayout()
 
 		limbRigMethod = QComboBox()
-		createButton = QPushButton()
+		createButton = QPushButton("Create")
 
 		limbVBox.addWidget(limbRigMethod)
 		limbVBox.layout().addLayout(driverJointsHBox)
 		limbVBox.layout().addLayout(bindJointsHBox)
 		limbVBox.layout().addLayout(rigFeaturesGridBox)
+		limbVBox.addWidget(createButton)
 
 		driverJointsLabel = QLabel("Driver Joints")
 		driverJointsSpinBox = QSpinBox()
@@ -140,10 +141,10 @@ class AutorigDialogInstance(QTabWidget):
 		bindJointsHBox.addWidget(bindJointsLabel)
 		bindJointsHBox.addWidget(bindJointsSpinBox)
 
-		hasTwistCheckBox = QCheckBox()
-		hasBendCheckBox = QCheckBox()
-		hasStretchCheckBox = QCheckBox()
-		hasKeepVolumeCheckBox = QCheckBox()
+		hasTwistCheckBox = QCheckBox("Twist")
+		hasBendCheckBox = QCheckBox("Bend")
+		hasStretchCheckBox = QCheckBox("Stretch")
+		hasKeepVolumeCheckBox = QCheckBox("Keep Volume")
 		rigFeaturesGridBox.addWidget(hasStretchCheckBox)
 		rigFeaturesGridBox.addWidget(hasBendCheckBox)
 		rigFeaturesGridBox.addWidget(hasKeepVolumeCheckBox)
