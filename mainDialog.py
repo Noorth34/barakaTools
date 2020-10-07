@@ -71,7 +71,7 @@ class MainDialogInstance(QDialog):
 
 
 
-class AutorigDialogInstance(QDialog):
+class AutorigDialogInstance(QTabWidget):
 	def __init__(self):
 		super(AutorigDialogInstance, self).__init__()
 
@@ -87,7 +87,7 @@ class AutorigDialogInstance(QDialog):
 
 	def initUI(self):
 
-		self.autorigTabWidget = QTabWidget()
+		#self.autorigTabWidget = QTabWidget()
 		
 		"""
 		limbWidget = QWidget()
@@ -107,9 +107,9 @@ class AutorigDialogInstance(QDialog):
 		self.eyesTab = QWidget()
 		self.utilsTab = QWidget()
 
-		self.autorigTabWidget.addTab(self.limbTab, "Limb")
-		self.autorigTabWidget.addTab(self.eyesTab, "Eyes")
-		self.autorigTabWidget.addTab(self.utilsTab, "Utils")
+		self.addTab(self.limbTab, "Limb")
+		self.addTab(self.eyesTab, "Eyes")
+		self.addTab(self.utilsTab, "Utils")
 
 
 
@@ -154,7 +154,7 @@ class AutorigDialogInstance(QDialog):
 
 	def open(self):
 
-		self.autorigTabWidget.show()
+		self.show()
 		
 
 
