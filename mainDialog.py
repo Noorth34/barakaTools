@@ -47,7 +47,7 @@ class MainDialogInstance(QDialog):
 		mainButtonsVBox = QVBoxLayout(self)
 		mainButtonsVBox.addWidget(image)
 
-		autorigButton = QPushButton("Autorig", self)
+		autorigButton = QPushButton("Autorigs", self)
 		autorigButton.setIcon( QIcon(BARAKA_ICONS_PATH + "/burger.png") )
 		autorigButton.clicked.connect(self.autorigDialog.open)
 		autorigButton.setToolTip("This is the autorig tool box")
@@ -75,7 +75,7 @@ class AutorigDialogInstance(QTabWidget):
 
 		super(AutorigDialogInstance, self).__init__()
 
-		self.setWindowTitle("Autorig")
+		self.setWindowTitle("Autorigs")
 		self.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/burger.png") )
 		self.setGeometry(800, 500, 225, 0)
 		self.setMinimumSize(225, 225)
