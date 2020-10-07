@@ -5,11 +5,13 @@
 import sys
 import mainDialog
 import constants
+import autorig.autorigDialog
 from PySide2.QtWidgets import QApplication
 
 
 reload(mainDialog)
 reload(constants)
+reload(autorig.autorigDialog)
 
 
 if __name__ == "__main__":
@@ -30,5 +32,3 @@ if __name__ == "__main__":
 	mainWidget = mainDialog.MainDialogInstance()
 	mainWidget.show()
 	mainApp.exec_()
-
-

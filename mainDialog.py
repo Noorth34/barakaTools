@@ -6,6 +6,7 @@ from barakaTools.autorig.autorigDialog import *
 from constants import *
 from maya import OpenMayaUI as omui
 from shiboken2 import wrapInstance
+import time
 
 
 def getMayaMainWindow():
@@ -69,8 +70,7 @@ class MainDialogInstance(QDialog):
 
 		print("Hey buddy")
 
-
-
+"""
 class AutorigDialogInstance(QTabWidget):
 	def __init__(self):
 		super(AutorigDialogInstance, self).__init__()
@@ -82,27 +82,13 @@ class AutorigDialogInstance(QTabWidget):
 		self.setMaximumSize(600, 500)
 
 		self.initUI()
-		self.createLimbTab()
+		self.createLimbWithRibbonUI()
+
 
 
 	def initUI(self):
 
-		#self.autorigTabWidget = QTabWidget()
-		
-		"""
-		limbWidget = QWidget()
-		eyesWidget = QWidget()
-		utilsWidget = QWidget()
-		
-		autorigVBox = QGridLayout()
-		autorigVBox.addWidget(limbWidget)
-		autorigVBox.addWidget(limbWidget)
-		autorigVBox.addWidget(utilsWidget)
 
-		self.autorigTabWidget.addTab(limbWidget, "Limb")
-		self.autorigTabWidget.addTab(eyesWidget, "Eyes")
-		self.autorigTabWidget.addTab(utilsWidget, "Utils")
-		"""
 		self.limbTab = QWidget()
 		self.eyesTab = QWidget()
 		self.utilsTab = QWidget()
@@ -110,10 +96,10 @@ class AutorigDialogInstance(QTabWidget):
 		self.addTab(self.limbTab, "Limb")
 		self.addTab(self.eyesTab, "Eyes")
 		self.addTab(self.utilsTab, "Utils")
+		
 
 
-
-	def createLimbTab(self):
+	def createLimbWithRibbonUI(self):
 
 		limbVBox = QVBoxLayout()
 		self.limbTab.setLayout(limbVBox)
@@ -125,14 +111,14 @@ class AutorigDialogInstance(QTabWidget):
 		limbRigMethod = QComboBox()
 		limbRigMethod.addItem("Ribbon")
 		limbRigMethod.addItem("Spline")
-		
-		createButton = QPushButton("Create")
+
+		createWithRibbonButton = QPushButton("Create with Ribbon")
 
 		limbVBox.addWidget(limbRigMethod)
 		limbVBox.layout().addLayout(driverJointsHBox)
 		limbVBox.layout().addLayout(bindJointsHBox)
 		limbVBox.layout().addLayout(rigFeaturesGridBox)
-		limbVBox.addWidget(createButton)
+		limbVBox.addWidget(createWithRibbonButton)
 
 		driverJointsLabel = QLabel("Driver Joints")
 		driverJointsSpinBox = QSpinBox()
@@ -153,14 +139,11 @@ class AutorigDialogInstance(QTabWidget):
 		rigFeaturesGridBox.addWidget(hasKeepVolumeCheckBox)
 		rigFeaturesGridBox.addWidget(hasTwistCheckBox)
 
-		
-
 
 	def open(self):
 
 		self.show()
-		
-
+"""
 
 class ManagerDialogInstance(QWidget):
 	def __init__(self):

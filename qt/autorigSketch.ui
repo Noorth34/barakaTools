@@ -96,26 +96,12 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>10</y>
-       <width>171</width>
-       <height>241</height>
+       <y>40</y>
+       <width>179</width>
+       <height>211</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="limbVBox">
-      <item>
-       <widget class="QComboBox" name="limbRigMethod">
-        <item>
-         <property name="text">
-          <string>Ribbon</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Spline</string>
-         </property>
-        </item>
-       </widget>
-      </item>
       <item>
        <layout class="QHBoxLayout" name="HBoxDriverJoints">
         <item alignment="Qt::AlignHCenter">
@@ -218,6 +204,36 @@
        </widget>
       </item>
      </layout>
+    </widget>
+    <widget class="QComboBox" name="limbRigMethod">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>10</y>
+       <width>121</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>Ribbon</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Spline</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QWidget" name="widget" native="true">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>10</y>
+       <width>120</width>
+       <height>80</height>
+      </rect>
+     </property>
     </widget>
    </widget>
    <widget class="QWidget" name="eyesTab">
