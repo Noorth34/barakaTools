@@ -11,7 +11,7 @@ from PySide2.QtWidgets import QApplication
 
 reload(mainDialog)
 reload(constants)
-reload(autorig.autorigDialog)
+#reload(autorig.autorigDialog)
 #reload(manager.managerDialog)
 
 

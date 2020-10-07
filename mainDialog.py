@@ -78,7 +78,7 @@ class AutorigDialogInstance(QTabWidget):
 		self.setWindowTitle("Autorig")
 		self.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/burger.png") )
 		self.setGeometry(800, 500, 225, 0)
-		self.setMinimumSize(225, 200)
+		self.setMinimumSize(225, 225)
 		self.setMaximumSize(600, 500)
 
 		self.initUI()
@@ -101,6 +101,9 @@ class AutorigDialogInstance(QTabWidget):
 
 	def createLimbWithRibbonUI(self):
 
+		self.limbRibbonWidget = QWidget()
+		self.limbRibbonVBox = QVBoxLayout(self.limbRibbonWidget)
+
 		limbVBox = QVBoxLayout()
 		self.limbTab.setLayout(limbVBox)
 
@@ -114,12 +117,10 @@ class AutorigDialogInstance(QTabWidget):
 
 		createWithRibbonButton = QPushButton("Create with Ribbon")
 
-		limbVBox.addWidget(limbRigMethod)
-		limbVBox.layout().addLayout(driverJointsHBox)
-		limbVBox.layout().addLayout(bindJointsHBox)
-		limbVBox.layout().addLayout(rigFeaturesGridBox)
-		limbVBox.addWidget(createWithRibbonButton)
-
+		self.limbRibbonVBox.layout().addLayout(driverJointsHBox)
+		self.limbRibbonVBox.layout().addLayout(bindJointsHBox)
+		self.limbRibbonVBox.layout().addLayout(rigFeaturesGridBox)
+		
 		driverJointsLabel = QLabel("Driver Joints")
 		driverJointsSpinBox = QSpinBox()
 		driverJointsHBox.addWidget(driverJointsLabel)
@@ -134,10 +135,18 @@ class AutorigDialogInstance(QTabWidget):
 		hasBendCheckBox = QCheckBox("Bend")
 		hasStretchCheckBox = QCheckBox("Stretch")
 		hasKeepVolumeCheckBox = QCheckBox("Keep Volume")
-		rigFeaturesGridBox.addWidget(hasStretchCheckBox)
-		rigFeaturesGridBox.addWidget(hasBendCheckBox)
-		rigFeaturesGridBox.addWidget(hasKeepVolumeCheckBox)
-		rigFeaturesGridBox.addWidget(hasTwistCheckBox)
+		hasIKCheckBox = QCheckBox("IK")
+		hasFKCheckBox = QCheckBox("FK")
+		rigFeaturesGridBox.addWidget(hasStretchCheckBox, 0, 1 )
+		rigFeaturesGridBox.addWidget(hasBendCheckBox, 1, 1)
+		rigFeaturesGridBox.addWidget(hasKeepVolumeCheckBox, 2, 1)
+		rigFeaturesGridBox.addWidget(hasTwistCheckBox, 0, 2)
+		rigFeaturesGridBox.addWidget(hasIKCheckBox, 1, 2)
+		rigFeaturesGridBox.addWidget(hasFKCheckBox, 2, 2)
+
+		limbVBox.addWidget(limbRigMethod)
+		limbVBox.addWidget(self.limbRibbonWidget)
+		limbVBox.addWidget(createWithRibbonButton)
 
 
 	def open(self):
