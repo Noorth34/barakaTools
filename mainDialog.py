@@ -2,7 +2,6 @@
 
 from PySide2.QtWidgets import *
 from PySide2.QtGui import QIcon
-from barakaTools.autorig.autorigDialog import *
 from constants import *
 from maya import OpenMayaUI as omui
 from shiboken2 import wrapInstance
@@ -69,9 +68,11 @@ class MainDialogInstance(QDialog):
 
 		print("Hey buddy")
 
-"""
+
 class AutorigDialogInstance(QTabWidget):
+
 	def __init__(self):
+
 		super(AutorigDialogInstance, self).__init__()
 
 		self.setWindowTitle("Autorig")
@@ -142,10 +143,12 @@ class AutorigDialogInstance(QTabWidget):
 	def open(self):
 
 		self.show()
-"""
-"""
+
+
 class ManagerDialogInstance(QWidget):
+
 	def __init__(self):
+
 		super(ManagerDialogInstance, self).__init__()
 		self.setWindowTitle("Manager")
 		self.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/coca.png") )
@@ -159,4 +162,3 @@ class ManagerDialogInstance(QWidget):
 
 	def open(self):
 		self.show()
-"""

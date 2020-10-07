@@ -4,14 +4,15 @@
 """
 import sys
 import mainDialog
-import constants
 import autorig.autorigDialog
+import constants
 from PySide2.QtWidgets import QApplication
 
 
 reload(mainDialog)
 reload(constants)
 reload(autorig.autorigDialog)
+#reload(manager.managerDialog)
 
 
 if __name__ == "__main__":

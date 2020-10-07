@@ -5,7 +5,9 @@ from PySide2.QtGui import QIcon
 from constants import *
 
 class AutorigDialogInstance(QTabWidget):
+
 	def __init__(self):
+		
 		super(AutorigDialogInstance, self).__init__()
 
 		self.setWindowTitle("Autorig")
@@ -37,6 +39,9 @@ class AutorigDialogInstance(QTabWidget):
 		limbVBox = QVBoxLayout()
 		self.limbTab.setLayout(limbVBox)
 
+		self.limbRibbonWidget = QWidget()
+		limbVBox.addWidget(limbRibbonWidget)
+
 		driverJointsHBox = QHBoxLayout()
 		bindJointsHBox = QHBoxLayout()
 		rigFeaturesGridBox = QGridLayout()
@@ -48,10 +53,12 @@ class AutorigDialogInstance(QTabWidget):
 		createWithRibbonButton = QPushButton("Create with Ribbon")
 
 		limbVBox.addWidget(limbRigMethod)
-		limbVBox.layout().addLayout(driverJointsHBox)
-		limbVBox.layout().addLayout(bindJointsHBox)
-		limbVBox.layout().addLayout(rigFeaturesGridBox)
 		limbVBox.addWidget(createWithRibbonButton)
+
+		self.limbRibbonWidget.layout().addLayout(driverJointsHBox)
+		self.limbRibbonWidget.layout().addLayout(bindJointsHBox)
+		self.limbRibbonWidget.layout().addLayout(rigFeaturesGridBox)
+		
 
 		driverJointsLabel = QLabel("Driver Joints")
 		driverJointsSpinBox = QSpinBox()
@@ -67,10 +74,14 @@ class AutorigDialogInstance(QTabWidget):
 		hasBendCheckBox = QCheckBox("Bend")
 		hasStretchCheckBox = QCheckBox("Stretch")
 		hasKeepVolumeCheckBox = QCheckBox("Keep Volume")
+		hasIKCheckBox = QCheckBox("IK")
+		hasFKCheckBox = QCheckBox("FK")
 		rigFeaturesGridBox.addWidget(hasStretchCheckBox)
 		rigFeaturesGridBox.addWidget(hasBendCheckBox)
 		rigFeaturesGridBox.addWidget(hasKeepVolumeCheckBox)
 		rigFeaturesGridBox.addWidget(hasTwistCheckBox)
+		rigFeaturesGridBox.addWidget(hasIKCheckBox)
+		rigFeaturesGridBox.addWidget(hasFKCheckBox)
 
 
 	def open(self):
