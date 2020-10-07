@@ -111,9 +111,10 @@ class AutorigDialogInstance(QTabWidget):
 		bindJointsHBox = QHBoxLayout()
 		rigFeaturesGridBox = QGridLayout()
 
-		limbRigMethod = QComboBox()
-		limbRigMethod.addItem("Ribbon")
-		limbRigMethod.addItem("Spline")
+		self.limbRigMethod = QComboBox()
+		self.limbRigMethod.addItem("Ribbon")
+		self.limbRigMethod.addItem("Spline")
+		self.limbRigMethod.currentTextChanged.connect(self.toggleLimbRibbonWidget)
 
 		createWithRibbonButton = QPushButton("Create with Ribbon")
 
@@ -144,9 +145,20 @@ class AutorigDialogInstance(QTabWidget):
 		rigFeaturesGridBox.addWidget(hasIKCheckBox, 1, 2)
 		rigFeaturesGridBox.addWidget(hasFKCheckBox, 2, 2)
 
-		limbVBox.addWidget(limbRigMethod)
+		limbVBox.addWidget(self.limbRigMethod)
 		limbVBox.addWidget(self.limbRibbonWidget)
 		limbVBox.addWidget(createWithRibbonButton)
+
+
+	def toggleLimbRibbonWidget(self):
+
+		text = self.limbRigMethod.currentText() 
+		
+		if text == "Spline":
+			self.limbRibbonWidget.hide()
+		else:
+			self.limbRibbonWidget.show()
+
 
 
 	def open(self):
