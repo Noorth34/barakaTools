@@ -123,6 +123,9 @@ class AutorigDialogInstance(QTabWidget):
 		rigFeaturesGridBox = QGridLayout()
 
 		limbRigMethod = QComboBox()
+		limbRigMethod.addItem("Ribbon")
+		limbRigMethod.addItem("Spline")
+		
 		createButton = QPushButton("Create")
 
 		limbVBox.addWidget(limbRigMethod)
