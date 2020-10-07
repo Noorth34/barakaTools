@@ -6,7 +6,6 @@ from barakaTools.autorig.autorigDialog import *
 from constants import *
 from maya import OpenMayaUI as omui
 from shiboken2 import wrapInstance
-import time
 
 
 def getMayaMainWindow():
@@ -144,7 +143,7 @@ class AutorigDialogInstance(QTabWidget):
 
 		self.show()
 """
-
+"""
 class ManagerDialogInstance(QWidget):
 	def __init__(self):
 		super(ManagerDialogInstance, self).__init__()
@@ -160,3 +159,4 @@ class ManagerDialogInstance(QWidget):
 
 	def open(self):
 		self.show()
+"""
