@@ -75,11 +75,14 @@ class AutorigDialogInstance(QTabWidget):
 
 		super(AutorigDialogInstance, self).__init__()
 
+		self.width = 225
+		self.height = 225
+
 		self.setWindowTitle("Autorigs")
 		self.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/burger.png") )
-		self.setGeometry(800, 500, 225, 0)
-		self.setMinimumSize(225, 225)
-		self.setMaximumSize(600, 500)
+		self.setGeometry(800, 500, 0, 0)
+		self.setFixedSize(self.width, self.height)
+		
 
 		self.initUI()
 		self.createLimbWithRibbonUI()
@@ -121,6 +124,7 @@ class AutorigDialogInstance(QTabWidget):
 		self.limbRibbonVBox.layout().addLayout(driverJointsHBox)
 		self.limbRibbonVBox.layout().addLayout(bindJointsHBox)
 		self.limbRibbonVBox.layout().addLayout(rigFeaturesGridBox)
+		self.limbRibbonVBox.addWidget(createWithRibbonButton)
 		
 		driverJointsLabel = QLabel("Driver Joints")
 		driverJointsSpinBox = QSpinBox()
@@ -147,7 +151,7 @@ class AutorigDialogInstance(QTabWidget):
 
 		limbVBox.addWidget(self.limbRigMethod)
 		limbVBox.addWidget(self.limbRibbonWidget)
-		limbVBox.addWidget(createWithRibbonButton)
+		
 
 
 	def toggleLimbRibbonWidget(self):
