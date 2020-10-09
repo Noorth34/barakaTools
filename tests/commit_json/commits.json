@@ -1,0 +1,50 @@
+{
+    "asset_name": "Test_E_v0001.ma", 
+    "logs": [
+        {
+            "Date": "09/10/2020", 
+            "Commit": "Initial commit", 
+            "Time": "12h12"
+        }, 
+        {
+            "Date": "12/10/2020", 
+            "Commit": "Creating a new entry in json file", 
+            "Time": "18h42"
+        }, 
+        {
+            "Date": "12/10/2020", 
+            "Commit": "another entry...", 
+            "Time": "18h58"
+        }, 
+        {
+            "Date": "12/10/2020", 
+            "Commit": "WOowow", 
+            "Time": "19h17"
+        }, 
+        {
+            "Date": "2020-10-09", 
+            "Commit": "WOowow", 
+            "Time": "12:39:01.659000"
+        }, 
+        {
+            "Date": "2020-10-09", 
+            "Commit": "WOowow", 
+            "Time": "12:40:23"
+        }, 
+        {
+            "Date": "2020-10-09", 
+            "Commit": "WOowow", 
+            "Time": "12:42:07"
+        }, 
+        {
+            "Date": "2020-10-09", 
+            "Commit": "Hello world", 
+            "Time": "14:25:30"
+        }, 
+        {
+            "Date": "2020-10-09", 
+            "Commit": "This is a new version", 
+            "Time": "14:27:17"
+        }
+    ]
+}
