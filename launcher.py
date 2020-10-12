@@ -3,7 +3,7 @@
 from PySide2.QtWidgets import *
 from PySide2.QtGui import QIcon, QPixmap, Qt
 from autorig.autorigDialog import AutorigDialogInstance
-from manager.managerDialog import ManagerDialogInstance
+from pipeline.pipelineDialog import PipelineDialogInstance
 from constants import *
 from maya import OpenMayaUI as omui
 from shiboken2 import wrapInstance
@@ -25,7 +25,7 @@ class LauncherInstance(QDialog):
 		QDialog.__init__(self)
 
 		self.autorigDialog = AutorigDialogInstance()
-		self.managerDialog = ManagerDialogInstance()
+		self.pipelineDialog = PipelineDialogInstance()
 
 		self.width = 200
 		self.height = 300
@@ -55,10 +55,10 @@ class LauncherInstance(QDialog):
 		autorigButton.setToolTip("This is the autorig tool box")
 		mainButtonsVBox.addWidget(autorigButton)
 
-		managerButton = QPushButton("Manager", self)
-		managerButton.setIcon( QIcon(BARAKA_ICONS_PATH + "/coca.png") )
-		managerButton.clicked.connect(self.managerDialog.open)
-		mainButtonsVBox.addWidget(managerButton)
+		pipelineDialog = QPushButton("Manager", self)
+		pipelineDialog.setIcon( QIcon(BARAKA_ICONS_PATH + "/coca.png") )
+		pipelineDialog.clicked.connect(self.pipelineDialog.open)
+		mainButtonsVBox.addWidget(pipelineDialog)
 
 		helpButton = QPushButton("Help", self)
 		helpButton.setIcon( QIcon(BARAKA_ICONS_PATH + "/help.png") )

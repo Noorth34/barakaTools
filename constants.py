@@ -8,3 +8,11 @@ BARAKA_ICONS_PATH = BARAKA_PATH + "/icons"
 BARAKA_STYLESHEETS_PATH = BARAKA_PATH + "/qt/stylesheets"
 BARAKA_IMAGES_PATH = BARAKA_PATH + "/qt/images"
 
+ASSET_TYPES = {
+					"Modeling" : "mod", 
+					"Rigging" : "rig", 
+					"Animation" : "anim", 
+					"Lookdev" : "lookdev",
+					"Lighting" : "lighting"
+				}
+

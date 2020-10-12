@@ -17,7 +17,6 @@ class PipelineDialogInstance(QTabWidget):
 		self.setGeometry(600, 400, self.width, self.height)
 		self.setMinimumSize(self.width, self.height)
 		self.setMaximumSize(self.width*2, self.height*2)
-
 		self.initTabs()
 		self.initPublisher()
 		self.initAlembicGroup()
@@ -26,13 +25,19 @@ class PipelineDialogInstance(QTabWidget):
 	def initPublisher(self):
 
 		self.layMain = QVBoxLayout(self.tabPublisher)
+		self.layAssetNameGroup = QHBoxLayout()
 		self.layPublisher = QGridLayout()
 
-		self.textfield = QLineEdit()
-		self.textfield.setPlaceholderText("Asset name...")
-		self.layMain.addWidget(self.textfield)
+		self.textField = QLineEdit()
+		self.textField.setPlaceholderText("Asset name...")
+		self.assetTypeList = QComboBox()
 
-		self.layMain.layout().addLayout(self.layPublisher)
+		for type in ASSET_TYPES.keys():
+			self.assetTypeList.addItem(type)
+
+		self.layAssetNameGroup.addWidget(self.textField)
+		self.layAssetNameGroup.addWidget(self.assetTypeList)
+
 		editButton = QPushButton("Edit")
 		publishButton = QPushButton("Publish")
 		self.alembicCheckBox = QCheckBox("Is Alembic")
@@ -42,6 +47,9 @@ class PipelineDialogInstance(QTabWidget):
 		self.layPublisher.addWidget(editButton, 0, 1)
 		self.layPublisher.addWidget(publishButton, 0, 2)
 		self.layPublisher.addWidget(self.alembicCheckBox, 1, 2)
+
+		self.layMain.layout().addLayout(self.layAssetNameGroup)
+		self.layMain.layout().addLayout(self.layPublisher)
 
 
 	def initAlembicGroup(self):
