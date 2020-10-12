@@ -1,7 +1,7 @@
 #coing:utf-8
 
 from PySide2.QtWidgets import *
-from PySide2.QtGui import QIcon
+from PySide2.QtGui import QIcon, Qt
 from constants import *
 
 class ManagerDialogInstance(QTabWidget):
@@ -9,14 +9,19 @@ class ManagerDialogInstance(QTabWidget):
 	def __init__(self):
 
 		QTabWidget.__init__(self)
+
+		self.width = 225
+		self.height = 200
 		self.setWindowTitle("Manager")
 		self.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/coca.png") )
-		self.setGeometry(600, 400, 225, 0)
+		self.setGeometry(600, 400, self.width, self.height)
 		self.setMinimumSize(225, 150)
 		self.setMaximumSize(600, 500)
 
 		self.initTabs()
 		self.initPublisher()
+		self.initAlembicGroup()
+
 
 	def initPublisher(self):
 
@@ -30,13 +35,29 @@ class ManagerDialogInstance(QTabWidget):
 		self.layMain.layout().addLayout(self.layPublisher)
 		editButton = QPushButton("Edit")
 		publishButton = QPushButton("Publish")
-		alembicCheckBox = QCheckBox("Is Alembic")
+		self.alembicCheckBox = QCheckBox("Is Alembic")
+		self.alembicCheckBox.setCheckState(Qt.CheckState.Unchecked)
+		self.alembicCheckBox.clicked.connect(self.toggleAlembicGroup)
 
 		self.layPublisher.addWidget(editButton, 0, 1)
 		self.layPublisher.addWidget(publishButton, 0, 2)
-		self.layPublisher.addWidget(alembicCheckBox, 1, 2)
+		self.layPublisher.addWidget(self.alembicCheckBox, 1, 2)
 
 
+	def initAlembicGroup(self):
+
+		self.alembicGroupWidget = QWidget()
+		self.alembicGroupWidget.setDisabled(True)
+		self.layMain.addWidget(self.alembicGroupWidget)
+		self.layAlembicGroup = QGridLayout(self.alembicGroupWidget)
+		labelFrameStart = QLabel("Start")
+		labelFrameEnd = QLabel("End")
+		spinFrameStart = QSpinBox()
+		spinFrameEnd = QSpinBox()
+		self.layAlembicGroup.addWidget(labelFrameStart, 0, 1)
+		self.layAlembicGroup.addWidget(labelFrameEnd, 1, 1)
+		self.layAlembicGroup.addWidget(spinFrameStart, 0, 2)
+		self.layAlembicGroup.addWidget(spinFrameEnd, 1, 2)
 
 
 	def initTabs(self):
@@ -48,8 +69,14 @@ class ManagerDialogInstance(QTabWidget):
 		self.addTab(self.tabPublisher, "Publisher")
 
 
-	def setSize(self, width, heigt):
-		self.setGeometry(0, 0, width, height)
+	def toggleAlembicGroup(self):
+
+		state = self.alembicCheckBox.isChecked()
+
+		if state == True:
+			self.alembicGroupWidget.setEnabled(True)
+		else:
+			self.alembicGroupWidget.setDisabled(True)
 
 
 	def open(self):
