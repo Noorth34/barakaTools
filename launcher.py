@@ -1,7 +1,7 @@
 #coding:utf-8
 
 from PySide2.QtWidgets import *
-from PySide2.QtGui import QIcon
+from PySide2.QtGui import QIcon, QPixmap, Qt
 from autorig.autorigDialog import AutorigDialogInstance
 from manager.managerDialog import ManagerDialogInstance
 from constants import *
@@ -43,8 +43,8 @@ class LauncherInstance(QDialog):
 	def initUI(self):
 
 		image = QLabel()
-		image.setObjectName("label")
-		image.setStyleSheet(open(BARAKA_STYLESHEETS_PATH + "/mainStyleSheet.css").read())
+		image.setPixmap( QPixmap(BARAKA_IMAGES_PATH + "/title.png") )
+		image.setAlignment(Qt.AlignCenter)
 
 		mainButtonsVBox = QVBoxLayout(self)
 		mainButtonsVBox.addWidget(image)
