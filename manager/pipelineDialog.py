@@ -4,7 +4,7 @@ from PySide2.QtWidgets import *
 from PySide2.QtGui import QIcon, Qt
 from constants import *
 
-class ManagerDialogInstance(QTabWidget):
+class PipelineDialogInstance(QTabWidget):
 
 	def __init__(self):
 
@@ -12,11 +12,11 @@ class ManagerDialogInstance(QTabWidget):
 
 		self.width = 225
 		self.height = 200
-		self.setWindowTitle("Manager")
+		self.setWindowTitle("Pipeline")
 		self.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/coca.png") )
 		self.setGeometry(600, 400, self.width, self.height)
-		self.setMinimumSize(225, 150)
-		self.setMaximumSize(600, 500)
+		self.setMinimumSize(self.width, self.height)
+		self.setMaximumSize(self.width*2, self.height*2)
 
 		self.initTabs()
 		self.initPublisher()
@@ -52,6 +52,8 @@ class ManagerDialogInstance(QTabWidget):
 		self.layAlembicGroup = QGridLayout(self.alembicGroupWidget)
 		labelFrameStart = QLabel("Start")
 		labelFrameEnd = QLabel("End")
+		labelFrameStart.setAlignment(Qt.AlignRight)
+		labelFrameEnd.setAlignment(Qt.AlignRight)
 		spinFrameStart = QSpinBox()
 		spinFrameEnd = QSpinBox()
 		self.layAlembicGroup.addWidget(labelFrameStart, 0, 1)
