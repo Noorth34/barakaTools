@@ -5,7 +5,7 @@
 import sys
 import launcher
 import autorig.autorigDialog
-import manager.managerDialog
+import pipeline.pipelineDialog
 import constants
 from PySide2.QtWidgets import QApplication
 
@@ -13,7 +13,7 @@ from PySide2.QtWidgets import QApplication
 reload(launcher)
 reload(constants)
 reload(autorig.autorigDialog)
-reload(manager.managerDialog)
+reload(pipeline.pipelineDialog)
 
 
 if __name__ == "__main__":
