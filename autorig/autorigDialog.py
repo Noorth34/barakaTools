@@ -7,14 +7,17 @@ from constants import *
 class AutorigDialogInstance(QTabWidget):
 
 	def __init__(self):
-		
-		super(AutorigDialogInstance, self).__init__()
 
-		self.setWindowTitle("Autorig")
+		QTabWidget.__init__(self)
+
+		self.width = 225
+		self.height = 225
+
+		self.setWindowTitle("Autorigs")
 		self.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/burger.png") )
-		self.setGeometry(800, 500, 225, 0)
-		self.setMinimumSize(225, 200)
-		self.setMaximumSize(600, 500)
+		self.setGeometry(800, 500, 0, 0)
+		self.setFixedSize(self.width, self.height)
+		
 
 		self.initUI()
 		self.createLimbWithRibbonUI()
@@ -36,30 +39,28 @@ class AutorigDialogInstance(QTabWidget):
 
 	def createLimbWithRibbonUI(self):
 
+		self.limbRibbonWidget = QWidget()
+		self.limbRibbonVBox = QVBoxLayout(self.limbRibbonWidget)
+
 		limbVBox = QVBoxLayout()
 		self.limbTab.setLayout(limbVBox)
-
-		self.limbRibbonWidget = QWidget()
-		limbVBox.addWidget(limbRibbonWidget)
 
 		driverJointsHBox = QHBoxLayout()
 		bindJointsHBox = QHBoxLayout()
 		rigFeaturesGridBox = QGridLayout()
 
-		limbRigMethod = QComboBox()
-		limbRigMethod.addItem("Ribbon")
-		limbRigMethod.addItem("Spline")
+		self.limbRigMethod = QComboBox()
+		self.limbRigMethod.addItem("Ribbon")
+		self.limbRigMethod.addItem("Spline")
+		self.limbRigMethod.currentTextChanged.connect(self.toggleLimbRibbonWidget)
 
 		createWithRibbonButton = QPushButton("Create with Ribbon")
 
-		limbVBox.addWidget(limbRigMethod)
-		limbVBox.addWidget(createWithRibbonButton)
-
-		self.limbRibbonWidget.layout().addLayout(driverJointsHBox)
-		self.limbRibbonWidget.layout().addLayout(bindJointsHBox)
-		self.limbRibbonWidget.layout().addLayout(rigFeaturesGridBox)
+		self.limbRibbonVBox.layout().addLayout(driverJointsHBox)
+		self.limbRibbonVBox.layout().addLayout(bindJointsHBox)
+		self.limbRibbonVBox.layout().addLayout(rigFeaturesGridBox)
+		self.limbRibbonVBox.addWidget(createWithRibbonButton)
 		
-
 		driverJointsLabel = QLabel("Driver Joints")
 		driverJointsSpinBox = QSpinBox()
 		driverJointsHBox.addWidget(driverJointsLabel)
@@ -76,12 +77,27 @@ class AutorigDialogInstance(QTabWidget):
 		hasKeepVolumeCheckBox = QCheckBox("Keep Volume")
 		hasIKCheckBox = QCheckBox("IK")
 		hasFKCheckBox = QCheckBox("FK")
-		rigFeaturesGridBox.addWidget(hasStretchCheckBox)
-		rigFeaturesGridBox.addWidget(hasBendCheckBox)
-		rigFeaturesGridBox.addWidget(hasKeepVolumeCheckBox)
-		rigFeaturesGridBox.addWidget(hasTwistCheckBox)
-		rigFeaturesGridBox.addWidget(hasIKCheckBox)
-		rigFeaturesGridBox.addWidget(hasFKCheckBox)
+		rigFeaturesGridBox.addWidget(hasStretchCheckBox, 0, 1 )
+		rigFeaturesGridBox.addWidget(hasBendCheckBox, 1, 1)
+		rigFeaturesGridBox.addWidget(hasKeepVolumeCheckBox, 2, 1)
+		rigFeaturesGridBox.addWidget(hasTwistCheckBox, 0, 2)
+		rigFeaturesGridBox.addWidget(hasIKCheckBox, 1, 2)
+		rigFeaturesGridBox.addWidget(hasFKCheckBox, 2, 2)
+
+		limbVBox.addWidget(self.limbRigMethod)
+		limbVBox.addWidget(self.limbRibbonWidget)
+		
+
+
+	def toggleLimbRibbonWidget(self):
+
+		text = self.limbRigMethod.currentText() 
+		
+		if text == "Spline":
+			self.limbRibbonWidget.hide()
+		else:
+			self.limbRibbonWidget.show()
+
 
 
 	def open(self):

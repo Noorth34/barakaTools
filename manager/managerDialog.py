@@ -5,9 +5,10 @@ from PySide2.QtGui import QIcon
 from constants import *
 
 class ManagerDialogInstance(QWidget):
-	
+
 	def __init__(self):
-		super(ManagerDialogInstance, self).__init__(self)
+
+		QWidget.__init__(self)
 		self.setWindowTitle("Manager")
 		self.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/coca.png") )
 		self.setGeometry(600, 400, 225, 0)

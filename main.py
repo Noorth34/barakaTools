@@ -3,16 +3,17 @@
 """
 """
 import sys
-import mainDialog
+import launcher
 import autorig.autorigDialog
+import manager.managerDialog
 import constants
 from PySide2.QtWidgets import QApplication
 
 
-reload(mainDialog)
+reload(launcher)
 reload(constants)
-#reload(autorig.autorigDialog)
-#reload(manager.managerDialog)
+reload(autorig.autorigDialog)
+reload(manager.managerDialog)
 
 
 if __name__ == "__main__":
@@ -30,6 +31,6 @@ if __name__ == "__main__":
 		mainApp = QApplication.instance()
 
 
-	mainWidget = mainDialog.MainDialogInstance()
+	mainWidget = launcher.LauncherInstance()
 	mainWidget.show()
 	mainApp.exec_()

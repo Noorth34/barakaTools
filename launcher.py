@@ -2,6 +2,8 @@
 
 from PySide2.QtWidgets import *
 from PySide2.QtGui import QIcon
+from autorig.autorigDialog import AutorigDialogInstance
+from manager.managerDialog import ManagerDialogInstance
 from constants import *
 from maya import OpenMayaUI as omui
 from shiboken2 import wrapInstance
@@ -14,21 +16,21 @@ def getMayaMainWindow():
 	return widget
 
 
-class MainDialogInstance(QDialog):
+class LauncherInstance(QDialog):
 	"""
 	"""
 	def __init__(self):
 		"""
 		"""
-		super(MainDialogInstance, self).__init__()
+		QDialog.__init__(self)
 
 		self.autorigDialog = AutorigDialogInstance()
 		self.managerDialog = ManagerDialogInstance()
 
-		self.width = 180
+		self.width = 200
 		self.height = 300
 
-		self.setWindowTitle("BrkTools")
+		self.setWindowTitle("Brk Launcher")
 		self.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/frites.png") )
 		self.setGeometry(600, 400, 0, 0)
 		self.setFixedSize(self.width, self.height)
@@ -68,12 +70,12 @@ class MainDialogInstance(QDialog):
 
 		print("Hey buddy")
 
-
+"""
 class AutorigDialogInstance(QTabWidget):
 
 	def __init__(self):
 
-		super(AutorigDialogInstance, self).__init__()
+		QTabWidget.__init__(self)
 
 		self.width = 225
 		self.height = 225
@@ -174,7 +176,7 @@ class ManagerDialogInstance(QWidget):
 
 	def __init__(self):
 
-		super(ManagerDialogInstance, self).__init__()
+		QWidget.__init__(self)
 		self.setWindowTitle("Manager")
 		self.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/coca.png") )
 		self.setGeometry(600, 400, 225, 0)
@@ -187,3 +189,4 @@ class ManagerDialogInstance(QWidget):
 
 	def open(self):
 		self.show()
+"""
