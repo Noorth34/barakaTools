@@ -11,7 +11,7 @@ class PipelineDialogInstance(QTabWidget):
 		QTabWidget.__init__(self)
 
 		self.width = 225
-		self.height = 200
+		self.height = 175
 		self.setWindowTitle("Pipeline")
 		self.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/coca.png") )
 		self.setGeometry(600, 400, self.width, self.height)
@@ -19,59 +19,57 @@ class PipelineDialogInstance(QTabWidget):
 		self.setMaximumSize(self.width*2, self.height*2)
 		self.initTabs()
 		self.initPublisher()
-		self.initAlembicGroup()
 
 
 	def initPublisher(self):
 
 		self.layMain = QVBoxLayout(self.tabPublisher)
-		self.layAssetNameGroup = QHBoxLayout()
-		self.layPublisher = QGridLayout()
+		self.layAssetInfo = QHBoxLayout()
+		self.layEdit = QHBoxLayout()
+		self.layPublish = QHBoxLayout()
+		self.layStartEndFrame = QGridLayout()
 
-		self.textField = QLineEdit()
-		self.textField.setPlaceholderText("Asset name...")
-		self.assetTypeList = QComboBox()
+		self.lineEditAssetName = QLineEdit()
+		self.lineEditAssetName.setPlaceholderText("Asset name...")
+		self.listAssetType = QComboBox()
 
 		for type in ASSET_TYPES.keys():
-			self.assetTypeList.addItem(type)
+			self.listAssetType.addItem(type)
 
-		self.layAssetNameGroup.addWidget(self.textField)
-		self.layAssetNameGroup.addWidget(self.assetTypeList)
+		self.editButton = QPushButton("Edit")
+		self.publishButton = QPushButton("Publish")
 
-		editButton = QPushButton("Edit")
-		publishButton = QPushButton("Publish")
 		self.alembicCheckBox = QCheckBox("Is Alembic")
 		self.alembicCheckBox.setCheckState(Qt.CheckState.Unchecked)
 		self.alembicCheckBox.clicked.connect(self.toggleAlembicGroup)
 
-		commitLine = QLineEdit()
-		commitLine.setPlaceholderText("Write your commit here...")
+		self.lineCommit = QLineEdit()
+		self.lineCommit.setPlaceholderText("Write your commit here...")
 
-		self.layPublisher.addWidget(commitLine, 0, 1)
-		self.layPublisher.addWidget(editButton, 0, 2)
-		self.layPublisher.addWidget(publishButton, 1, 1)
-		self.layPublisher.addWidget(self.alembicCheckBox, 1, 2)
-		self.layMain.layout().addLayout(self.layAssetNameGroup)
-		self.layMain.layout().addLayout(self.layPublisher)
-
-		
-
-	def initAlembicGroup(self):
-
-		self.alembicGroupWidget = QWidget()
-		self.alembicGroupWidget.setDisabled(True)
-		self.layMain.addWidget(self.alembicGroupWidget)
-		self.layAlembicGroup = QGridLayout(self.alembicGroupWidget)
 		labelFrameStart = QLabel("Start")
 		labelFrameEnd = QLabel("End")
-		labelFrameStart.setAlignment(Qt.AlignRight)
-		labelFrameEnd.setAlignment(Qt.AlignRight)
-		spinFrameStart = QSpinBox()
-		spinFrameEnd = QSpinBox()
-		self.layAlembicGroup.addWidget(labelFrameStart, 0, 1)
-		self.layAlembicGroup.addWidget(labelFrameEnd, 1, 1)
-		self.layAlembicGroup.addWidget(spinFrameStart, 0, 2)
-		self.layAlembicGroup.addWidget(spinFrameEnd, 1, 2)
+		labelFrameStart.setAlignment(Qt.AlignCenter)
+		labelFrameEnd.setAlignment(Qt.AlignCenter)
+		self.spinFrameStart = QSpinBox()
+		self.spinFrameEnd = QSpinBox()
+		self.spinFrameStart.setDisabled(True)
+		self.spinFrameEnd.setDisabled(True)
+
+		self.layAssetInfo.addWidget(self.lineEditAssetName)
+		self.layAssetInfo.addWidget(self.listAssetType)
+		self.layEdit.addWidget(self.lineCommit)
+		self.layEdit.addWidget(self.editButton)
+		self.layPublish.addWidget(self.publishButton)
+		self.layPublish.addWidget(self.alembicCheckBox)
+		self.layStartEndFrame.addWidget(labelFrameStart, 0, 1)
+		self.layStartEndFrame.addWidget(labelFrameEnd, 0, 2)
+		self.layStartEndFrame.addWidget(self.spinFrameStart, 1, 1)
+		self.layStartEndFrame.addWidget(self.spinFrameEnd, 1, 2)
+
+		self.layMain.layout().addLayout(self.layAssetInfo)
+		self.layMain.layout().addLayout(self.layEdit)
+		self.layMain.layout().addLayout(self.layPublish)
+		self.layMain.layout().addLayout(self.layStartEndFrame)
 
 
 	def initTabs(self):
@@ -88,9 +86,11 @@ class PipelineDialogInstance(QTabWidget):
 		state = self.alembicCheckBox.isChecked()
 
 		if state == True:
-			self.alembicGroupWidget.setEnabled(True)
+			self.spinFrameStart.setEnabled(True)
+			self.spinFrameEnd.setEnabled(True)
 		else:
-			self.alembicGroupWidget.setDisabled(True)
+			self.spinFrameStart.setDisabled(True)
+			self.spinFrameEnd.setDisabled(True)
 
 
 	def open(self):
