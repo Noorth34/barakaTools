@@ -1,19 +1,17 @@
-import sys
-from PySide2 import QtCore, QtWidgets
+from constants import *
+import os
+reload(constants)
 
-class monDialog(QtWidgets.QDialog):
-	def __init__(self, parent = None):
-		super(monDialog, self).__init__(parent)
-		data = ["square", "rectangle",
-		"cube", "parallelepiped"]
-		self.setWindowTitle("exemple de dialogue")
-		#self.setFixedSize(300, 100)
-		listWidget = QtWidgets.QListWidget(self)
-		listWidget.addItems(data)
+path = ROOT_PATH + "/asset_logs.json" 
+path = path.replace("/", "\\")
+print(path)
+with open(path, "w+") as f:
+	f.close()
 
-
-			
-app = QtWidgets.QApplication.instance()
-d = monDialog()
-d.show()
-app.exec_()
+os.system("attrib +h {}".format(path))
+"""
+path = ROOT_PATH + "/testfile.txt"
+with open(path, "a") as f:
+	f.write("\nI'm a new line !")
+	f.close()
+"""

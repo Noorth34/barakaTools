@@ -1,5 +1,8 @@
 #coding:utf-8
 
+import socket
+
+ROOT_PATH = "//gandalf/3D4_20_21/barakafrites/04_asset"
 
 BARAKA_PATH = __file__.split("\\")[0]
 
