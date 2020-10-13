@@ -17,8 +17,18 @@ class PipelineDialogInstance(QTabWidget):
 		self.setGeometry(600, 400, self.width, self.height)
 		self.setMinimumSize(self.width, self.height)
 		self.setMaximumSize(self.width*2, self.height*2)
+		
 		self.initTabs()
 		self.initPublisher()
+
+
+	def initTabs(self):
+			
+			self.tabManager = QWidget()
+			self.tabPublisher = QWidget()
+
+			self.addTab(self.tabManager, "Manager")
+			self.addTab(self.tabPublisher, "Publisher")
 
 
 	def initPublisher(self):
@@ -83,14 +93,6 @@ class PipelineDialogInstance(QTabWidget):
 		self.layMain.layout().addLayout(self.layPublish)
 		self.layMain.layout().addLayout(self.layStartEndFrame)
 
-
-	def initTabs(self):
-		
-		self.tabManager = QWidget()
-		self.tabPublisher = QWidget()
-
-		self.addTab(self.tabManager, "Manager")
-		self.addTab(self.tabPublisher, "Publisher")
 
 
 	def toggleAlembicStartEndFrame(self):
