@@ -97,9 +97,9 @@ class AutorigDialogInstance(QTabWidget):
 
 	def toggleWidgetLimbRibbon(self):
 
-		text = self.comboRigMethod.currentText() 
+		method = self.listRigMethod.currentText() 
 		
-		if text == "Spline":
+		if method == "Spline":
 			self.widgetLimbRibbon.hide()
 		else:
 			self.widgetLimbRibbon.show()

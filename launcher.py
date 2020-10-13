@@ -35,35 +35,34 @@ class LauncherInstance(QDialog):
 		self.setGeometry(600, 400, 0, 0)
 		self.setFixedSize(self.width, self.height)
 
-
-		self.initUI()
+		self.initLauncher()
 		
 
 
-	def initUI(self):
+	def initLauncher(self):
 
 		image = QLabel()
 		image.setPixmap( QPixmap(BARAKA_IMAGES_PATH + "/title.png") )
 		image.setAlignment(Qt.AlignCenter)
 
-		mainButtonsVBox = QVBoxLayout(self)
-		mainButtonsVBox.addWidget(image)
+		self.layMainButtons = QVBoxLayout(self)
+		self.layMainButtons.addWidget(image)
 
-		autorigButton = QPushButton("Autorigs", self)
-		autorigButton.setIcon( QIcon(BARAKA_ICONS_PATH + "/burger.png") )
-		autorigButton.clicked.connect(self.autorigDialog.open)
-		autorigButton.setToolTip("This is the autorig tool box")
-		mainButtonsVBox.addWidget(autorigButton)
+		self.btnAutorig = QPushButton("Autorigs", self)
+		self.btnAutorig.setIcon( QIcon(BARAKA_ICONS_PATH + "/burger.png") )
+		self.btnAutorig.clicked.connect(self.autorigDialog.open)
+		self.btnAutorig.setToolTip("This is the autorig tool box")
+		self.layMainButtons.addWidget(self.btnAutorig)
 
-		pipelineDialog = QPushButton("Manager", self)
-		pipelineDialog.setIcon( QIcon(BARAKA_ICONS_PATH + "/coca.png") )
-		pipelineDialog.clicked.connect(self.pipelineDialog.open)
-		mainButtonsVBox.addWidget(pipelineDialog)
+		self.btnPipeline = QPushButton("Manager", self)
+		self.btnPipeline.setIcon( QIcon(BARAKA_ICONS_PATH + "/coca.png") )
+		self.btnPipeline.clicked.connect(self.pipelineDialog.open)
+		self.layMainButtons.addWidget(self.btnPipeline)
 
-		helpButton = QPushButton("Help", self)
-		helpButton.setIcon( QIcon(BARAKA_ICONS_PATH + "/help.png") )
-		helpButton.clicked.connect(self.printSomething)
-		mainButtonsVBox.addWidget(helpButton)
+		self.btnHelp = QPushButton("Help", self)
+		self.btnHelp.setIcon( QIcon(BARAKA_ICONS_PATH + "/help.png") )
+		self.btnHelp.clicked.connect(self.printSomething)
+		self.layMainButtons.addWidget(self.btnHelp)
 
 
 	def printSomething(self):
