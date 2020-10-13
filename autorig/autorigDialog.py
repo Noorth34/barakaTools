@@ -38,6 +38,8 @@ class AutorigDialogInstance(QTabWidget):
 
 	def initLimbWithRibbon(self):
 
+		# Create UI Elements
+
 		self.widgetLimbRibbon = QWidget()
 		self.layLimbRibbon = QVBoxLayout(self.widgetLimbRibbon)
 
@@ -48,27 +50,17 @@ class AutorigDialogInstance(QTabWidget):
 		self.layBindJoints = QHBoxLayout()
 		self.layRigFeatures = QGridLayout()
 
-		self.comboRigMethod = QComboBox()
-		self.comboRigMethod.addItem("Ribbon")
-		self.comboRigMethod.addItem("Spline")
-		self.comboRigMethod.currentTextChanged.connect(self.toggleWidgetLimbRibbon)
+		self.listRigMethod = QComboBox()
+		self.listRigMethod.addItem("Ribbon")
+		self.listRigMethod.addItem("Spline")
+		self.listRigMethod.currentTextChanged.connect(self.toggleWidgetLimbRibbon)
 
 		self.btnCreateWithRibbon = QPushButton("Create with Ribbon")
 
-		self.layLimbRibbon.layout().addLayout(self.layDriverJoints)
-		self.layLimbRibbon.layout().addLayout(self.layBindJoints)
-		self.layLimbRibbon.layout().addLayout(self.layRigFeatures)
-		self.layLimbRibbon.addWidget(self.btnCreateWithRibbon)
-		
 		self.labelDriverJoints = QLabel("Driver Joints")
-		self.spinDriverJoints = QSpinBox()
-		self.layDriverJoints.addWidget(self.labelDriverJoints)
-		self.layDriverJoints.addWidget(self.spinDriverJoints)
-
 		self.labelBindJoints = QLabel("Bind Joints")
+		self.spinDriverJoints = QSpinBox()
 		self.spinBindJoints = QSpinBox()
-		self.layBindJoints.addWidget(self.labelBindJoints)
-		self.layBindJoints.addWidget(self.spinBindJoints)
 
 		self.checkHasTwist = QCheckBox("Twist")
 		self.checkHasBend = QCheckBox("Bend")
@@ -76,15 +68,30 @@ class AutorigDialogInstance(QTabWidget):
 		self.checkHasKeepVolume = QCheckBox("Keep Volume")
 		self.checkHasIK = QCheckBox("IK")
 		self.checkHasFK = QCheckBox("FK")
+
+
+		# Layout management
+
+		self.layLimb.addWidget(self.listRigMethod)
+		self.layLimb.addWidget(self.widgetLimbRibbon)
+
+		self.layLimbRibbon.layout().addLayout(self.layDriverJoints)
+		self.layLimbRibbon.layout().addLayout(self.layBindJoints)
+		self.layLimbRibbon.layout().addLayout(self.layRigFeatures)
+		self.layLimbRibbon.addWidget(self.btnCreateWithRibbon)
+		
+		self.layDriverJoints.addWidget(self.labelDriverJoints)
+		self.layDriverJoints.addWidget(self.spinDriverJoints)
+
+		self.layBindJoints.addWidget(self.labelBindJoints)
+		self.layBindJoints.addWidget(self.spinBindJoints)
+
 		self.layRigFeatures.addWidget(self.checkHasStretch, 0, 1 )
 		self.layRigFeatures.addWidget(self.checkHasBend, 1, 1)
 		self.layRigFeatures.addWidget(self.checkHasKeepVolume, 2, 1)
 		self.layRigFeatures.addWidget(self.checkHasTwist, 0, 2)
 		self.layRigFeatures.addWidget(self.checkHasFK, 1, 2)
 		self.layRigFeatures.addWidget(self.checkHasIK, 2, 2)
-
-		self.layLimb.addWidget(self.comboRigMethod)
-		self.layLimb.addWidget(self.widgetLimbRibbon)
 		
 
 

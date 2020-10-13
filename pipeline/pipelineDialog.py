@@ -43,20 +43,21 @@ class PipelineDialogInstance(QTabWidget):
 		for type in ASSET_TYPES.keys():
 			self.listAssetType.addItem(type)
 
-		self.editButton = QPushButton("Edit")
-		self.publishButton = QPushButton("Publish")
+		self.btnEdit = QPushButton("Edit")
+		self.btnPublish = QPushButton("Publish")
 
-		self.alembicCheckBox = QCheckBox("Is Alembic")
-		self.alembicCheckBox.setCheckState(Qt.CheckState.Unchecked)
-		self.alembicCheckBox.clicked.connect(self.toggleAlembicGroup)
+		self.checkIsAlembic = QCheckBox("Is Alembic")
+		self.checkIsAlembic.setCheckState(Qt.CheckState.Unchecked)
+		self.checkIsAlembic.clicked.connect(self.toggleAlembicStartEndFrame)
 
 		self.lineCommit = QLineEdit()
 		self.lineCommit.setPlaceholderText("Write your commit here...")
 
-		labelFrameStart = QLabel("Start")
-		labelFrameEnd = QLabel("End")
-		labelFrameStart.setAlignment(Qt.AlignCenter)
-		labelFrameEnd.setAlignment(Qt.AlignCenter)
+		self.labelFrameStart = QLabel("Start")
+		self.labelFrameEnd = QLabel("End")
+		self.labelFrameStart.setAlignment(Qt.AlignCenter)
+		self.labelFrameEnd.setAlignment(Qt.AlignCenter)
+
 		self.spinFrameStart = QSpinBox()
 		self.spinFrameEnd = QSpinBox()
 		self.spinFrameStart.setDisabled(True)
@@ -67,11 +68,11 @@ class PipelineDialogInstance(QTabWidget):
 		self.layAssetInfo.addWidget(self.lineEditAssetName)
 		self.layAssetInfo.addWidget(self.listAssetType)
 		self.layEdit.addWidget(self.lineCommit)
-		self.layEdit.addWidget(self.editButton)
-		self.layPublish.addWidget(self.publishButton)
-		self.layPublish.addWidget(self.alembicCheckBox)
-		self.layStartEndFrame.addWidget(labelFrameStart, 0, 1)
-		self.layStartEndFrame.addWidget(labelFrameEnd, 0, 2)
+		self.layEdit.addWidget(self.btnEdit)
+		self.layPublish.addWidget(self.btnPublish)
+		self.layPublish.addWidget(self.checkIsAlembic)
+		self.layStartEndFrame.addWidget(self.labelFrameStart, 0, 1)
+		self.layStartEndFrame.addWidget(self.labelFrameEnd, 0, 2)
 		self.layStartEndFrame.addWidget(self.spinFrameStart, 1, 1)
 		self.layStartEndFrame.addWidget(self.spinFrameEnd, 1, 2)
 
@@ -92,11 +93,11 @@ class PipelineDialogInstance(QTabWidget):
 		self.addTab(self.tabPublisher, "Publisher")
 
 
-	def toggleAlembicGroup(self):
+	def toggleAlembicStartEndFrame(self):
 
-		state = self.alembicCheckBox.isChecked()
+		isChecked = self.checkIsAlembic.isChecked()
 
-		if state == True:
+		if isChecked == True:
 			self.spinFrameStart.setEnabled(True)
 			self.spinFrameEnd.setEnabled(True)
 		else:
