@@ -45,6 +45,8 @@ class LauncherInstance(QDialog):
 		image.setPixmap( QPixmap(BARAKA_IMAGES_PATH + "/title.png") )
 		image.setAlignment(Qt.AlignCenter)
 
+		# Create UI Elements
+
 		self.layMainButtons = QVBoxLayout(self)
 		self.layMainButtons.addWidget(image)
 
@@ -52,16 +54,19 @@ class LauncherInstance(QDialog):
 		self.btnAutorig.setIcon( QIcon(BARAKA_ICONS_PATH + "/burger.png") )
 		self.btnAutorig.clicked.connect(self.autorigDialog.open)
 		self.btnAutorig.setToolTip("This is the autorig tool box")
-		self.layMainButtons.addWidget(self.btnAutorig)
-
+		
 		self.btnPipeline = QPushButton("Manager", self)
 		self.btnPipeline.setIcon( QIcon(BARAKA_ICONS_PATH + "/coca.png") )
 		self.btnPipeline.clicked.connect(self.pipelineDialog.open)
-		self.layMainButtons.addWidget(self.btnPipeline)
-
+		
 		self.btnHelp = QPushButton("Help", self)
 		self.btnHelp.setIcon( QIcon(BARAKA_ICONS_PATH + "/help.png") )
 		self.btnHelp.clicked.connect(self.printSomething)
+
+		# Layout Management
+
+		self.layMainButtons.addWidget(self.btnAutorig)
+		self.layMainButtons.addWidget(self.btnPipeline)
 		self.layMainButtons.addWidget(self.btnHelp)
 
 
