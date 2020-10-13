@@ -18,85 +18,84 @@ class AutorigDialogInstance(QTabWidget):
 		self.setGeometry(800, 500, 0, 0)
 		self.setFixedSize(self.width, self.height)
 		
-
-		self.initUI()
-		self.createLimbWithRibbonUI()
-
+		self.initTabs()
+		self.initLimbWithRibbon()
 
 
-	def initUI(self):
+
+	def initTabs(self):
 
 
-		self.limbTab = QWidget()
-		self.eyesTab = QWidget()
-		self.utilsTab = QWidget()
+		self.tabLimb = QWidget()
+		self.tabEyes = QWidget()
+		self.tabUtils = QWidget()
 
-		self.addTab(self.limbTab, "Limb")
-		self.addTab(self.eyesTab, "Eyes")
-		self.addTab(self.utilsTab, "Utils")
+		self.addTab(self.tabLimb, "Limb")
+		self.addTab(self.tabEyes, "Eyes")
+		self.addTab(self.tabUtils, "Utils")
 		
 
 
-	def createLimbWithRibbonUI(self):
+	def initLimbWithRibbon(self):
 
-		self.limbRibbonWidget = QWidget()
-		self.limbRibbonVBox = QVBoxLayout(self.limbRibbonWidget)
+		self.widgetLimbRibbon = QWidget()
+		self.layLimbRibbon = QVBoxLayout(self.widgetLimbRibbon)
 
-		limbVBox = QVBoxLayout()
-		self.limbTab.setLayout(limbVBox)
+		self.layLimb = QVBoxLayout()
+		self.tabLimb.setLayout(self.layLimb)
 
-		driverJointsHBox = QHBoxLayout()
-		bindJointsHBox = QHBoxLayout()
-		rigFeaturesGridBox = QGridLayout()
+		self.layDriverJoints = QHBoxLayout()
+		self.layBindJoints = QHBoxLayout()
+		self.layRigFeatures = QGridLayout()
 
-		self.limbRigMethod = QComboBox()
-		self.limbRigMethod.addItem("Ribbon")
-		self.limbRigMethod.addItem("Spline")
-		self.limbRigMethod.currentTextChanged.connect(self.toggleLimbRibbonWidget)
+		self.comboRigMethod = QComboBox()
+		self.comboRigMethod.addItem("Ribbon")
+		self.comboRigMethod.addItem("Spline")
+		self.comboRigMethod.currentTextChanged.connect(self.toggleWidgetLimbRibbon)
 
-		createWithRibbonButton = QPushButton("Create with Ribbon")
+		self.btnCreateWithRibbon = QPushButton("Create with Ribbon")
 
-		self.limbRibbonVBox.layout().addLayout(driverJointsHBox)
-		self.limbRibbonVBox.layout().addLayout(bindJointsHBox)
-		self.limbRibbonVBox.layout().addLayout(rigFeaturesGridBox)
-		self.limbRibbonVBox.addWidget(createWithRibbonButton)
+		self.layLimbRibbon.layout().addLayout(self.layDriverJoints)
+		self.layLimbRibbon.layout().addLayout(self.layBindJoints)
+		self.layLimbRibbon.layout().addLayout(self.layRigFeatures)
+		self.layLimbRibbon.addWidget(self.btnCreateWithRibbon)
 		
-		driverJointsLabel = QLabel("Driver Joints")
-		driverJointsSpinBox = QSpinBox()
-		driverJointsHBox.addWidget(driverJointsLabel)
-		driverJointsHBox.addWidget(driverJointsSpinBox)
+		self.labelDriverJoints = QLabel("Driver Joints")
+		self.spinDriverJoints = QSpinBox()
+		self.layDriverJoints.addWidget(self.labelDriverJoints)
+		self.layDriverJoints.addWidget(self.spinDriverJoints)
 
-		bindJointsLabel = QLabel("Bind Joints")
-		bindJointsSpinBox = QSpinBox()
-		bindJointsHBox.addWidget(bindJointsLabel)
-		bindJointsHBox.addWidget(bindJointsSpinBox)
+		self.labelBindJoints = QLabel("Bind Joints")
+		self.spinBindJoints = QSpinBox()
+		self.layBindJoints.addWidget(self.labelBindJoints)
+		self.layBindJoints.addWidget(self.spinBindJoints)
 
-		hasTwistCheckBox = QCheckBox("Twist")
-		hasBendCheckBox = QCheckBox("Bend")
-		hasStretchCheckBox = QCheckBox("Stretch")
-		hasKeepVolumeCheckBox = QCheckBox("Keep Volume")
-		hasIKCheckBox = QCheckBox("IK")
-		hasFKCheckBox = QCheckBox("FK")
-		rigFeaturesGridBox.addWidget(hasStretchCheckBox, 0, 1 )
-		rigFeaturesGridBox.addWidget(hasBendCheckBox, 1, 1)
-		rigFeaturesGridBox.addWidget(hasKeepVolumeCheckBox, 2, 1)
-		rigFeaturesGridBox.addWidget(hasTwistCheckBox, 0, 2)
-		rigFeaturesGridBox.addWidget(hasIKCheckBox, 1, 2)
-		rigFeaturesGridBox.addWidget(hasFKCheckBox, 2, 2)
+		self.checkHasTwist = QCheckBox("Twist")
+		self.checkHasBend = QCheckBox("Bend")
+		self.checkHasStretch = QCheckBox("Stretch")
+		self.checkHasKeepVolume = QCheckBox("Keep Volume")
+		self.checkHasIK = QCheckBox("IK")
+		self.checkHasFK = QCheckBox("FK")
+		self.layRigFeatures.addWidget(self.checkHasStretch, 0, 1 )
+		self.layRigFeatures.addWidget(self.checkHasBend, 1, 1)
+		self.layRigFeatures.addWidget(self.checkHasKeepVolume, 2, 1)
+		self.layRigFeatures.addWidget(self.checkHasTwist, 0, 2)
+		self.layRigFeatures.addWidget(self.checkHasFK, 1, 2)
+		self.layRigFeatures.addWidget(self.checkHasIK, 2, 2)
 
-		limbVBox.addWidget(self.limbRigMethod)
-		limbVBox.addWidget(self.limbRibbonWidget)
+		self.layLimb.addWidget(self.comboRigMethod)
+		self.layLimb.addWidget(self.widgetLimbRibbon)
 		
 
 
-	def toggleLimbRibbonWidget(self):
+	def toggleWidgetLimbRibbon(self):
 
-		text = self.limbRigMethod.currentText() 
+		text = self.comboRigMethod.currentText() 
 		
 		if text == "Spline":
-			self.limbRibbonWidget.hide()
+			self.widgetLimbRibbon.hide()
 		else:
-			self.limbRibbonWidget.show()
+			self.widgetLimbRibbon.show()
 
 
 
