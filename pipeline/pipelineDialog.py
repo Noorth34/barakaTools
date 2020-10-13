@@ -11,7 +11,7 @@ class PipelineDialogInstance(QTabWidget):
 		QTabWidget.__init__(self)
 
 		self.width = 225
-		self.height = 175
+		self.height = 200
 		self.setWindowTitle("Pipeline")
 		self.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/coca.png") )
 		self.setGeometry(600, 400, self.width, self.height)
@@ -23,11 +23,18 @@ class PipelineDialogInstance(QTabWidget):
 
 	def initPublisher(self):
 
+		# UI Elements creation and settings
+
 		self.layMain = QVBoxLayout(self.tabPublisher)
 		self.layAssetInfo = QHBoxLayout()
 		self.layEdit = QHBoxLayout()
 		self.layPublish = QHBoxLayout()
 		self.layStartEndFrame = QGridLayout()
+
+		separator1 = QFrame()
+		separator1.setFrameShape(QFrame.HLine)
+		separator2 = QFrame()
+		separator2.setFrameShape(QFrame.HLine)
 
 		self.lineEditAssetName = QLineEdit()
 		self.lineEditAssetName.setPlaceholderText("Asset name...")
@@ -55,6 +62,8 @@ class PipelineDialogInstance(QTabWidget):
 		self.spinFrameStart.setDisabled(True)
 		self.spinFrameEnd.setDisabled(True)
 
+		# Layout Management
+
 		self.layAssetInfo.addWidget(self.lineEditAssetName)
 		self.layAssetInfo.addWidget(self.listAssetType)
 		self.layEdit.addWidget(self.lineCommit)
@@ -67,7 +76,9 @@ class PipelineDialogInstance(QTabWidget):
 		self.layStartEndFrame.addWidget(self.spinFrameEnd, 1, 2)
 
 		self.layMain.layout().addLayout(self.layAssetInfo)
+		self.layMain.addWidget(separator1)
 		self.layMain.layout().addLayout(self.layEdit)
+		self.layMain.addWidget(separator2)
 		self.layMain.layout().addLayout(self.layPublish)
 		self.layMain.layout().addLayout(self.layStartEndFrame)
 
