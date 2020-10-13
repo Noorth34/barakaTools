@@ -1,14 +1,15 @@
 from constants import *
-import os
+from pipeline.pipeline import File 
 reload(constants)
+reload(pipeline.pipeline)
 
 path = ROOT_PATH + "/asset_logs.json" 
-path = path.replace("/", "\\")
 print(path)
 with open(path, "w+") as f:
 	f.close()
 
-os.system("attrib +h {}".format(path))
+logFile = File(path)
+logFile.setHidden()
 """
 path = ROOT_PATH + "/testfile.txt"
 with open(path, "a") as f:
