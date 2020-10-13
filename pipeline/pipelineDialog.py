@@ -44,13 +44,17 @@ class PipelineDialogInstance(QTabWidget):
 		self.alembicCheckBox.setCheckState(Qt.CheckState.Unchecked)
 		self.alembicCheckBox.clicked.connect(self.toggleAlembicGroup)
 
-		self.layPublisher.addWidget(editButton, 0, 1)
-		self.layPublisher.addWidget(publishButton, 0, 2)
-		self.layPublisher.addWidget(self.alembicCheckBox, 1, 2)
+		commitLine = QLineEdit()
+		commitLine.setPlaceholderText("Write your commit here...")
 
+		self.layPublisher.addWidget(commitLine, 0, 1)
+		self.layPublisher.addWidget(editButton, 0, 2)
+		self.layPublisher.addWidget(publishButton, 1, 1)
+		self.layPublisher.addWidget(self.alembicCheckBox, 1, 2)
 		self.layMain.layout().addLayout(self.layAssetNameGroup)
 		self.layMain.layout().addLayout(self.layPublisher)
 
+		
 
 	def initAlembicGroup(self):
 
@@ -90,4 +94,5 @@ class PipelineDialogInstance(QTabWidget):
 
 
 	def open(self):
+
 		self.show()
