@@ -62,39 +62,33 @@ class Asset():
 	"""
 	def __init__(self):
 		
-		self.name = "asset_state_type_index"
+		self.elements = ["asset", "state", "type", "index"]
 
-	def initElements(self):
+		
+		#self.asset = self.elements[0]
+		#self.state = self.elements[1]
+		#self.type = self.elements[2]
+		#self.index = self.elements[-1]
 
-		self.elements = self.name.split("_")
-		self.asset = self.elements[0]
-		self.state = self.elements[1]
-		self.type = self.elements[2]
-		self.index = self.elements[-1]
+	def getFullAssetName(self):
+
+		return "_".join(self.elements)
 
 	def setAsset(self, name):
 
-		self.initElements()
-		self.name = self.name.replace(self.asset, name)
-		return self.name
+		self.elements[0] = name
 
 	def setState(self, state):
 
-		self.initElements()
-		self.name = self.name.replace(self.state, state)
-		return self.name
+		self.elements[1] = state
 
 	def setType(self, type):
 
-		self.initElements()
-		self.name = self.name.replace(self.type, type)
-		return self.name
+		self.elements[2] = type
 
 	def setIndex(self, index):
 		
-		self.initElements()
-		self.name = self.name.replace(self.index, index)
-		return self.name
+		self.elements[3] = index
 
 
 class Path():
