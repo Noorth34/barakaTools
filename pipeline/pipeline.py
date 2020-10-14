@@ -64,16 +64,8 @@ class Asset():
 		
 		self.elements = ["asset", "state", "type", "index"]
 
-		
-		#self.asset = self.elements[0]
-		#self.state = self.elements[1]
-		#self.type = self.elements[2]
-		#self.index = self.elements[-1]
-
-	def getFullAssetName(self):
-
-		return "_".join(self.elements)
-
+	# Setters
+	
 	def setAsset(self, name):
 
 		self.elements[0] = name
@@ -89,6 +81,30 @@ class Asset():
 	def setIndex(self, index):
 		
 		self.elements[3] = index
+
+
+	# Getters
+
+	def getFullAssetName(self):
+
+		return "_".join(self.elements)
+
+	def getAsset(self):
+
+		return self.elements[0]
+		
+	def getState(self):
+
+		return self.elements[1]
+
+	def getType(self):
+
+		return self.elements[2]
+
+	def getIndex(self):
+
+		return self.elements[3]
+
 
 
 class Path():
