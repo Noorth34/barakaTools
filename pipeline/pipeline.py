@@ -44,13 +44,13 @@ class File(Path):
 
 	def setHidden(self):
 
-		backSlashPath = self.path.replace("/", "\\")
+		backSlashPath = self.convertSlashToBackslash()
 		os.system( "attrib +h {}".format(backSlashPath) )
 
 
 	def setVisible(self):
 
-		backSlashPath = self.path.replace("/", "\\")
+		backSlashPath = self.convertSlashToBackslash()
 		os.system( "attrib -h {}".format(backSlashPath) )
 
 
