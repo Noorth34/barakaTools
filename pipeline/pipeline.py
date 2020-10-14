@@ -4,12 +4,43 @@ import json
 import os
 import pymel.core.system as pms
 
-class File():
+
+class Path():
+	"""
+	Functions for path management
+	"""
+	def __init__(self, path):
+
+		self.path = path
+
+	def convertSlashToBackslash(self):
+
+		return self.path.replace("/", "\\")
+
+	def convertBackslashToSlash(self):
+
+		return self.path.replace("\\", "/")
+
+	def addExtension(self, ext):
+
+		self.path = self.path + ext
+		return self.path
+
+	def deleteExtension(self):
+
+		ext = "." + self.path.split(".")[-1]
+
+		self.path = self.path.replace(ext, "")
+		return self.path
+
+
+class File(Path):
 	"""
 	Class for file management
 	"""
 	def __init__(self, path):
-		self.path = path
+
+		Path.__init__(self, path)
 
 	def setHidden(self):
 
@@ -22,39 +53,6 @@ class File():
 		backSlashPath = self.path.replace("/", "\\")
 		os.system( "attrib -h {}".format(backSlashPath) )
 
-
-class Scene():
-	"""
-	Class for maya scene management
-	"""
-	def __init__(self):
-
-		self.scene = pms.sceneName()
-
-
-	def getLongSceneName(self):
-
-		return self.scene
-
-	def getShortSceneName(self):
-
-		return self.scene.split("/")[-1]
-
-	def getNoExtensionShortSceneName(self):
-
-		return self.scene.getShortSceneName().split(".")[0]
-
-	def saveScene(self, type):
-
-		return pms.saveFile(type= type)
-
-	def saveSceneAs(self, dest):
-
-		return pms.saveAs(dest)
-
-	def exportSelection(self, dest, type):
-
-		return pms.exportSelected(dest, type= type)
 
 
 class Asset():
@@ -107,27 +105,37 @@ class Asset():
 
 
 
-class Path():
+
+class Scene():
 	"""
-	Functions for path management
+	Class for maya scene management
 	"""
-	def __init__(self, path):
+	def __init__(self):
 
-		self.path = path
-
-	def convertSlashToBackslash(self):
-
-		return self.path.replace("/", "\\")
-
-	def convertBackslashToSlash(self):
-
-		return self.path.replace("\\", "/")
+		pass
 
 
+	def save(self, type):
+
+		return pms.saveFile(type= type)
+
+	def saveAs(self, dest):
+
+		return pms.saveAs(dest)
+
+	def exportSelection(self, dest, type):
+
+		return pms.exportSelected(dest, type= type)
+
+	def edit(self):
+		"""
+		"""
 
 
 
-class Commit():
+
+
+class Commit(File):
 	"""
 	Functions for JSON management 
 
