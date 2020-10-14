@@ -123,11 +123,6 @@ class Path():
 
 		return self.path.replace("\\", "/")
 
-	def setIndex(self):
-		"""
-		"""
-
-
 
 
 
