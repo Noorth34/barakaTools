@@ -5,7 +5,7 @@ import os
 import pymel.core.system as pms
 
 
-class Path():
+class Path:
 	"""
 	Functions for path management
 	"""
@@ -55,58 +55,63 @@ class File(Path):
 
 
 
-class Asset():
+class Asset:
 	"""
 	"""
 	def __init__(self):
 		
-		self.elements = ["asset", "state", "type", "index"]
+		self.asset = "asset"
+		self.state = "state"
+		self.type = "type"
+		self.index = "XXXX"
+	
 
 	# Setters
 	
 	def setAsset(self, name):
 
-		self.elements[0] = name
+		self.asset = name
 
 	def setState(self, state):
 
-		self.elements[1] = state
+		self.state = state
 
 	def setType(self, type):
 
-		self.elements[2] = type
+		self. type= type
 
 	def setIndex(self, index):
 		
-		self.elements[3] = index
+		self.index = index
 
 
 	# Getters
-
+	
 	def getFullAssetName(self):
 
-		return "_".join(self.elements)
+		return "{}_{}_{}_{}".format(self.asset, self.state, self.type, self.index)
+	
 
 	def getAsset(self):
 
-		return self.elements[0]
+		return self.asset
 		
 	def getState(self):
 
-		return self.elements[1]
+		return self.state
 
 	def getType(self):
 
-		return self.elements[2]
+		return self.type
 
 	def getIndex(self):
 
-		return self.elements[3]
+		return self.index
 
 
 
 
-class Scene():
+class Scene:
 	"""
 	Class for maya scene management
 	"""
