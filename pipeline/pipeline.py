@@ -5,7 +5,7 @@ import os
 import pymel.core.system as pms
 
 
-class Path:
+class Path(object):
 	"""
 	Functions for path management
 	"""
@@ -40,7 +40,7 @@ class File(Path):
 	"""
 	def __init__(self, path):
 
-		Path.__init__(self, path)
+		super(File, self).__init__(path)
 
 	def setHidden(self):
 
@@ -55,15 +55,17 @@ class File(Path):
 
 
 
-class Asset:
+class Asset(object):
 	"""
 	"""
-	def __init__(self):
+	def __init__(self, asset="asset", state="state", type="type", index="XXXX"):
+
+		super(Asset, self).__init__()
 		
-		self.asset = "asset"
-		self.state = "state"
-		self.type = "type"
-		self.index = "XXXX"
+		self.asset = asset
+		self.state = state
+		self.type = type
+		self.index = index
 	
 
 	# Setters
@@ -111,13 +113,13 @@ class Asset:
 
 
 
-class Scene:
+class Scene(File, Asset):
 	"""
 	Class for maya scene management
 	"""
-	def __init__(self):
+	def __init__(self, path):
 
-		pass
+		super(Scene, self).__init__(path)
 
 
 	def save(self, type):
