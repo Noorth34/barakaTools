@@ -36,12 +36,18 @@ class Path(object):
 		return self.path
 
 
-	def getParent(self, path):
+	def getParent(self, path=None):
 		
+		if path is None:
+			path = self.path
+
 		return os.path.dirname(path)
 
 
-	def getRecursiveParent(self, path, iteration):
+	def getRecursiveParent(self, path=None, iteration=1):
+
+		if path is None:
+			path = self.path
 
 		temp = None
 		for i in range(iteration):
@@ -52,16 +58,28 @@ class Path(object):
 		return parent
 
 
-	def listChildren(self):
-		pass
+	def listChildren(self, path=None):
+
+		if path is None:
+			path = self.path
+		
+		return os.listdir(path)
 
 
-	def isDir(self):
-		pass
+	def isDir(self, path=None):
+
+		if path is None:
+			path = self.path
+
+		return os.path.isdir(path)
 
 
-	def isFile(self):
-		pass
+	def isFile(self, path=None):
+		
+		if path is None:
+			path = self.path
+
+		return os.path.isfile(path)
 
 
 
