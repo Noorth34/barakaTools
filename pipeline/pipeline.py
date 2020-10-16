@@ -90,25 +90,36 @@ class File(Path):
 	def __init__(self, path):
 		super(File, self).__init__(path)
 
+		self.visibility = True
+		
 
 	def setHidden(self):
 
 		backSlashPath = self.convertSlashToBackslash()
 		os.system( "attrib +h {}".format(backSlashPath) )
-
+		self.visibility = False
 
 	def setVisible(self):
 
 		backSlashPath = self.convertSlashToBackslash()
 		os.system( "attrib -h {}".format(backSlashPath) )
+		self.visibility = True
 
 
 	def isHidden(self):
-		pass
+
+		if self.visibility is True:
+			return False
+		else:
+			return True
 
 
 	def isVisible(self):
-		pass
+		
+		if self.visibility is True:
+			return True
+		else:
+			return False
 
 
 	def copyFileTo(self):
