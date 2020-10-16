@@ -15,11 +15,13 @@ class Path(object):
 
 	def convertSlashToBackslash(self):
 
-		return self.path.replace("/", "\\")
+		self.path = self.path.replace("/", "\\")
+		return self.path
 
 	def convertBackslashToSlash(self):
 
-		return self.path.replace("\\", "/")
+		self.path = self.path.replace("\\", "/")
+		return self.path
 
 	def addExtension(self, ext):
 
@@ -34,13 +36,42 @@ class Path(object):
 		return self.path
 
 
+	def getParent(self, path):
+		
+		return os.path.dirname(path)
+
+
+	def getRecursiveParent(self, path, iteration):
+
+		temp = None
+		for i in range(iteration):
+			temp = self.getParent(path)
+			path = temp
+
+		parent = path
+		return parent
+
+
+	def listChildren(self):
+		pass
+
+
+	def isDir(self):
+		pass
+
+
+	def isFile(self):
+		pass
+
+
+
 class File(Path):
 	"""
 	Class for file management
 	"""
 	def __init__(self, path):
-
 		super(File, self).__init__(path)
+
 
 	def setHidden(self):
 
@@ -54,19 +85,58 @@ class File(Path):
 		os.system( "attrib -h {}".format(backSlashPath) )
 
 
+	def isHidden(self):
+		pass
 
-class Asset(object):
-	"""
-	"""
-	def __init__(self, asset="asset", state="state", type="type", index="XXXX"):
 
-		super(Asset, self).__init__()
+	def isVisible(self):
+		pass
+
+
+	def copyFileTo(self):
+		pass
+
+
+	def moveFileTo(self):
+		pass
+
+
+	def deleteFile(self):
+		pass
 		
-		self.asset = asset
-		self.state = state
-		self.type = type
-		self.index = index
-	
+
+
+
+
+
+class Scene(File):
+	"""
+	Class for maya scene management
+	"""
+	def __init__(self, path):
+		super(Scene, self).__init__(path)
+
+		self.asset = "asset"
+		self.state = "state"
+		self.type = "type"
+		self.index = "index"
+
+
+	def save(self, type):
+
+		return pms.saveFile(type= type)
+
+	def saveAs(self, dest):
+
+		return pms.saveAs(dest)
+
+	def exportSelection(self, dest, type):
+
+		return pms.exportSelected(dest, type= type)
+
+	def edit(self):
+		pass
+
 
 	# Setters
 	
@@ -80,7 +150,7 @@ class Asset(object):
 
 	def setType(self, type):
 
-		self. type= type
+		self.type= type
 
 	def setIndex(self, index):
 		
@@ -112,37 +182,7 @@ class Asset(object):
 
 
 
-
-class Scene(File, Asset):
-	"""
-	Class for maya scene management
-	"""
-	def __init__(self, path):
-
-		super(Scene, self).__init__(path)
-
-
-	def save(self, type):
-
-		return pms.saveFile(type= type)
-
-	def saveAs(self, dest):
-
-		return pms.saveAs(dest)
-
-	def exportSelection(self, dest, type):
-
-		return pms.exportSelected(dest, type= type)
-
-	def edit(self):
-		"""
-		"""
-
-
-
-
-
-class Commit(File):
+class Commit:
 	"""
 	Functions for JSON management 
 
