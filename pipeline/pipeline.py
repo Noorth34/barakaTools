@@ -2,7 +2,9 @@
 
 import json
 import os
+import shutil
 import pymel.core.system as pms
+
 
 
 class Path(object):
@@ -122,17 +124,34 @@ class File(Path):
 			return False
 
 
-	def copyFileTo(self):
-		pass
-
-
-	def moveFileTo(self):
-		pass
-
-
-	def deleteFile(self):
-		pass
+	def copyFileTo(self, src=None, dest=None):
 		
+		if src is None:
+			src = self.path
+
+		if dest is None:
+			dest = self.path
+
+		return shutil.copy(src, dest)
+
+
+	def moveFileTo(self, src=None, dest=None):
+		
+		if src is None:
+			src = self.path
+
+		if dest is None:
+			dest = self.path
+
+		return shutil.move(src, dest)
+
+
+	def deleteFile(self, path=None):
+		
+		if path is None:
+			path = self.path
+
+		os.remove(path)
 
 
 
