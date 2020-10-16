@@ -94,6 +94,13 @@ class File(Path):
 
 		self.visibility = True
 		
+	def getLongFileName(self):
+
+		return self.path
+
+	def getShortFileName(self):
+
+		return self.path.split("/")[-1]
 
 	def setHidden(self):
 
