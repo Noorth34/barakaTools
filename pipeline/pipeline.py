@@ -172,7 +172,7 @@ class Scene(File):
 
 	# Getters
 	
-	def getFullAssetName(self):
+	def getSceneName(self):
 
 		return "{}_{}_{}_{}".format(self.asset, self.state, self.type, self.index)
 	
