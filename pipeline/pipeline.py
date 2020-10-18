@@ -15,32 +15,17 @@ class Path(object):
 
 		self.path = path
 
-	def convertSlashToBackslash(self):
-
-		self.path = self.path.replace("/", "\\")
-		return self.path
-
-	def convertBackslashToSlash(self):
-
-		self.path = self.path.replace("\\", "/")
-		return self.path
-
-	def addExtension(self, ext):
-
-		self.path = self.path + ext
-		return self.path
-
-	def deleteExtension(self):
-
-		ext = "." + self.path.split(".")[-1]
-
-		self.path = self.path.replace(ext, "")
-		return self.path
 
 	def setPath(self, path):
 		
 		 self.path = path
 		 return self.path
+
+
+	def getPath(self):
+
+		return self.path
+
 
 	def getParent(self, path=None):
 		
@@ -64,7 +49,7 @@ class Path(object):
 		return parent
 
 
-	def listChildren(self, path=None):
+	def getChildren(self, path=None):
 
 		if path is None:
 			path = self.path
@@ -88,14 +73,57 @@ class Path(object):
 		return os.path.isfile(path)
 
 
-	def createDir(self, dir="_New_Folder", path=None):
+	def createInnerFile(self, file="_New_File"):
 
-		if path is None:
-			path = self.path + "/" + dir
-			return os.mkdir(path)
-		else:
-			path = self.getParent(path)
-			return os.mkdir(path)
+		with open(self.path + "/" + file, "w+") as f:
+			f.close()
+		
+
+	def createInnerDir(self, dir="_New_Directory"):
+
+		return os.mkdir(self.path + "/" + dir)
+
+
+	@staticmethod
+	def createFileTo(path):
+
+		with open(path, "w+") as f:
+			f.close()
+
+
+	@staticmethod
+	def createDirTo(path):
+
+		return os.mkdir(path)
+
+
+	def convertSlashToBackslash(self):
+
+		self.path = self.path.replace("/", "\\")
+		return self.path
+
+
+	def convertBackslashToSlash(self):
+
+		self.path = self.path.replace("\\", "/")
+		return self.path
+
+
+	def addExtension(self, ext):
+
+		self.path = self.path + ext
+		return self.path
+
+
+	def deleteExtension(self):
+
+		ext = "." + self.path.split(".")[-1]
+
+		self.path = self.path.replace(ext, "")
+		return self.path
+
+
+	
 
 
 class File(Path):
@@ -273,7 +301,5 @@ class Commit:
 		writeJson(data)
 
 
-class Character(object):
-	def __init__(self, name):
-		self.character = name
+
 		
