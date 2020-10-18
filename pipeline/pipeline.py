@@ -4,10 +4,12 @@ import json
 import os
 import shutil
 import pymel.core.system as pms
+import modules.path as Path
+reload(Path)
 
 
 
-class Path(object):
+class PathString(object):
 	"""
 	Functions for path management
 	"""
@@ -27,52 +29,6 @@ class Path(object):
 		return self.path
 
 
-	def getParent(self, path=None):
-		
-		if path is None:
-			path = self.path
-
-		return os.path.dirname(path)
-
-
-	def getRecursiveParent(self, path=None, iteration=1):
-
-		if path is None:
-			path = self.path
-
-		temp = None
-		for i in range(iteration):
-			temp = self.getParent(path)
-			path = temp
-
-		parent = path
-		return parent
-
-
-	def getChildren(self, path=None):
-
-		if path is None:
-			path = self.path
-		
-		return os.listdir(path)
-
-
-	def isDir(self, path=None):
-
-		if path is None:
-			path = self.path
-
-		return os.path.isdir(path)
-
-
-	def isFile(self, path=None):
-		
-		if path is None:
-			path = self.path
-
-		return os.path.isfile(path)
-
-
 	def createInnerFile(self, file="_New_File"):
 
 		with open(self.path + "/" + file, "w+") as f:
@@ -84,49 +40,10 @@ class Path(object):
 		return os.mkdir(self.path + "/" + dir)
 
 
-	@staticmethod
-	def createFileTo(path):
-
-		with open(path, "w+") as f:
-			f.close()
-
-
-	@staticmethod
-	def createDirTo(path):
-
-		return os.mkdir(path)
-
-
-	def convertSlashToBackslash(self):
-
-		self.path = self.path.replace("/", "\\")
-		return self.path
-
-
-	def convertBackslashToSlash(self):
-
-		self.path = self.path.replace("\\", "/")
-		return self.path
-
-
-	def addExtension(self, ext):
-
-		self.path = self.path + ext
-		return self.path
-
-
-	def deleteExtension(self):
-
-		ext = "." + self.path.split(".")[-1]
-
-		self.path = self.path.replace(ext, "")
-		return self.path
-
-
 	
 
 
-class File(Path):
+class File(PathString):
 	"""
 	Class for file management
 	"""
