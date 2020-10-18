@@ -54,6 +54,7 @@ class PipelineDialogInstance(QTabWidget):
 			self.listAssetType.addItem(type)
 
 		self.btnEdit = QPushButton("Edit")
+		self.btnEdit.clicked.connect(self.edit)
 		self.btnPublish = QPushButton("Publish")
 
 		self.checkIsAlembic = QCheckBox("Is Alembic")
@@ -106,6 +107,8 @@ class PipelineDialogInstance(QTabWidget):
 			self.spinFrameStart.setDisabled(True)
 			self.spinFrameEnd.setDisabled(True)
 
+	def edit(self):
+		print("Edit : {}".format( self.lineEditAssetName.text() ))
 
 	def open(self):
 
