@@ -37,6 +37,10 @@ class Path(object):
 		self.path = self.path.replace(ext, "")
 		return self.path
 
+	def setPath(self, path):
+		
+		 self.path = path
+		 return self.path
 
 	def getParent(self, path=None):
 		
@@ -83,6 +87,15 @@ class Path(object):
 
 		return os.path.isfile(path)
 
+
+	def createDir(self, dir="_New_Folder", path=None):
+
+		if path is None:
+			path = self.path + "/" + dir
+			return os.mkdir(path)
+		else:
+			path = self.getParent(path)
+			return os.mkdir(path)
 
 
 class File(Path):
@@ -258,3 +271,9 @@ class Commit:
 			temp.append(commit)
 
 		writeJson(data)
+
+
+class Character(object):
+	def __init__(self, name):
+		self.character = name
+		
