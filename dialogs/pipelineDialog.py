@@ -3,6 +3,8 @@
 from PySide2.QtWidgets import *
 from PySide2.QtGui import QIcon, Qt
 from constants import *
+import modules.scene as scene
+
 
 class PipelineDialogInstance(QTabWidget):
 
@@ -108,7 +110,8 @@ class PipelineDialogInstance(QTabWidget):
 			self.spinFrameEnd.setDisabled(True)
 
 	def edit(self):
-		print("Edit : {}".format( self.lineEditAssetName.text() ))
+		scene.save("mayaAscii")
+
 
 	def open(self):
 
