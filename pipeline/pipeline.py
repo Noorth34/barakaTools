@@ -52,19 +52,23 @@ class File(PathString):
 
 		self.visibility = True
 		
+
 	def getLongFileName(self):
 
 		return self.path
 
+
 	def getShortFileName(self):
 
 		return self.path.split("/")[-1]
+
 
 	def setHidden(self):
 
 		backSlashPath = self.convertSlashToBackslash()
 		os.system( "attrib +h {}".format(backSlashPath) )
 		self.visibility = False
+
 
 	def setVisible(self):
 
