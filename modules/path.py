@@ -3,15 +3,19 @@
 import os
 import shutil
 
-def createFile(path):
+def createFile(path, name="_New_File"):
 
+	path = path + "/" + name
 	with open(path, "w+") as f:
 		f.close()
+	return path
 
 
-def createDir(path):
+def createDir(path, name="_New_Dir"):
 
-	return os.mkdir(path)
+	path = path + "/" + name
+	os.mkdir(path)
+	return path
 
 
 def getParent(path):
@@ -65,7 +69,7 @@ def addExtension(path, ext):
 
 def deleteExtension(path):
 
-	ext = "." + self.path.split(".")[-1]
+	ext = "." + path.split(".")[-1]
 
 	path = path.replace(ext, "")
 	return path
