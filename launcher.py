@@ -2,8 +2,8 @@
 
 from PySide2.QtWidgets import *
 from PySide2.QtGui import QIcon, QPixmap, Qt
-from autorig.autorigDialog import AutorigDialogInstance
-from pipeline.pipelineDialog import PipelineDialogInstance
+from dialogs.autorigDialog import AutorigDialogInstance
+from dialogs.pipelineDialog import PipelineDialogInstance
 from constants import *
 from maya import OpenMayaUI as omui
 from shiboken2 import wrapInstance

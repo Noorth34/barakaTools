@@ -4,16 +4,16 @@
 """
 import sys
 import launcher
-import autorig.autorigDialog
-import pipeline.pipelineDialog
+import dialogs.autorigDialog as autorigDialog
+import dialogs.pipelineDialog as pipelineDialog
 import constants
 from PySide2.QtWidgets import QApplication
 
 
 reload(launcher)
 reload(constants)
-reload(autorig.autorigDialog)
-reload(pipeline.pipelineDialog)
+reload(autorigDialog)
+reload(pipelineDialog)
 
 
 if __name__ == "__main__":
