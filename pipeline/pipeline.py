@@ -9,43 +9,6 @@ reload(Path)
 
 
 
-class PathString(object):
-	"""
-	Functions for path management
-	"""
-	def __init__(self, path=None):
-
-		if path is None:
-			self.path = ""
-		else:
-			self.path = path
-
-
-	def setPath(self, path):
-		
-		 self.path = path
-		 return self.path
-
-
-	def getPath(self):
-
-		return self.path
-
-
-	def createInnerFile(self, file="_New_File"):
-
-		with open(self.path + "/" + file, "w+") as f:
-			f.close()
-		
-
-	def createInnerDir(self, dir="_New_Directory"):
-
-		return os.mkdir(self.path + "/" + dir)
-
-
-	
-
-
 class File(PathString):
 	"""
 	Class for file management
