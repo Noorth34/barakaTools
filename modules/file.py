@@ -29,3 +29,37 @@ def moveFileTo(src=None, dest=None):
 def delete(path=None):
 
 	return os.remove(path)
+
+
+def getShortFileName(file):
+
+	return file.split("/")[-1]
+
+
+def setHidden(file):
+
+	backSlashPath = Path.convertSlashToBackslash(file)
+	os.system( "attrib +h {}".format(backSlashPath) )
+
+
+def setVisible(file):
+
+	backSlashPath = Path.convertSlashToBackslash(file)
+	os.system( "attrib -h {}".format(backSlashPath) )
+
+"""
+def isHidden(self):
+
+	if self.visibility is True:
+		return False
+	else:
+		return True
+
+
+def isVisible(self):
+	
+	if self.visibility is True:
+		return True
+	else:
+		return False
+"""
