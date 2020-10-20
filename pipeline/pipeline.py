@@ -13,9 +13,12 @@ class PathString(object):
 	"""
 	Functions for path management
 	"""
-	def __init__(self, path):
+	def __init__(self, path=None):
 
-		self.path = path
+		if path is None:
+			self.path = ""
+		else:
+			self.path = path
 
 
 	def setPath(self, path):

@@ -3,13 +3,13 @@
 import os
 import shutil
 
-def createFileTo(path):
+def createFile(path):
 
 	with open(path, "w+") as f:
 		f.close()
 
 
-def createDirTo(path):
+def createDir(path):
 
 	return os.mkdir(path)
 
