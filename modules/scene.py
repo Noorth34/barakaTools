@@ -37,5 +37,11 @@ def publish():
 
 def createCharacter(name):
 
-	pass
+	char = PIPELINE_CHARACTERS + "/{}".format(name)
+	Dir.copyTo(TEMPLATE_ASSET_DIRS, char)
+
+	initScene = char + "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
+	File.copyTo(TEMPLATE_ASSET_SCENE, initScene)
+
+
 

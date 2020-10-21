@@ -24,7 +24,7 @@ def createFile(path, name="_New_File"):
 
 
 @isFile
-def copyTo(src=None, dest=None):
+def copyTo(src, dest):
 
     return shutil.copy(src, dest)
 

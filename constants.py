@@ -9,7 +9,10 @@ BARAKA_STYLESHEETS_PATH = BARAKA_PATH + "/qt/stylesheets"
 BARAKA_IMAGES_PATH = BARAKA_PATH + "/qt/images"
 BARAKA_RESSOURCES_PATH = BARAKA_PATH + "/ressources"
 
-ASSET_TEMPLATE = BARAKA_RESSOURCES_PATH + "/_template_workspace_asset"
+BARAKA_TEMP_PATH = BARAKA_PATH + "/.temp"
+
+TEMPLATE_ASSET_DIRS = BARAKA_RESSOURCES_PATH + "/_template_workspace_asset"
+TEMPLATE_ASSET_SCENE = BARAKA_RESSOURCES_PATH + "/asset_state_type_index.ma"
 ASSET_TYPES = {
     "Modeling": "mod",
     "Rigging": "rig",

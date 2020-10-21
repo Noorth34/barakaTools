@@ -27,13 +27,13 @@ def getChildren(path):
 
 
 @isDir
-def copyTo(src=None, dest=None):
+def copyTo(src, dest):
 
-    return shutil.copy(src, dest)
+    return shutil.copytree(src, dest)
 
 
 @isDir
-def moveTo(src=None, dest=None):
+def moveTo(src, dest):
 
     return shutil.move(src, dest)
 
