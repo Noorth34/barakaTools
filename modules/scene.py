@@ -3,6 +3,7 @@
 import pymel.core.system as pms
 import modules.path as Path
 import modules.file as File
+import modules.directory as Dir
 from constants import *
 
 _asset = "asset"
