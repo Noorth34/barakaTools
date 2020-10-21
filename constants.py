@@ -1,4 +1,4 @@
-#coding:utf-8
+# coding:utf-8
 
 
 PIPELINE_ROOT_PATH = "//gandalf/3D4_20_21/barakafrites/04_asset"
@@ -11,17 +11,15 @@ BARAKA_RESSOURCES_PATH = BARAKA_PATH + "/ressources"
 
 ASSET_TEMPLATE = BARAKA_RESSOURCES_PATH + "/_template_workspace_asset"
 ASSET_TYPES = {
-	"Modeling" : "mod", 
-	"Rigging" : "rig", 
-	"Animation" : "anim", 
-	"Lookdev" : "lookdev",
-	"Lighting" : "lighting"
+    "Modeling": "mod",
+    "Rigging": "rig",
+    "Animation": "anim",
+    "Lookdev": "lookdev",
+    "Lighting": "lighting"
 }
 
 # Pipeline paths
 PIPELINE_CHARACTERS = PIPELINE_ROOT_PATH + "/character"
-PIPELINE_FX = PIPELINE_ROOT_PATH + "/FX" 
+PIPELINE_FX = PIPELINE_ROOT_PATH + "/FX"
 PIPELINE_PROPS = PIPELINE_ROOT_PATH + "/prop"
-PIPELINE_SETS = PIPELINE_ROOT_PATH + "/set"	
-
-
+PIPELINE_SETS = PIPELINE_ROOT_PATH + "/set"

@@ -1,4 +1,4 @@
-#coding:utf-8
+# coding:utf-8
 
 from PySide2.QtWidgets import *
 from PySide2.QtGui import QIcon, QPixmap, Qt
@@ -10,67 +10,64 @@ from shiboken2 import wrapInstance
 
 
 def getMayaMainWindow():
-	omui.MQtUtil.mainWindow()    
-	ptr = omui.MQtUtil.mainWindow()    
-	widget = wrapInstance(long(ptr), QWidget)
-	return widget
+    omui.MQtUtil.mainWindow()
+    ptr = omui.MQtUtil.mainWindow()
+    widget = wrapInstance(long(ptr), QWidget)
+    return widget
 
 
 class LauncherInstance(QDialog):
-	"""
-	"""
-	def __init__(self):
-		"""
-		"""
-		QDialog.__init__(self)
+    """
+    """
 
-		self.autorigDialog = AutorigDialogInstance()
-		self.pipelineDialog = PipelineDialogInstance()
+    def __init__(self):
+        """
+        """
+        QDialog.__init__(self)
 
-		self.width = 200
-		self.height = 300
+        self.autorigDialog = AutorigDialogInstance()
+        self.pipelineDialog = PipelineDialogInstance()
 
-		self.setWindowTitle("Brk Launcher")
-		self.setWindowIcon(QIcon( BARAKA_ICONS_PATH + "/frites.png") )
-		self.setGeometry(600, 400, 0, 0)
-		self.setFixedSize(self.width, self.height)
+        self.width = 200
+        self.height = 300
 
-		self.initLauncher()
-		
+        self.setWindowTitle("Brk Launcher")
+        self.setWindowIcon(QIcon(BARAKA_ICONS_PATH + "/frites.png"))
+        self.setGeometry(600, 400, 0, 0)
+        self.setFixedSize(self.width, self.height)
 
+        self.initLauncher()
 
-	def initLauncher(self):
+    def initLauncher(self):
 
-		image = QLabel()
-		image.setPixmap( QPixmap(BARAKA_IMAGES_PATH + "/title.png") )
-		image.setAlignment(Qt.AlignCenter)
+        image = QLabel()
+        image.setPixmap(QPixmap(BARAKA_IMAGES_PATH + "/title.png"))
+        image.setAlignment(Qt.AlignCenter)
 
-		# Create UI Elements
+        # Create UI Elements
 
-		self.layMainButtons = QVBoxLayout(self)
-		self.layMainButtons.addWidget(image)
+        self.layMainButtons = QVBoxLayout(self)
+        self.layMainButtons.addWidget(image)
 
-		self.btnAutorig = QPushButton("Autorigs", self)
-		self.btnAutorig.setIcon( QIcon(BARAKA_ICONS_PATH + "/burger.png") )
-		self.btnAutorig.clicked.connect(self.autorigDialog.open)
-		self.btnAutorig.setToolTip("This is the autorig tool box")
-		
-		self.btnPipeline = QPushButton("Manager", self)
-		self.btnPipeline.setIcon( QIcon(BARAKA_ICONS_PATH + "/coca.png") )
-		self.btnPipeline.clicked.connect(self.pipelineDialog.open)
-		
-		self.btnHelp = QPushButton("Help", self)
-		self.btnHelp.setIcon( QIcon(BARAKA_ICONS_PATH + "/help.png") )
-		self.btnHelp.clicked.connect(self.printSomething)
+        self.btnAutorig = QPushButton("Autorigs", self)
+        self.btnAutorig.setIcon(QIcon(BARAKA_ICONS_PATH + "/burger.png"))
+        self.btnAutorig.clicked.connect(self.autorigDialog.open)
+        self.btnAutorig.setToolTip("This is the autorig tool box")
 
-		# Layout Management
+        self.btnPipeline = QPushButton("Manager", self)
+        self.btnPipeline.setIcon(QIcon(BARAKA_ICONS_PATH + "/coca.png"))
+        self.btnPipeline.clicked.connect(self.pipelineDialog.open)
 
-		self.layMainButtons.addWidget(self.btnAutorig)
-		self.layMainButtons.addWidget(self.btnPipeline)
-		self.layMainButtons.addWidget(self.btnHelp)
+        self.btnHelp = QPushButton("Help", self)
+        self.btnHelp.setIcon(QIcon(BARAKA_ICONS_PATH + "/help.png"))
+        self.btnHelp.clicked.connect(self.printSomething)
 
+        # Layout Management
 
-	def printSomething(self):
+        self.layMainButtons.addWidget(self.btnAutorig)
+        self.layMainButtons.addWidget(self.btnPipeline)
+        self.layMainButtons.addWidget(self.btnHelp)
 
-		print("Hey buddy")
+    def printSomething(self):
 
+        print("Hey buddy")

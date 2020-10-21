@@ -1,4 +1,4 @@
-#coding:utf-8
+# coding:utf-8
 
 """
 """
@@ -26,20 +26,19 @@ reload(pipelineDialog)
 
 
 if __name__ == "__main__":
-	
-	global mainWidget
 
-	try:
-		mainWidget.close()
-	except:
-		pass		
-	
-	try:
-		mainApp = QApplication(sys.argv)
-	except:
-		mainApp = QApplication.instance()
+    global mainWidget
 
+    try:
+        mainWidget.close()
+    except:
+        pass
 
-	mainWidget = launcher.LauncherInstance()
-	mainWidget.show()
-	mainApp.exec_()
+    try:
+        mainApp = QApplication(sys.argv)
+    except:
+        mainApp = QApplication.instance()
+
+    mainWidget = launcher.LauncherInstance()
+    mainWidget.show()
+    mainApp.exec_()
