@@ -3,7 +3,7 @@
 import pymel.core.system as pms
 import modules.path as Path
 import modules.file as File
-
+from constants import *
 
 _asset = "asset"
 _state = "state"
@@ -33,4 +33,8 @@ def edit():
 def publish():
 	pass
 
+
+def createCharacter(name):
+
+	pass
 

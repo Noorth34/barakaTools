@@ -3,41 +3,6 @@
 import os
 import shutil
 
-def createFile(path, name="_New_File"):
-
-	path = path + "/" + name
-	with open(path, "w+") as f:
-		f.close()
-	return path
-
-
-def createDir(path, name="_New_Dir"):
-
-	path = path + "/" + name
-	os.mkdir(path)
-	return path
-
-
-def getParent(path):
-
-	return os.path.dirname(path)
-
-
-def getRecursiveParent(path, iteration=1):
-
-	temp = None
-	for i in range(iteration):
-		temp = getParent(path)
-		path = temp
-
-	parent = path
-	return parent
-
-
-def getChildren(path):
-	
-	return os.listdir(path)
-
 
 def isDir(path):
 

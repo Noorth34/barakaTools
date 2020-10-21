@@ -3,37 +3,73 @@
 import os
 import shutil
 import modules.path as Path
+reload(Path)
 
 
-def copyFileTo(src=None, dest=None):
+def isFile(func):
+	def inside(path, *args):
+		if Path.isFile(path) is False:
+			raise TypeError("This path doesn't refer to a file")
+			return
+		func(path, *args)
+	return inside
+
+
+def createFile(path, name="_New_File"):
+
+	path = path + "/" + name
+	with open(path, "w+") as f:
+		f.close()
+	return path
+
+
+@isFile
+def copyTo(src=None, dest=None):
 
 	return shutil.copy(src, dest)
 
-
-def moveFileTo(src=None, dest=None):
+@isFile
+def moveTo(src=None, dest=None):
 
 	return shutil.move(src, dest)
 
 
+@isFile
 def delete(path=None):
 
 	return os.remove(path)
 
+@isFile
+def getShortFileName(path):
 
-def getShortFileName(file):
+	return path.split("/")[-1]
 
-	return file.split("/")[-1]
+@isFile
+def getParent(path):
 
+	return os.path.dirname(path)
 
-def setHidden(file):
+@isFile
+def getRecursiveParent(path, iteration=1):
 
-	backSlashPath = Path.convertSlashToBackslash(file)
+	temp = None
+	for i in range(iteration):
+		temp = getParent(path)
+		path = temp
+
+	parent = path
+	return parent
+
+@isFile
+def setHidden(path):
+
+	backSlashPath = Path.convertSlashToBackslash(path)
 	os.system( "attrib +h {}".format(backSlashPath) )
 
+@isFile
+def setVisible(path):
 
-def setVisible(file):
-
-	backSlashPath = Path.convertSlashToBackslash(file)
+	backSlashPath = Path.convertSlashToBackslash(path)
 	os.system( "attrib -h {}".format(backSlashPath) )
 
 """
