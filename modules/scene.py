@@ -59,4 +59,19 @@ def createCharacter(name):
 	File.copyTo(TEMPLATE_ASSET_SCENE, initScene)
 
 
+def createSet(name):
 
+	set = PIPELINE_SETS + "/{}".format(name)
+	Dir.copyTo(TEMPLATE_ASSET_DIRS, set)
+
+	initScene = set + "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
+	File.copyTo(TEMPLATE_ASSET_SCENE, initScene)
+
+
+def createProp(name):
+
+	prop = PIPELINE_PROPS + "/{}".format(name)
+	Dir.copyTo(TEMPLATE_ASSET_DIRS, prop)
+
+	initScene = prop + "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
+	File.copyTo(TEMPLATE_ASSET_SCENE, initScene)
