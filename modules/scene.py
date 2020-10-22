@@ -35,6 +35,17 @@ def publish():
 	pass
 
 
+def incrementIndex(scene):
+
+	scene = pms.sceneName()
+	scene = Path.deleteExtension(scene)
+
+	index = scene.split("_")[-1]
+	index += 1
+	index.zfill(4)
+
+
+
 def createCharacter(name):
 
 	char = PIPELINE_CHARACTERS + "/{}".format(name)
