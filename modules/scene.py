@@ -37,13 +37,17 @@ def publish():
 
 def incrementIndex(scene):
 
-	scene = pms.sceneName()
+	if not scene:
+		scene = pms.sceneName()
 	scene = Path.deleteExtension(scene)
 
-	index = scene.split("_")[-1]
-	index += 1
-	index.zfill(4)
+	currentIndex = int(scene.split("_")[-1])
+	newIndex = str(currentIndex + 1)
+	newIndex.zfill(4)
 
+	scene = scene.replace(str(currentIndex), newIndex)
+	scene = Path.addExtension(scene, ".ma")
+	return scene
 
 
 def createCharacter(name):
