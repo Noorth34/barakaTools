@@ -28,7 +28,10 @@ def exportSelection(dest, type):
 
 
 def edit():
-    pass
+    
+    scene = pms.sceneName()
+    edit = incrementIndex( os.path.basename(scene) )
+    pms.saveAs(edit)
 
 
 def publish():
@@ -41,12 +44,12 @@ def incrementIndex(scene):
         scene = pms.sceneName()
     scene = Path.deleteExtension(scene)
 
-    currentIndex = int(scene.split("_")[-1])
-    newIndex = str(currentIndex + 1)
-    newIndex.zfill(4)
+    currentIndex = scene.split("/")[-1].split("_")[-1]
+	newIndex = str( int(currentIndex) + 1)
+	newIndex = newIndex.zfill(4)
 
-    scene = scene.replace(str(currentIndex), newIndex)
-    scene = Path.addExtension(scene, ".ma")
+	scene = scene.replace(currentIndex, newIndex)
+	scene = Path.addExtension(scene, ".ma")
     return scene
 
 
