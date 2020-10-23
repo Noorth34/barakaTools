@@ -31,11 +31,14 @@ def edit():
 
     scene = pms.sceneName()
     edit = incrementIndex(scene)
-    pms.saveAs(edit)
+    return pms.saveAs(edit)
 
 
 def publish():
-    pass
+    
+    scene = pms.sceneName()
+    publish = scene.replace("_E_", "_P_")
+    return publish
 
 
 def incrementIndex(scene):
