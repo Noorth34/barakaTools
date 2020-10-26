@@ -2,6 +2,7 @@
 
 from PySide2.QtWidgets import *
 from PySide2.QtGui import QIcon, Qt
+from PySide2.QtCore import QDir
 from constants import *
 import modules.scene as scene
 
@@ -22,6 +23,7 @@ class PipelineDialogInstance(QTabWidget):
 
         self.initTabs()
         self.initPublisher()
+        self.initManager()
 
     def initTabs(self):
 
@@ -93,6 +95,18 @@ class PipelineDialogInstance(QTabWidget):
         self.layMain.addWidget(separator2)
         self.layMain.layout().addLayout(self.layPublish)
         self.layMain.layout().addLayout(self.layStartEndFrame)
+
+    def initManager(self):
+
+        path = PIPELINE_ROOT_PATH
+        model = QFileSystemModel()
+        model.setRootPath( QDir.rootPath() )
+        self.layManager = QHBoxLayout(self.tabManager)  
+        self.treeView = QTreeView()
+        self.treeView.setModel(model)
+        self.treeView.setRootIndex(model.index(path))
+        self.layManager.addWidget(self.treeView)
+
 
     def toggleAlembicStartEndFrame(self):
 
