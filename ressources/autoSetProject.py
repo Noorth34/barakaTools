@@ -1,7 +1,5 @@
 # coding:utf-8
 
-__author__ = "Gabriel Vidal"
-
 import pymel.core as pm
 import pymel.core.system as pms
 import maya.cmds as cmds
@@ -15,12 +13,16 @@ def checkWorkspace(limit=10):
 	scenePath = cmds.file(q=True, sn=True)
 	dir = os.path.dirname(scenePath)
 
-	for i in range(limit):
-		if "workspace.mel" in os.listdir(dir):
-			workspace = dir
-			break
-		else:
-			dir = os.path.dirname(dir)
+	try:
+		for i in range(limit):
+			if "workspace.mel" in os.listdir(dir):
+				workspace = dir
+				break
+			else:
+				dir = os.path.dirname(dir)
+	except:
+		cmds.warning("No workspace.mel found in hierarchy. Project set to default.")
+		workspace = "C:/Users/{}/Documents/maya/projects/default".format(os.environ['username'])
 
 	return workspace
 
