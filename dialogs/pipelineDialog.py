@@ -148,3 +148,8 @@ class AssetPaths():
         self.curPath = self.dictPath.get(item)
         self.dictPath.clear()
         self.getItemsPath(self.curPath)
+
+    def goBack(self):
+        self.curPath = "/".join(self.curPath.split("/")[0:-1])
+        self.dictPath.clear()
+        self.getItemsPath(self.curPath)
