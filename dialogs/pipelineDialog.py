@@ -104,25 +104,25 @@ class PipelineDialogInstance(QTabWidget):
 
         self.layList = QHBoxLayout(self.tabManager)
         self.listWidget = QListWidget()
-        self.listWidget.itemDoubleClicked.connect(self.itemDoubleClickedEvent)
+        self.listWidget.itemPressed.connect(self.itemPressedEvent)
+        self.listWidget.itemDoubleClicked.connect(self.dive)
 
         for i in os.listdir(PIPELINE_ROOT_PATH):
             QListWidgetItem(i, self.listWidget)
 
         self.layList.addWidget(self.listWidget)
 
-    def itemDoubleClickedEvent(self, item):
+    def itemPressedEvent(self, item):
         self.selectedItem = item.text()
 
-    # def dive(self):
+    def dive(self):
 
-    #     self.listWidget.clear()
+        self.listWidget.clear()
 
-    #     selectedItem = self.itemDoubleClickedEvent()
-    #     self.items.click(selectedItem)
+        self.items.click(self.selectedItem)
 
-    #     for i in self.items.dictPath.keys():
-    #         QListWidgetItem(i, self.listWidget)
+        for i in self.items.dictPath.keys():
+            QListWidgetItem(i, self.listWidget)
 
     def toggleAlembicStartEndFrame(self):
 
