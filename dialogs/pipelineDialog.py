@@ -150,6 +150,9 @@ class AssetPaths():
         self.getItemsPath(self.curPath)
 
     def goBack(self):
-        self.curPath = "/".join(self.curPath.split("/")[0:-1])
-        self.dictPath.clear()
-        self.getItemsPath(self.curPath)
+        if self.curPath == PIPELINE_ROOT_PATH:
+            pass
+        else:
+            self.curPath = "/".join(self.curPath.split("/")[0:-1])
+            self.dictPath.clear()
+            self.getItemsPath(self.curPath)
