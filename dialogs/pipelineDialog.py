@@ -5,6 +5,8 @@ from PySide2.QtGui import QIcon, Qt
 from PySide2.QtCore import QDir
 from constants import *
 import modules.scene as scene
+import modules.directory as Dir
+import os
 
 
 class PipelineDialogInstance(QTabWidget):
@@ -19,7 +21,7 @@ class PipelineDialogInstance(QTabWidget):
         self.setWindowIcon(QIcon(BARAKA_ICONS_PATH + "/coca.png"))
         self.setGeometry(600, 400, self.width, self.height)
         self.setMinimumSize(self.width, self.height)
-        self.setMaximumSize(self.width*2, self.height*2)
+        self.setMaximumSize(self.width * 2, self.height * 2)
 
         self.initTabs()
         self.initPublisher()
@@ -99,14 +101,18 @@ class PipelineDialogInstance(QTabWidget):
     def initManager(self):
 
         path = PIPELINE_ROOT_PATH
-        model = QFileSystemModel()
-        model.setRootPath( QDir.rootPath() )
-        self.layManager = QHBoxLayout(self.tabManager)  
-        self.treeView = QTreeView()
-        self.treeView.setModel(model)
-        self.treeView.setRootIndex(model.index(path))
-        self.layManager.addWidget(self.treeView)
+        self.dictPath = {}
 
+        self.layList = QHBoxLayout(self.tabManager)
+        self.listWidget = QListWidget()
+
+        for i in Dir.getChildren(path):
+            QListWidgetItem(i, self.listWidget)
+            self.dictPath[i] = os.path.abspath(i)
+
+        print(self.dictPath)
+
+        self.layList.addWidget(self.listWidget)
 
     def toggleAlembicStartEndFrame(self):
 
@@ -125,3 +131,20 @@ class PipelineDialogInstance(QTabWidget):
     def open(self):
 
         self.show()
+
+
+class AssetPaths():
+    def __init__(self):
+        
+        self.dictPath = {"rootPath":"//gandalf/3d4_20_21/barakafrites/04_asset"}
+        self.curPath = self.dictPath['rootPath']
+        self.getItemsPath(self.curPath)
+
+    def getItemsPath(self, path):
+        for i in os.listdir( self.curPath ):
+            self.dictPath[i] = self.curPath + "/" + i
+
+    def click(self, item):
+        self.curPath = self.dictPath.get(item)
+        self.dictPath.clear()
+        self.getItemsPath(self.curPath)
