@@ -25,6 +25,8 @@ class PipelineDialogInstance(QTabWidget):
 
         self.initTabs()
         self.initPublisher()
+
+        self.items = AssetPaths()
         self.initManager()
 
     def initTabs(self):
@@ -100,19 +102,27 @@ class PipelineDialogInstance(QTabWidget):
 
     def initManager(self):
 
-        path = PIPELINE_ROOT_PATH
-        self.dictPath = {}
-
         self.layList = QHBoxLayout(self.tabManager)
         self.listWidget = QListWidget()
+        self.listWidget.itemDoubleClicked.connect(self.itemDoubleClickedEvent)
 
-        for i in Dir.getChildren(path):
+        for i in os.listdir(PIPELINE_ROOT_PATH):
             QListWidgetItem(i, self.listWidget)
-            self.dictPath[i] = os.path.abspath(i)
-
-        print(self.dictPath)
 
         self.layList.addWidget(self.listWidget)
+
+    def itemDoubleClickedEvent(self, item):
+        self.selectedItem = item.text()
+
+    # def dive(self):
+
+    #     self.listWidget.clear()
+
+    #     selectedItem = self.itemDoubleClickedEvent()
+    #     self.items.click(selectedItem)
+
+    #     for i in self.items.dictPath.keys():
+    #         QListWidgetItem(i, self.listWidget)
 
     def toggleAlembicStartEndFrame(self):
 
@@ -126,6 +136,7 @@ class PipelineDialogInstance(QTabWidget):
             self.spinFrameEnd.setDisabled(True)
 
     def edit(self):
+
         scene.save("mayaAscii")
 
     def open(self):
@@ -134,21 +145,22 @@ class PipelineDialogInstance(QTabWidget):
 
 
 class AssetPaths():
+    
     def __init__(self):
         
-        self.dictPath = {"rootPath":"//gandalf/3d4_20_21/barakafrites/04_asset"}
+        self.dictPath = {"rootPath":"{}".format(PIPELINE_ROOT_PATH)}
         self.curPath = self.dictPath['rootPath']
         self.getItemsPath(self.curPath)
 
     def getItemsPath(self, path):
-        for i in os.listdir( self.curPath ):
-            self.dictPath[i] = self.curPath + "/" + i
+        for i in os.listdir( path ):
+            self.dictPath[i] = path + "/" + i
 
     def click(self, item):
         self.curPath = self.dictPath.get(item)
         self.dictPath.clear()
         self.getItemsPath(self.curPath)
-
+    
     def goBack(self):
         if self.curPath == PIPELINE_ROOT_PATH:
             pass
