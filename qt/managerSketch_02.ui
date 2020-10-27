@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>409</width>
+    <height>249</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>391</width>
+     <height>231</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetMinAndMaxSize</enum>
+    </property>
+    <item>
+     <widget class="QTreeWidget" name="treeWidget">
+      <column>
+       <property name="text">
+        <string>Assets</string>
+       </property>
+      </column>
+      <item>
+       <property name="text">
+        <string>Characters</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>patatax</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>gelax</string>
+        </property>
+       </item>
+      </item>
+      <item>
+       <property name="text">
+        <string>Props</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>spatule</string>
+        </property>
+       </item>
+      </item>
+      <item>
+       <property name="text">
+        <string>Items</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>arrosoir</string>
+        </property>
+       </item>
+      </item>
+      <item>
+       <property name="text">
+        <string>Sets</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>baraka_int</string>
+        </property>
+       </item>
+      </item>
+     </widget>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QComboBox" name="comboBox">
+          <item>
+           <property name="text">
+            <string>edit</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>publish</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>cache</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="comboBox_2">
+          <item>
+           <property name="text">
+            <string>Modeling</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Rigging</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Lookdev</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>LightRig</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QListWidget" name="listWidget"/>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_3">
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
