@@ -1,10 +1,14 @@
 # coding:utf-8
 
 import pymel.core.system as pms
+import maya.cmds as cmds
 import modules.path as Path
 import modules.file as File
 import modules.directory as Dir
+import modules.selection as Sel
 from constants import *
+
+reload(Sel)
 
 _asset = "asset"
 _state = "state"
@@ -34,12 +38,24 @@ def edit():
     return pms.saveAs(edit)
 
 
-def publish():
+def publish(selection = []):
     
-    scene = pms.sceneName()
-    publish = scene.replace("_E_", "_P_")
-    return publish
+    if not selection:
+        selection = Sel.get()
+        if not selection:
+            cmds.error("Select the TOP group before publish.")
 
+    if len(selection) != 1:
+        cmds.error("Multiple selection. Just select the TOP group for publish.")
+
+    if not "TOP_" in selection[0]:
+        cmds.error("Bad selection. Please select the TOP group for publish.")
+
+    scene = pms.sceneName()
+    sceneStateChanged = scene.replace("_E_", "_P_")
+    scenePublished = sceneStateChanged.replace("edit", "publish")
+    exportSelection(scenePublished, "mayaAscii")
+    return scenePublished
 
 def incrementIndex(scene):
 
