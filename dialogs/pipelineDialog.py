@@ -7,6 +7,7 @@ from constants import *
 import modules.scene as scene
 import modules.directory as Dir
 import os
+import pymel.core.system as pms
 
 
 class PipelineDialogInstance(QTabWidget):
@@ -39,6 +40,9 @@ class PipelineDialogInstance(QTabWidget):
 
     def initPublisher(self):
 
+        asset = pms.sceneName().split("/")[-1].split("_")[0]
+        type = pms.sceneName().split("/")[-1].split("_")[-2]
+
         # UI Elements creation and settings
 
         self.layMain = QVBoxLayout(self.tabPublisher)
@@ -53,6 +57,7 @@ class PipelineDialogInstance(QTabWidget):
         separator2.setFrameShape(QFrame.HLine)
 
         self.lineEditAssetName = QLineEdit()
+        self.lineEditAssetName.setText(asset)
         self.lineEditAssetName.setPlaceholderText("Asset name...")
         self.listAssetType = QComboBox()
 
@@ -100,31 +105,32 @@ class PipelineDialogInstance(QTabWidget):
         self.layMain.layout().addLayout(self.layPublish)
         self.layMain.layout().addLayout(self.layStartEndFrame)
 
-"""
-    # def initManager(self):
 
-    #     self.layList = QHBoxLayout(self.tabManager)
-    #     self.listWidget = QListWidget()
-    #     self.listWidget.itemPressed.connect(self.itemPressedEvent)
-    #     self.listWidget.itemDoubleClicked.connect(self.dive)
+    """
+        # def initManager(self):
 
-    #     for i in os.listdir(PIPELINE_ROOT_PATH):
-    #         QListWidgetItem(i, self.listWidget)
+        #     self.layList = QHBoxLayout(self.tabManager)
+        #     self.listWidget = QListWidget()
+        #     self.listWidget.itemPressed.connect(self.itemPressedEvent)
+        #     self.listWidget.itemDoubleClicked.connect(self.dive)
 
-    #     self.layList.addWidget(self.listWidget)
+        #     for i in os.listdir(PIPELINE_ROOT_PATH):
+        #         QListWidgetItem(i, self.listWidget)
 
-    # def itemPressedEvent(self, item):
-    #     self.selectedItem = item.text()
+        #     self.layList.addWidget(self.listWidget)
 
-    # def dive(self):
+        # def itemPressedEvent(self, item):
+        #     self.selectedItem = item.text()
 
-    #     self.listWidget.clear()
+        # def dive(self):
 
-    #     self.items.click(self.selectedItem)
+        #     self.listWidget.clear()
 
-    #     for i in self.items.dictPath.keys():
-    #         QListWidgetItem(i, self.listWidget)
-"""
+        #     self.items.click(self.selectedItem)
+
+        #     for i in self.items.dictPath.keys():
+        #         QListWidgetItem(i, self.listWidget)
+    """
 
     def toggleAlembicStartEndFrame(self):
 
@@ -147,22 +153,22 @@ class PipelineDialogInstance(QTabWidget):
 
 
 class AssetPaths():
-    
+
     def __init__(self):
-        
-        self.dictPath = {"rootPath":"{}".format(PIPELINE_ROOT_PATH)}
+
+        self.dictPath = {"rootPath": "{}".format(PIPELINE_ROOT_PATH)}
         self.curPath = self.dictPath['rootPath']
         self.getItemsPath(self.curPath)
 
     def getItemsPath(self, path):
-        for i in os.listdir( path ):
+        for i in os.listdir(path):
             self.dictPath[i] = path + "/" + i
 
     def click(self, item):
         self.curPath = self.dictPath.get(item)
         self.dictPath.clear()
         self.getItemsPath(self.curPath)
-    
+
     def goBack(self):
         if self.curPath == PIPELINE_ROOT_PATH:
             pass
