@@ -2,13 +2,13 @@
 
 import pymel.core.system as pms
 import maya.cmds as cmds
-import modules.path as Path
-import modules.file as File
-import modules.directory as Dir
-import modules.selection as Sel
+from path import Path
+from file import File
+from directory import Directory
+from selection import Selection
 from constants import *
 
-reload(Sel)
+reload(modules.selection)
 
 
 def save(type):
@@ -28,7 +28,7 @@ def exportSelection(dest, type):
 
 def edit():
 
-    scene = cmds.file(q=True, sn=True)
+    scene = getScene()
     edit = incrementIndex(scene)
     return pms.saveAs(edit)
 
@@ -44,7 +44,7 @@ def publish(selection = []):
     type = getType(scene)
     index = getIndex(scene)
 
-    shortSceneName = File.getShortFileName(scene)
+    shortSceneName = File.getShortName(scene)
     stateChangedScene = shortSceneName.replace("_E_", "_P_")
     stateChangedSceneNoIndex = stateChangedScene.replace("_" + index, "")
     dirBackup = createDirBackup()
@@ -56,7 +56,7 @@ def publish(selection = []):
     # Securities
 
     if not selection:
-        selection = Sel.get()
+        selection = Selection.get()
         if not selection:
             cmds.error("Select the TOP group before publish.")
 
@@ -75,12 +75,12 @@ def publish(selection = []):
 def createDirBackup(scene=None):
 
     if scene is None:
-        scene = cmds.file(q=True, sn=True)
+        scene = getScene()
 
     publishDir = File.getParent(scene).replace("/edit/", "/publish/")
 
     if not "backup" in Dir.getChildren(publishDir):
-        backup = Dir.createDir(publishDir, name="backup")
+        backup = Directory.create(publishDir, name="backup")
         print("Directory 'backup' created : {}".format(backup))
         return backup
     else:
@@ -89,7 +89,7 @@ def createDirBackup(scene=None):
 def incrementIndex(scene):
 
     if not scene:
-        scene = pms.sceneName()
+        scene = getScene()
     scene = Path.deleteExtension(scene)
 
     currentIndex = scene.split("/")[-1].split("_")[-1]
@@ -124,10 +124,10 @@ def getIndex(scene):
 def createCharacter(name):
 
     char = PIPELINE_CHARACTERS + "/{}".format(name)
-    Dir.copyTo(TEMPLATE_ASSET_DIRS, char)
+    Directory.copy(TEMPLATE_ASSET_DIRS, char)
 
     initScene = char + "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
-    File.copyTo(TEMPLATE_ASSET_SCENE, initScene)
+    File.copy(TEMPLATE_ASSET_SCENE, initScene)
 
     return char
 
@@ -135,10 +135,10 @@ def createCharacter(name):
 def createSet(name):
 
     set = PIPELINE_SETS + "/{}".format(name)
-    Dir.copyTo(TEMPLATE_ASSET_DIRS, set)
+    Directory.copy(TEMPLATE_ASSET_DIRS, set)
 
     initScene = set + "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
-    File.copyTo(TEMPLATE_ASSET_SCENE, initScene)
+    File.copy(TEMPLATE_ASSET_SCENE, initScene)
 
     return set
 
@@ -146,9 +146,9 @@ def createSet(name):
 def createProp(name):
 
     prop = PIPELINE_PROPS + "/{}".format(name)
-    Dir.copyTo(TEMPLATE_ASSET_DIRS, prop)
+    Directory.copy(TEMPLATE_ASSET_DIRS, prop)
 
     initScene = prop + "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
-    File.copyTo(TEMPLATE_ASSET_SCENE, initScene)
+    File.copy(TEMPLATE_ASSET_SCENE, initScene)
 
     return prop

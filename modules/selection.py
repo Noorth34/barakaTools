@@ -2,6 +2,12 @@
 
 import maya.cmds as cmds
 
-def get():
+class Selection:
 
-	return cmds.ls(sl=True, ap=True)
+	def __init__(self):
+		pass
+
+	@staticmethod
+	def get():
+
+		return cmds.ls(sl=True, ap=True)

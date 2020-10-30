@@ -3,38 +3,43 @@
 import os
 import shutil
 
+class Path:
 
-def isDir(path):
+    def __init__(self):
+        pass
 
-    return os.path.isdir(path)
+    @staticmethod
+    def isDir(path):
 
+        return os.path.isdir(path)
 
-def isFile(path):
+    @staticmethod    
+    def isFile(path):
 
-    return os.path.isfile(path)
+        return os.path.isfile(path)
 
+    @staticmethod
+    def convertSlashToBackslash(path):
 
-def convertSlashToBackslash(path):
+        path = path.replace("/", "\\")
+        return path
 
-    path = path.replace("/", "\\")
-    return path
+    @staticmethod
+    def convertBackslashToSlash(path):
 
+        path = path.replace("\\", "/")
+        return path
 
-def convertBackslashToSlash(path):
+    @staticmethod
+    def addExtension(path, ext):
 
-    path = path.replace("\\", "/")
-    return path
+        path = path + ext
+        return path
 
+    @staticmethod
+    def deleteExtension(path):
 
-def addExtension(path, ext):
+        ext = "." + path.split(".")[-1]
 
-    path = path + ext
-    return path
-
-
-def deleteExtension(path):
-
-    ext = "." + path.split(".")[-1]
-
-    path = path.replace(ext, "")
-    return path
+        path = path.replace(ext, "")
+        return path

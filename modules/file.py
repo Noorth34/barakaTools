@@ -2,80 +2,93 @@
 
 import os
 import shutil
-import modules.path as Path
+from modules.path import Path
+
+class File:
+
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def isFile(func):
+        def inside(path, *args, **kwargs):
+            if Path.isFile(path) is False:
+                raise TypeError("This path doesn't refer to a file")
+            return func(path, *args, **kwargs)
+        return inside
+
+    @staticmethod
+    def create(path, name="_New_File"):
+
+        path = path + "/" + name
+        with open(path, "w+") as f:
+            f.close()
+        return path
 
 
-def isFile(func):
-    def inside(path, *args, **kwargs):
-        if Path.isFile(path) is False:
-            raise TypeError("This path doesn't refer to a file")
-        return func(path, *args, **kwargs)
-    return inside
+    @isFile
+    @staticmethod
+    def copy(src, dest):
+
+        return shutil.copy(src, dest)
 
 
-def createFile(path, name="_New_File"):
+    @isFile
+    @staticmethod
+    def move(src=None, dest=None):
 
-    path = path + "/" + name
-    with open(path, "w+") as f:
-        f.close()
-    return path
-
-
-@isFile
-def copyTo(src, dest):
-
-    return shutil.copy(src, dest)
+        return shutil.move(src, dest)
 
 
-@isFile
-def moveTo(src=None, dest=None):
+    @isFile
+    @staticmethod
+    def delete(path=None):
 
-    return shutil.move(src, dest)
-
-
-@isFile
-def delete(path=None):
-
-    return os.remove(path)
+        return os.remove(path)
 
 
-@isFile
-def getShortFileName(path):
+    @isFile
+    @staticmethod
+    def getShortName(path):
 
-    return path.split("/")[-1]
-
-
-@isFile
-def getParent(path):
-
-    parent = os.path.dirname(path)
-    return parent
+        return path.split("/")[-1]
 
 
-@isFile
-def getRecursiveParent(path, iteration=1):
+    @isFile
+    @staticmethod
+    def getParent(path):
 
-    temp = None
-    for i in range(iteration):
-        temp = getParent(path)
-        path = temp
-
-    parent = path
-    return parent
+        parent = os.path.dirname(path)
+        return parent
 
 
-@isFile
-def setHidden(path):
+    @isFile
+    @staticmethod
+    def getRecursiveParent(path, iteration=1):
 
-    backSlashPath = Path.convertSlashToBackslash(path)
-    os.system("attrib +h {}".format(backSlashPath))
+        temp = None
+        for i in range(iteration):
+            temp = getParent(path)
+            path = temp
+
+        parent = path
+        return parent
 
 
-@isFile
-def setVisible(path):
+    @isFile
+    @staticmethod
+    def setHidden(path):
 
-    backSlashPath = Path.convertSlashToBackslash(path)
-    os.system("attrib -h {}".format(backSlashPath))
+        backSlashPath = Path.convertSlashToBackslash(path)
+        os.system("attrib +h {}".format(backSlashPath))
+
+
+    @isFile
+    @staticmethod
+    def setVisible(path):
+
+        backSlashPath = Path.convertSlashToBackslash(path)
+        os.system("attrib -h {}".format(backSlashPath))
 
 
 """
