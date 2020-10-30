@@ -10,11 +10,6 @@ from constants import *
 
 reload(Sel)
 
-_asset = "asset"
-_state = "state"
-_type = "type"
-_index = "index"
-
 
 def save(type):
 
@@ -40,6 +35,26 @@ def edit():
 
 def publish(selection = []):
     
+    # Variables
+
+    scene = getScene() #../maya/scenes/edit/geo/........
+
+    asset = getAsset(scene)
+    state = getState(scene)
+    type = getType(scene)
+    index = getIndex(scene)
+
+    shortSceneName = File.getShortFileName(scene)
+    stateChangedScene = shortSceneName.replace("_E_", "_P_")
+    stateChangedSceneNoIndex = stateChangedScene.replace("_" + index, "")
+    dirBackup = createDirBackup()
+    dirPublish = scene.replace("/edit/", "/publish/").replace(shortSceneName, "")
+
+    fullBackupScenePath = dirBackup + "/" + stateChangedScene
+    fullPublishScenePath = dirPublish + "/" + stateChangedSceneNoIndex
+
+    # Securities
+
     if not selection:
         selection = Sel.get()
         if not selection:
@@ -51,21 +66,13 @@ def publish(selection = []):
     if not "TOP_" in selection[0]:
         cmds.error("Bad selection. Please select the TOP group for publish.")
 
-    scene = getScene()
-    asset = getAsset(scene)
-
-    backupDir = createBackupDir(asset)
-
-    publishDir = File.getParent(scene).replace("/edit/", "/publish/")
-
-    assetBackup = backupDir + asset.replace("_E_", "_P_")
-    assetPublish = publishDir + "_".join(asset.replace("_E_", "_P_").split("_")[0:-1])
-
-    exportSelection(assetPublished, "mayaAscii")
+    exportSelection(fullBackupScenePath, "mayaAscii")
+    print("Asset backup : {}".format(fullBackupScenePath))
+    exportSelection(fullPublishScenePath, "mayaAscii")
+    print("Asset published : {}".format(fullPublishScenePath))
     
-    return assetPublished
 
-def createBackupDir(scene=None, backup=None):
+def createDirBackup(scene=None):
 
     if scene is None:
         scene = cmds.file(q=True, sn=True)
@@ -74,8 +81,10 @@ def createBackupDir(scene=None, backup=None):
 
     if not "backup" in Dir.getChildren(publishDir):
         backup = Dir.createDir(publishDir, name="backup")
-        print("Directory 'backup' created.")
+        print("Directory 'backup' created : {}".format(backup))
         return backup
+    else:
+        return publishDir + "/backup"
 
 def incrementIndex(scene):
 
@@ -91,7 +100,7 @@ def incrementIndex(scene):
     scene = Path.addExtension(scene, ".ma")
     return scene
 
-def getSceneName(path):
+def getScene():
 
     return cmds.file(q=True, sn=True)
 
@@ -99,9 +108,18 @@ def getAsset(scene):
 
     return scene.split("/")[-1].split("_")[0]
 
+def getState(scene):
+
+    return scene.split("/")[-1].split("_")[-3]
+
 def getType(scene):
 
     return scene.split("/")[-1].split("_")[-2]
+
+def getIndex(scene):
+
+    sceneWithNoExt = Path.deleteExtension(scene)
+    return sceneWithNoExt.split("/")[-1].split("_")[-1]
 
 def createCharacter(name):
 
