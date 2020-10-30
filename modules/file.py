@@ -7,11 +7,11 @@ reload(Path)
 
 
 def isFile(func):
-    def inside(path, *args):
+    def inside(path, *args, **kwargs):
         if Path.isFile(path) is False:
             raise TypeError("This path doesn't refer to a file")
-            return
-        func(path, *args)
+            return 0
+        func(path, *args, **kwargs)
     return inside
 
 
@@ -50,7 +50,8 @@ def getShortFileName(path):
 @isFile
 def getParent(path):
 
-    return os.path.dirname(path)
+    parent = os.path.dirname(path)
+    return parent
 
 
 @isFile

@@ -57,6 +57,17 @@ def publish(selection = []):
     exportSelection(scenePublished, "mayaAscii")
     return scenePublished
 
+def backupPublish(scene=None):
+
+    if scene is None:
+        scene = cmds.file(q=True, sn=True)
+
+    publishDir = File.getParent(scene).replace("/edit/", "/publish/")
+
+    if not "backup" in Dir.getChildren(publishDir):
+        Dir.createDir(publishDir + "/backup")
+        print("Directory 'backup' created.")
+
 def incrementIndex(scene):
 
     if not scene:
@@ -70,6 +81,15 @@ def incrementIndex(scene):
     scene = scene.replace(currentIndex, newIndex)
     scene = Path.addExtension(scene, ".ma")
     return scene
+
+
+def getAsset(scene):
+
+    return scene.split("/")[-1].split("_")[0]
+
+def getType(scene):
+
+    return scene.split("/")[-1].split("_")[-2]
 
 
 def createCharacter(name):
