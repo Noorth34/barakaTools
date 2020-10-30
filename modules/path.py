@@ -3,7 +3,7 @@
 import os
 import shutil
 
-class Path:
+class Path():
 
     def __init__(self):
         pass

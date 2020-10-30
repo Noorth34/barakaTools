@@ -4,7 +4,7 @@ import os
 import shutil
 from modules.path import Path
 
-class Directory:
+class Directory():
 
     def __init__(self):
         pass

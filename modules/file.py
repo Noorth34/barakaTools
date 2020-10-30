@@ -4,12 +4,12 @@ import os
 import shutil
 from modules.path import Path
 
-class File:
+class File():
 
     def __init__(self):
         pass
 
-    @staticmethod
+    # @staticmethod
     def isFile(func):
         def inside(path, *args, **kwargs):
             if Path.isFile(path) is False:
@@ -25,45 +25,39 @@ class File:
             f.close()
         return path
 
-
-    @isFile
     @staticmethod
+    @isFile
     def copy(src, dest):
 
         return shutil.copy(src, dest)
 
-
-    @isFile
     @staticmethod
+    @isFile
     def move(src=None, dest=None):
 
         return shutil.move(src, dest)
 
-
-    @isFile
     @staticmethod
+    @isFile
     def delete(path=None):
 
         return os.remove(path)
 
-
-    @isFile
     @staticmethod
+    @isFile
     def getShortName(path):
 
         return path.split("/")[-1]
 
-
-    @isFile
     @staticmethod
+    @isFile
     def getParent(path):
 
         parent = os.path.dirname(path)
         return parent
 
-
-    @isFile
     @staticmethod
+    @isFile
     def getRecursiveParent(path, iteration=1):
 
         temp = None
@@ -74,17 +68,15 @@ class File:
         parent = path
         return parent
 
-
-    @isFile
     @staticmethod
+    @isFile
     def setHidden(path):
 
         backSlashPath = Path.convertSlashToBackslash(path)
         os.system("attrib +h {}".format(backSlashPath))
 
-
-    @isFile
     @staticmethod
+    @isFile
     def setVisible(path):
 
         backSlashPath = Path.convertSlashToBackslash(path)
