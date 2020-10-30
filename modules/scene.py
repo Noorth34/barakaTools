@@ -33,7 +33,7 @@ def exportSelection(dest, type):
 
 def edit():
 
-    scene = pms.sceneName()
+    scene = cmds.file(q=True, sn=True)
     edit = incrementIndex(scene)
     return pms.saveAs(edit)
 
@@ -51,13 +51,21 @@ def publish(selection = []):
     if not "TOP_" in selection[0]:
         cmds.error("Bad selection. Please select the TOP group for publish.")
 
-    scene = pms.sceneName()
-    sceneStateChanged = scene.replace("_E_", "_P_")
-    scenePublished = sceneStateChanged.replace("edit", "publish")
-    exportSelection(scenePublished, "mayaAscii")
-    return scenePublished
+    scene = getScene()
+    asset = getAsset(scene)
 
-def backupPublish(scene=None):
+    backupDir = createBackupDir(asset)
+
+    publishDir = File.getParent(scene).replace("/edit/", "/publish/")
+
+    assetBackup = backupDir + asset.replace("_E_", "_P_")
+    assetPublish = publishDir + "_".join(asset.replace("_E_", "_P_").split("_")[0:-1])
+
+    exportSelection(assetPublished, "mayaAscii")
+    
+    return assetPublished
+
+def createBackupDir(scene=None, backup=None):
 
     if scene is None:
         scene = cmds.file(q=True, sn=True)
@@ -65,8 +73,9 @@ def backupPublish(scene=None):
     publishDir = File.getParent(scene).replace("/edit/", "/publish/")
 
     if not "backup" in Dir.getChildren(publishDir):
-        Dir.createDir(publishDir + "/backup")
+        backup = Dir.createDir(publishDir, name="backup")
         print("Directory 'backup' created.")
+        return backup
 
 def incrementIndex(scene):
 
@@ -82,6 +91,9 @@ def incrementIndex(scene):
     scene = Path.addExtension(scene, ".ma")
     return scene
 
+def getSceneName(path):
+
+    return cmds.file(q=True, sn=True)
 
 def getAsset(scene):
 
@@ -90,7 +102,6 @@ def getAsset(scene):
 def getType(scene):
 
     return scene.split("/")[-1].split("_")[-2]
-
 
 def createCharacter(name):
 
