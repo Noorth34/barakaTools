@@ -3,15 +3,13 @@
 import os
 import shutil
 import modules.path as Path
-reload(Path)
 
 
 def isFile(func):
     def inside(path, *args, **kwargs):
         if Path.isFile(path) is False:
             raise TypeError("This path doesn't refer to a file")
-            return 0
-        func(path, *args, **kwargs)
+        return func(path, *args, **kwargs)
     return inside
 
 
