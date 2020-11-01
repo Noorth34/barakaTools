@@ -8,8 +8,6 @@ from directory import Directory
 from selection import Selection
 from constants import *
 
-reload(modules.selection)
-
 
 def save(type):
 

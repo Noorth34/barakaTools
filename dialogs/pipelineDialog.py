@@ -2,12 +2,8 @@
 
 from PySide2.QtWidgets import *
 from PySide2.QtGui import QIcon, Qt
-from PySide2.QtCore import QDir
 from constants import *
 import modules.scene as scene
-import modules.directory as Dir
-import os
-import pymel.core.system as pms
 
 
 class PipelineDialogInstance(QTabWidget):
@@ -22,13 +18,10 @@ class PipelineDialogInstance(QTabWidget):
         self.setWindowIcon(QIcon(BARAKA_ICONS_PATH + "/coca.png"))
         self.setGeometry(600, 400, self.width, self.height)
         self.setMinimumSize(self.width, self.height)
-        self.setMaximumSize(self.width * 2, self.height * 2)
+        self.setMaximumSize(self.width*2, self.height*2)
 
         self.initTabs()
         self.initPublisher()
-
-        # self.items = AssetPaths()
-        # self.initManager()
 
     def initTabs(self):
 
@@ -39,9 +32,6 @@ class PipelineDialogInstance(QTabWidget):
         self.addTab(self.tabPublisher, "Publisher")
 
     def initPublisher(self):
-
-        asset = pms.sceneName().split("/")[-1].split("_")[0]
-        type = pms.sceneName().split("/")[-1].split("_")[-2]
 
         # UI Elements creation and settings
 
@@ -57,7 +47,6 @@ class PipelineDialogInstance(QTabWidget):
         separator2.setFrameShape(QFrame.HLine)
 
         self.lineEditAssetName = QLineEdit()
-        self.lineEditAssetName.setText(asset)
         self.lineEditAssetName.setPlaceholderText("Asset name...")
         self.listAssetType = QComboBox()
 
@@ -105,33 +94,6 @@ class PipelineDialogInstance(QTabWidget):
         self.layMain.layout().addLayout(self.layPublish)
         self.layMain.layout().addLayout(self.layStartEndFrame)
 
-
-    """
-        # def initManager(self):
-
-        #     self.layList = QHBoxLayout(self.tabManager)
-        #     self.listWidget = QListWidget()
-        #     self.listWidget.itemPressed.connect(self.itemPressedEvent)
-        #     self.listWidget.itemDoubleClicked.connect(self.dive)
-
-        #     for i in os.listdir(PIPELINE_ROOT_PATH):
-        #         QListWidgetItem(i, self.listWidget)
-
-        #     self.layList.addWidget(self.listWidget)
-
-        # def itemPressedEvent(self, item):
-        #     self.selectedItem = item.text()
-
-        # def dive(self):
-
-        #     self.listWidget.clear()
-
-        #     self.items.click(self.selectedItem)
-
-        #     for i in self.items.dictPath.keys():
-        #         QListWidgetItem(i, self.listWidget)
-    """
-
     def toggleAlembicStartEndFrame(self):
 
         isChecked = self.checkIsAlembic.isChecked()
@@ -144,35 +106,8 @@ class PipelineDialogInstance(QTabWidget):
             self.spinFrameEnd.setDisabled(True)
 
     def edit(self):
-
         scene.save("mayaAscii")
 
     def open(self):
 
         self.show()
-
-
-class AssetPaths():
-
-    def __init__(self):
-
-        self.dictPath = {"rootPath": "{}".format(PIPELINE_ROOT_PATH)}
-        self.curPath = self.dictPath['rootPath']
-        self.getItemsPath(self.curPath)
-
-    def getItemsPath(self, path):
-        for i in os.listdir(path):
-            self.dictPath[i] = path + "/" + i
-
-    def click(self, item):
-        self.curPath = self.dictPath.get(item)
-        self.dictPath.clear()
-        self.getItemsPath(self.curPath)
-
-    def goBack(self):
-        if self.curPath == PIPELINE_ROOT_PATH:
-            pass
-        else:
-            self.curPath = "/".join(self.curPath.split("/")[0:-1])
-            self.dictPath.clear()
-            self.getItemsPath(self.curPath)

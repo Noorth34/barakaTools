@@ -9,7 +9,6 @@ class Directory():
     def __init__(self):
         pass
 
-    @staticmethod
     def isDir(func):
         def inside(path, *args):
             if Path.isDir(path) is False:
@@ -30,44 +29,43 @@ class Directory():
 
         return os.listdir(path)
 
-
-    @isDir
     @staticmethod
+    @isDir
     def copy(src, dest):
 
         return shutil.copytree(src, dest)
 
 
-    @isDir
     @staticmethod
+    @isDir
     def move(src, dest):
 
         return shutil.move(src, dest)
 
 
-    @isDir
     @staticmethod
+    @isDir
     def delete(path):
 
         return shutil.rmtree(path)
 
 
-    @isDir
     @staticmethod
+    @isDir
     def getShortName(path):
 
         return path.split("/")[-1]
 
 
-    @isDir
     @staticmethod
+    @isDir
     def getParent(path):
 
         return os.path.dirname(path)
 
 
-    @isDir
     @staticmethod
+    @isDir
     def getRecursiveParent(path, iteration=1):
 
         temp = None
@@ -79,16 +77,16 @@ class Directory():
         return parent
 
 
-    @isDir
     @staticmethod
+    @isDir
     def setHidden(path):
 
         backSlashPath = Path.convertSlashToBackslash(path)
         os.system("attrib +h {}".format(backSlashPath))
 
 
-    @isDir
     @staticmethod
+    @isDir
     def setVisible(path):
 
         backSlashPath = Path.convertSlashToBackslash(path)
