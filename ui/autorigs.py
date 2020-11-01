@@ -5,7 +5,7 @@ from PySide2.QtGui import QIcon
 from constants import *
 
 
-class AutorigDialogInstance(QTabWidget):
+class Autorigs(QTabWidget):
 
     def __init__(self):
 

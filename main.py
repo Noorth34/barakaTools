@@ -4,8 +4,10 @@
 """
 import sys
 import launcher
-import dialogs.autorigDialog as autorigDialog
-import dialogs.pipelineDialog as pipelineDialog
+import ui.autorigs as autorigs
+import ui.pipeline as pipeline
+import ui.widgets.manager as manager
+import ui.widgets.publisher as publisher
 import modules.path
 import modules.directory
 import modules.file
@@ -17,8 +19,10 @@ from PySide2.QtWidgets import QApplication
 
 reload(launcher)
 reload(constants)
-reload(autorigDialog)
-reload(pipelineDialog)
+reload(autorigs)
+reload(pipeline)
+reload(manager)
+reload(publisher)
 reload(modules.path)
 reload(modules.directory)
 reload(modules.file)
@@ -40,6 +44,6 @@ if __name__ == "__main__":
     except:
         mainApp = QApplication.instance()
 
-    mainWidget = launcher.LauncherInstance()
+    mainWidget = launcher.Launcher()
     mainWidget.show()
     mainApp.exec_()

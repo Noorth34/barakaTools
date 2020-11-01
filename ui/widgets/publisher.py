@@ -1,41 +1,22 @@
-# coing:utf-8
+# coding:utf-8
 
 from PySide2.QtWidgets import *
-from PySide2.QtGui import QIcon, Qt
+from PySide2.QtGui import Qt
 from constants import *
-import modules.scene as scene
 
-
-class PipelineDialogInstance(QTabWidget):
+class Publisher(QWidget):
 
     def __init__(self):
+        
+        QWidget.__init__(self)
+        self.init()
 
-        QTabWidget.__init__(self)
-
-        self.width = 225
-        self.height = 200
-        self.setWindowTitle("Pipeline")
-        self.setWindowIcon(QIcon(BARAKA_ICONS_PATH + "/coca.png"))
-        self.setGeometry(600, 400, self.width, self.height)
-        self.setMinimumSize(self.width, self.height)
-        self.setMaximumSize(self.width*2, self.height*2)
-
-        self.initTabs()
-        self.initPublisher()
-
-    def initTabs(self):
-
-        self.tabManager = QWidget()
-        self.tabPublisher = QWidget()
-
-        self.addTab(self.tabManager, "Manager")
-        self.addTab(self.tabPublisher, "Publisher")
-
-    def initPublisher(self):
+    def init(self):
 
         # UI Elements creation and settings
 
-        self.layMain = QVBoxLayout(self.tabPublisher)
+        self.layMain = QVBoxLayout()
+        self.setLayout(self.layMain)
         self.layAssetInfo = QHBoxLayout()
         self.layEdit = QHBoxLayout()
         self.layPublish = QHBoxLayout()
@@ -54,7 +35,6 @@ class PipelineDialogInstance(QTabWidget):
             self.listAssetType.addItem(type)
 
         self.btnEdit = QPushButton("Edit")
-        self.btnEdit.clicked.connect(self.edit)
         self.btnPublish = QPushButton("Publish")
 
         self.checkIsAlembic = QCheckBox("Is Alembic")
@@ -104,10 +84,3 @@ class PipelineDialogInstance(QTabWidget):
         else:
             self.spinFrameStart.setDisabled(True)
             self.spinFrameEnd.setDisabled(True)
-
-    def edit(self):
-        scene.save("mayaAscii")
-
-    def open(self):
-
-        self.show()

@@ -2,8 +2,8 @@
 
 from PySide2.QtWidgets import *
 from PySide2.QtGui import QIcon, QPixmap, Qt
-from dialogs.autorigDialog import AutorigDialogInstance
-from dialogs.pipelineDialog import PipelineDialogInstance
+from ui.autorigs import Autorigs
+from ui.pipeline import Pipeline
 from constants import *
 from maya import OpenMayaUI as omui
 from shiboken2 import wrapInstance
@@ -16,7 +16,7 @@ def getMayaMainWindow():
     return widget
 
 
-class LauncherInstance(QDialog):
+class Launcher(QDialog):
     """
     """
 
@@ -25,8 +25,8 @@ class LauncherInstance(QDialog):
         """
         QDialog.__init__(self)
 
-        self.autorigDialog = AutorigDialogInstance()
-        self.pipelineDialog = PipelineDialogInstance()
+        self.autorigDialog = Autorigs()
+        self.pipelineDialog = Pipeline()
 
         self.width = 200
         self.height = 300
