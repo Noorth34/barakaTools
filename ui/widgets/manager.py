@@ -2,6 +2,7 @@
 
 from PySide2.QtWidgets import *
 from modules.scene import Scene
+from functools import partial
 
 class Manager(QWidget):
 
@@ -33,7 +34,7 @@ class Manager(QWidget):
 
 		# Connect SIGNAL to SLOT
 
-		# self.btnCreateCharacter.clicked.connect(Scene.createCharacter)
+		self.btnCreateCharacter.clicked.connect(self.createCharacter)
 
 		# Layout management
 
@@ -51,3 +52,5 @@ class Manager(QWidget):
 		self.layAssetCreation.addWidget(self.btnCreateSet)
 
 
+	def createCharacter(self):
+		Scene.createCharacter( self.lineAssetCreation.text() )
