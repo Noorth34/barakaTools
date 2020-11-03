@@ -9,144 +9,162 @@ from selection import Selection
 from constants import *
 
 
-def save(type):
+class Scene():
+    def __init__(self):
+        pass
 
-    return pms.saveFile(type=type)
+    @staticmethod
+    def save(type):
 
+        return pms.saveFile(type=type)
 
-def saveAs(dest):
+    @staticmethod
+    def saveAs(dest):
 
-    return pms.saveAs(dest)
+        return pms.saveAs(dest)
 
+    @staticmethod
+    def exportSelection(dest, type):
 
-def exportSelection(dest, type):
+        return pms.exportSelected(dest, type=type)
 
-    return pms.exportSelected(dest, type=type)
+    @staticmethod
+    def edit():
 
+        scene = getScene()
+        edit = incrementIndex(scene)
+        return pms.saveAs(edit)
 
-def edit():
+    @staticmethod
+    def publish(selection=[]):
 
-    scene = getScene()
-    edit = incrementIndex(scene)
-    return pms.saveAs(edit)
+        # Variables
 
+        scene = getScene()  # ../maya/scenes/edit/geo/........
 
-def publish(selection = []):
-    
-    # Variables
+        asset = getAsset(scene)
+        state = getState(scene)
+        type = getType(scene)
+        index = getIndex(scene)
 
-    scene = getScene() #../maya/scenes/edit/geo/........
+        shortSceneName = File.getShortName(scene)
+        stateChangedScene = shortSceneName.replace("_E_", "_P_")
+        stateChangedSceneNoIndex = stateChangedScene.replace("_" + index, "")
+        dirBackup = createDirBackup()
+        dirPublish = scene.replace(
+            "/edit/", "/publish/").replace(shortSceneName, "")
 
-    asset = getAsset(scene)
-    state = getState(scene)
-    type = getType(scene)
-    index = getIndex(scene)
+        fullBackupScenePath = dirBackup + "/" + stateChangedScene
+        fullPublishScenePath = dirPublish + "/" + stateChangedSceneNoIndex
 
-    shortSceneName = File.getShortName(scene)
-    stateChangedScene = shortSceneName.replace("_E_", "_P_")
-    stateChangedSceneNoIndex = stateChangedScene.replace("_" + index, "")
-    dirBackup = createDirBackup()
-    dirPublish = scene.replace("/edit/", "/publish/").replace(shortSceneName, "")
+        # Securities
 
-    fullBackupScenePath = dirBackup + "/" + stateChangedScene
-    fullPublishScenePath = dirPublish + "/" + stateChangedSceneNoIndex
-
-    # Securities
-
-    if not selection:
-        selection = Selection.get()
         if not selection:
-            cmds.error("Select the TOP group before publish.")
+            selection = Selection.get()
+            if not selection:
+                cmds.error("Select the TOP group before publish.")
 
-    if len(selection) != 1:
-        cmds.error("Multiple selection. Just select the TOP group for publish.")
+        if len(selection) != 1:
+            cmds.error(
+                "Multiple selection. Just select the TOP group for publish.")
 
-    if not "TOP_" in selection[0]:
-        cmds.error("Bad selection. Please select the TOP group for publish.")
+        if not "TOP_" in selection[0]:
+            cmds.error(
+                "Bad selection. Please select the TOP group for publish.")
 
-    exportSelection(fullBackupScenePath, "mayaAscii")
-    print("Asset backup : {}".format(fullBackupScenePath))
-    exportSelection(fullPublishScenePath, "mayaAscii")
-    print("Asset published : {}".format(fullPublishScenePath))
-    
+        exportSelection(fullBackupScenePath, "mayaAscii")
+        print("Asset backup : {}".format(fullBackupScenePath))
+        exportSelection(fullPublishScenePath, "mayaAscii")
+        print("Asset published : {}".format(fullPublishScenePath))
 
-def createDirBackup(scene=None):
+    @staticmethod
+    def createDirBackup(scene=None):
 
-    if scene is None:
-        scene = getScene()
+        if scene is None:
+            scene = getScene()
 
-    publishDir = File.getParent(scene).replace("/edit/", "/publish/")
+        publishDir = File.getParent(scene).replace("/edit/", "/publish/")
 
-    if not "backup" in Dir.getChildren(publishDir):
-        backup = Directory.create(publishDir, name="backup")
-        print("Directory 'backup' created : {}".format(backup))
-        return backup
-    else:
-        return publishDir + "/backup"
+        if not "backup" in Dir.getChildren(publishDir):
+            backup = Directory.create(publishDir, name="backup")
+            print("Directory 'backup' created : {}".format(backup))
+            return backup
+        else:
+            return publishDir + "/backup"
 
-def incrementIndex(scene):
+    @staticmethod
+    def incrementIndex(scene):
 
-    if not scene:
-        scene = getScene()
-    scene = Path.deleteExtension(scene)
+        if not scene:
+            scene = getScene()
+        scene = Path.deleteExtension(scene)
 
-    currentIndex = scene.split("/")[-1].split("_")[-1]
-    newIndex = str(int(currentIndex) + 1)
-    newIndex = newIndex.zfill(4)
+        currentIndex = scene.split("/")[-1].split("_")[-1]
+        newIndex = str(int(currentIndex) + 1)
+        newIndex = newIndex.zfill(4)
 
-    scene = scene.replace(currentIndex, newIndex)
-    scene = Path.addExtension(scene, ".ma")
-    return scene
+        scene = scene.replace(currentIndex, newIndex)
+        scene = Path.addExtension(scene, ".ma")
+        return scene
 
-def getScene():
+    @staticmethod
+    def getScene():
 
-    return str( pms.sceneName() )
+        return str(pms.sceneName())
 
-def getAsset(scene):
+    @staticmethod
+    def getAsset(scene):
 
-    return scene.split("/")[-1].split("_")[0]
+        return scene.split("/")[-1].split("_")[0]
 
-def getState(scene):
+    @staticmethod
+    def getState(scene):
 
-    return scene.split("/")[-1].split("_")[-3]
+        return scene.split("/")[-1].split("_")[-3]
 
-def getType(scene):
+    @staticmethod
+    def getType(scene):
 
-    return scene.split("/")[-1].split("_")[-2]
+        return scene.split("/")[-1].split("_")[-2]
 
-def getIndex(scene):
+    @staticmethod
+    def getIndex(scene):
 
-    sceneWithNoExt = Path.deleteExtension(scene)
-    return sceneWithNoExt.split("/")[-1].split("_")[-1]
+        sceneWithNoExt = Path.deleteExtension(scene)
+        return sceneWithNoExt.split("/")[-1].split("_")[-1]
 
-def createCharacter(name):
+    @staticmethod
+    def createCharacter(name):
 
-    char = PIPELINE_CHARACTERS + "/{}".format(name)
-    Directory.copy(TEMPLATE_ASSET_DIRS, char)
+        char = PIPELINE_CHARACTERS + "/{}".format(name)
+        Directory.copy(TEMPLATE_ASSET_DIRS, char)
 
-    initScene = char + "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
-    File.copy(TEMPLATE_ASSET_SCENE, initScene)
+        initScene = char + \
+            "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
+        File.copy(TEMPLATE_ASSET_SCENE, initScene)
 
-    return char
+        return char
 
+    @staticmethod
+    def createSet(name):
 
-def createSet(name):
+        set = PIPELINE_SETS + "/{}".format(name)
+        Directory.copy(TEMPLATE_ASSET_DIRS, set)
 
-    set = PIPELINE_SETS + "/{}".format(name)
-    Directory.copy(TEMPLATE_ASSET_DIRS, set)
+        initScene = set + "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
+        File.copy(TEMPLATE_ASSET_SCENE, initScene)
 
-    initScene = set + "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
-    File.copy(TEMPLATE_ASSET_SCENE, initScene)
+        return set
 
-    return set
+    @staticmethod
+    def createProp(name):
 
+        prop = PIPELINE_PROPS + "/{}".format(name)
+        Directory.copy(TEMPLATE_ASSET_DIRS, prop)
 
-def createProp(name):
+        initScene = prop + \
+            "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
+        File.copy(TEMPLATE_ASSET_SCENE, initScene)
 
-    prop = PIPELINE_PROPS + "/{}".format(name)
-    Directory.copy(TEMPLATE_ASSET_DIRS, prop)
+        return prop
 
-    initScene = prop + "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
-    File.copy(TEMPLATE_ASSET_SCENE, initScene)
-
-    return prop
