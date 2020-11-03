@@ -14,7 +14,7 @@ class Publisher(QWidget):
 
     def init(self):
 
-        # UI Elements creation and settings
+        # Layouts creation
 
         self.layMain = QVBoxLayout()
         self.setLayout(self.layMain)
@@ -26,6 +26,8 @@ class Publisher(QWidget):
         separator1.setFrameShape(QFrame.HLine)
         separator2 = QFrame()
         separator2.setFrameShape(QFrame.HLine)
+
+        # UI Elements creation and settings
 
         self.btnEdit = QPushButton("Edit")
         self.btnPublish = QPushButton("Publish")
