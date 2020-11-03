@@ -15,7 +15,7 @@ class Pipeline(QTabWidget):
         QTabWidget.__init__(self)
 
         self.width = 225
-        self.height = 200
+        self.height = 220
         self.setWindowTitle("Pipeline")
         self.setWindowIcon(QIcon(BARAKA_ICONS_PATH + "/coca.png"))
         self.setGeometry(600, 400, self.width, self.height)

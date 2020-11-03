@@ -2,6 +2,7 @@
 
 from PySide2.QtWidgets import *
 from PySide2.QtGui import Qt
+from modules.scene import Scene
 from constants import *
 
 class Publisher(QWidget):
@@ -17,9 +18,8 @@ class Publisher(QWidget):
 
         self.layMain = QVBoxLayout()
         self.setLayout(self.layMain)
-        self.layAssetInfo = QHBoxLayout()
-        self.layEdit = QHBoxLayout()
-        self.layPublish = QHBoxLayout()
+        self.layEdit = QVBoxLayout()
+        self.layPublish = QVBoxLayout()
         self.layStartEndFrame = QGridLayout()
 
         separator1 = QFrame()
@@ -27,19 +27,11 @@ class Publisher(QWidget):
         separator2 = QFrame()
         separator2.setFrameShape(QFrame.HLine)
 
-        self.lineEditAssetName = QLineEdit()
-        self.lineEditAssetName.setPlaceholderText("Asset name...")
-        self.listAssetType = QComboBox()
-
-        for type in ASSET_TYPES.keys():
-            self.listAssetType.addItem(type)
-
         self.btnEdit = QPushButton("Edit")
         self.btnPublish = QPushButton("Publish")
 
-        self.checkIsAlembic = QCheckBox("Is Alembic")
-        self.checkIsAlembic.setCheckState(Qt.CheckState.Unchecked)
-        self.checkIsAlembic.clicked.connect(self.toggleAlembicStartEndFrame)
+        self.checkWithAlembic = QCheckBox("With Alembic")
+        self.checkWithAlembic.setCheckState(Qt.CheckState.Unchecked)
 
         self.lineCommit = QLineEdit()
         self.lineCommit.setPlaceholderText("Write your commit here...")
@@ -54,29 +46,34 @@ class Publisher(QWidget):
         self.spinFrameStart.setDisabled(True)
         self.spinFrameEnd.setDisabled(True)
 
+        # Connect SIGNAL to SLOT
+
+        self.btnEdit.clicked.connect(Scene.edit)
+        self.btnPublish.clicked.connect(Scene.publish)
+        self.checkWithAlembic.clicked.connect(self.toggleAlembicStartEndFrame)
+
         # Layout Management
 
-        self.layAssetInfo.addWidget(self.lineEditAssetName)
-        self.layAssetInfo.addWidget(self.listAssetType)
         self.layEdit.addWidget(self.lineCommit)
         self.layEdit.addWidget(self.btnEdit)
+
+        self.layPublish.addWidget(self.checkWithAlembic)
         self.layPublish.addWidget(self.btnPublish)
-        self.layPublish.addWidget(self.checkIsAlembic)
+
         self.layStartEndFrame.addWidget(self.labelFrameStart, 0, 1)
         self.layStartEndFrame.addWidget(self.labelFrameEnd, 0, 2)
         self.layStartEndFrame.addWidget(self.spinFrameStart, 1, 1)
         self.layStartEndFrame.addWidget(self.spinFrameEnd, 1, 2)
 
-        self.layMain.layout().addLayout(self.layAssetInfo)
         self.layMain.addWidget(separator1)
         self.layMain.layout().addLayout(self.layEdit)
         self.layMain.addWidget(separator2)
-        self.layMain.layout().addLayout(self.layPublish)
         self.layMain.layout().addLayout(self.layStartEndFrame)
+        self.layMain.layout().addLayout(self.layPublish)
 
     def toggleAlembicStartEndFrame(self):
 
-        isChecked = self.checkIsAlembic.isChecked()
+        isChecked = self.checkWithAlembic.isChecked()
 
         if isChecked == True:
             self.spinFrameStart.setEnabled(True)

@@ -16,21 +16,22 @@ import modules.scene
 import constants
 from PySide2.QtWidgets import QApplication
 
-
-reload(launcher)
-reload(constants)
-reload(autorigs)
-reload(pipeline)
-reload(manager)
-reload(publisher)
-reload(modules.path)
-reload(modules.directory)
-reload(modules.file)
-reload(modules.path)
-reload(modules.scene)
-
+def loadModules():
+    reload(launcher)
+    reload(constants)
+    reload(autorigs)
+    reload(pipeline)
+    reload(manager)
+    reload(publisher)
+    reload(modules.path)
+    reload(modules.directory)
+    reload(modules.file)
+    reload(modules.path)
+    reload(modules.scene)
 
 if __name__ == "__main__":
+
+    loadModules()
 
     global mainWidget
 
@@ -40,10 +41,11 @@ if __name__ == "__main__":
         pass
 
     try:
-        mainApp = QApplication(sys.argv)
+        mainApp = QApplication([])
     except:
         mainApp = QApplication.instance()
 
     mainWidget = launcher.Launcher()
     mainWidget.show()
     mainApp.exec_()
+

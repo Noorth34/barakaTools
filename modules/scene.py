@@ -16,43 +16,43 @@ class Scene():
     @staticmethod
     def save(type):
 
-        return pms.saveFile(type=type)
+        return str( pms.saveFile(type=type) )
 
     @staticmethod
     def saveAs(dest):
 
-        return pms.saveAs(dest)
+        return str( pms.saveAs(dest) )
 
     @staticmethod
     def exportSelection(dest, type):
 
-        return pms.exportSelected(dest, type=type)
+        return str( pms.exportSelected(dest, type=type) )
 
     @staticmethod
     def edit():
 
-        scene = getScene()
-        edit = incrementIndex(scene)
-        return pms.saveAs(edit)
+        scene = Scene.getScene()
+        edit = Scene.incrementIndex(scene)
+        cmds.inViewMessage(amg='Asset edited: \n <hl>' + edit + '</hl>.', pos='topCenter', fade=True)
+        return Scene.saveAs(edit)
 
     @staticmethod
     def publish(selection=[]):
 
         # Variables
 
-        scene = getScene()  # ../maya/scenes/edit/geo/........
+        scene = Scene.getScene()  # ../maya/scenes/edit/geo/........
 
-        asset = getAsset(scene)
-        state = getState(scene)
-        type = getType(scene)
-        index = getIndex(scene)
+        asset = Scene.getAsset(scene)
+        state = Scene.getState(scene)
+        type = Scene.getType(scene)
+        index = Scene.getIndex(scene)
 
         shortSceneName = File.getShortName(scene)
         stateChangedScene = shortSceneName.replace("_E_", "_P_")
         stateChangedSceneNoIndex = stateChangedScene.replace("_" + index, "")
-        dirBackup = createDirBackup()
-        dirPublish = scene.replace(
-            "/edit/", "/publish/").replace(shortSceneName, "")
+        dirBackup = Scene.createDirBackup()
+        dirPublish = scene.replace("/edit/", "/publish/").replace(shortSceneName, "")
 
         fullBackupScenePath = dirBackup + "/" + stateChangedScene
         fullPublishScenePath = dirPublish + "/" + stateChangedSceneNoIndex
@@ -72,20 +72,22 @@ class Scene():
             cmds.error(
                 "Bad selection. Please select the TOP group for publish.")
 
-        exportSelection(fullBackupScenePath, "mayaAscii")
+        Scene.exportSelection(fullBackupScenePath, "mayaAscii")
         print("Asset backup : {}".format(fullBackupScenePath))
-        exportSelection(fullPublishScenePath, "mayaAscii")
+        Scene.exportSelection(fullPublishScenePath, "mayaAscii")
         print("Asset published : {}".format(fullPublishScenePath))
+
+        cmds.inViewMessage(amg='Asset published: \n <hl>' + fullPublishScenePath + '</hl>. \n Publish backup: \n <hl>' + fullBackupScenePath + '</hl>.', pos='topCenter', fade=True)
 
     @staticmethod
     def createDirBackup(scene=None):
 
         if scene is None:
-            scene = getScene()
+            scene = Scene.getScene()
 
         publishDir = File.getParent(scene).replace("/edit/", "/publish/")
 
-        if not "backup" in Dir.getChildren(publishDir):
+        if not "backup" in Directory.getChildren(publishDir):
             backup = Directory.create(publishDir, name="backup")
             print("Directory 'backup' created : {}".format(backup))
             return backup
@@ -96,7 +98,7 @@ class Scene():
     def incrementIndex(scene):
 
         if not scene:
-            scene = getScene()
+            scene = Scene.getScene()
         scene = Path.deleteExtension(scene)
 
         currentIndex = scene.split("/")[-1].split("_")[-1]
@@ -110,7 +112,7 @@ class Scene():
     @staticmethod
     def getScene():
 
-        return str(pms.sceneName())
+        return str( pms.sceneName() )
 
     @staticmethod
     def getAsset(scene):
