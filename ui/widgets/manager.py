@@ -22,6 +22,11 @@ class Manager(QWidget):
 
 		self.treeAsset = QTreeWidget()
 
+		self.labelAssetCreation = QLabel("Create Asset")
+
+		self.lineAssetCreation = QLineEdit()
+		self.lineAssetCreation.setPlaceholderText("Asset Name...")
+
 		self.btnCreateCharacter = QPushButton("Character")
 		self.btnCreateProp = QPushButton("Prop")
 		self.btnCreateSet = QPushButton("Set")
@@ -39,6 +44,8 @@ class Manager(QWidget):
 
 		self.layTree.addWidget(self.treeAsset)
 
+		self.layAssetCreation.addWidget(self.labelAssetCreation)
+		self.layAssetCreation.addWidget(self.lineAssetCreation)
 		self.layAssetCreation.addWidget(self.btnCreateCharacter)
 		self.layAssetCreation.addWidget(self.btnCreateProp)
 		self.layAssetCreation.addWidget(self.btnCreateSet)
