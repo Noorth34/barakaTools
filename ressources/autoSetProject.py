@@ -10,7 +10,7 @@ import maya.OpenMaya as om
 def checkWorkspace(limit=10):
 
 	workspace = None
-	scenePath = cmds.file(q=True, sn=True)
+	scenePath = str( pms.sceneName() )
 	dir = os.path.dirname(scenePath)
 
 	try:

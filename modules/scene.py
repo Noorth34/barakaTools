@@ -100,7 +100,7 @@ def incrementIndex(scene):
 
 def getScene():
 
-    return cmds.file(q=True, sn=True)
+    return str( pms.sceneName() )
 
 def getAsset(scene):
 
