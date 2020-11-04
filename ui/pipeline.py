@@ -42,6 +42,8 @@ class Pipeline(QMainWindow):
         self.actionEditRootPath = QAction("Edit Root Path...")
         self.menuEdit.addAction(self.actionEditRootPath)
 
+        self.actionEditRootPath.triggered.connect(self.setRootPath)
+
     def initTabWidget(self):
 
         # Ui Element creation
@@ -71,6 +73,45 @@ class Pipeline(QMainWindow):
             self.setFixedSize(self.widthPublisher, self.heightPublisher)
             self.resize(self.widthPublisher, self.heightPublisher)
 
+    def setRootPath(self):
+        
+        self.popup = PopupSetRootPath("Enter your project path...", "Set")
+        self.popup.open()
+
     def open(self):
 
         self.show()
+
+
+class PopupSetRootPath(QDialog):
+
+    def __init__(self, placeholder, button):
+        QDialog.__init__(self)
+
+        self.setWindowTitle("Pipeline - Set Root Path")
+        self.setWindowIcon(QIcon(BARAKA_ICONS_PATH + "/coca.png"))
+        self.setMinimumSize(300, 75)
+
+        # UI elements creation and settings
+
+        self.lineRootPath = QLineEdit()
+        self.lineRootPath.setPlaceholderText(placeholder)
+
+        self.btnSet = QPushButton(button)
+        self.btnCancel = QPushButton("Cancel")
+
+        # Layout Management
+
+        self.layMain = QVBoxLayout()
+        self.layButtons = QHBoxLayout()
+
+        self.layMain.addWidget(self.lineRootPath)
+        self.layButtons.addWidget(self.btnSet)
+        self.layButtons.addWidget(self.btnCancel)
+
+        self.layMain.layout().addLayout(self.layButtons)
+        self.setLayout(self.layMain)
+
+    def open(self):
+        self.show()
+
