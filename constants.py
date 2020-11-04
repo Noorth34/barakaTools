@@ -1,7 +1,8 @@
 # coding:utf-8
 
 
-PIPELINE_ROOT_PATH = "//gandalf/3D4_20_21/barakafrites/04_asset"
+PIPELINE_ROOT_PATH = "D:/Documents/Programmation/Python/Projets/gandalf/barakafrites" 
+# "//gandalf/3D4_20_21/barakafrites/04_asset"
 
 BARAKA_PATH = __file__.split("\\")[0]
 BARAKA_ICONS_PATH = BARAKA_PATH + "/icons"

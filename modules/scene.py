@@ -141,8 +141,7 @@ class Scene():
         char = PIPELINE_CHARACTERS + "/{}".format(name)
         Directory.copy(TEMPLATE_ASSET_DIRS, char)
 
-        initScene = char + \
-            "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
+        initScene = char + "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
         File.copy(TEMPLATE_ASSET_SCENE, initScene)
 
         return char
@@ -164,8 +163,7 @@ class Scene():
         prop = PIPELINE_PROPS + "/{}".format(name)
         Directory.copy(TEMPLATE_ASSET_DIRS, prop)
 
-        initScene = prop + \
-            "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
+        initScene = prop + "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
         File.copy(TEMPLATE_ASSET_SCENE, initScene)
 
         return prop

@@ -35,6 +35,8 @@ class Manager(QWidget):
 		# Connect SIGNAL to SLOT
 
 		self.btnCreateCharacter.clicked.connect(self.createCharacter)
+		self.btnCreateProp.clicked.connect(self.createProp)
+		self.btnCreateSet.clicked.connect(self.createSet)
 
 		# Layout management
 
@@ -54,3 +56,9 @@ class Manager(QWidget):
 
 	def createCharacter(self):
 		Scene.createCharacter( self.lineAssetCreation.text() )
+
+	def createProp(self):
+		Scene.createProp( self.lineAssetCreation.text() )
+
+	def createSet(self):
+		Scene.createSet( self.lineAssetCreation.text() )
