@@ -82,6 +82,10 @@ class Pipeline(QMainWindow):
 
         self.show()
 
+    def closeEvent(self, event):
+        self.tabManager.lineAssetCreation.clear()
+        event.accept()
+
 
 class PopupSetRootPath(QDialog):
 
@@ -100,6 +104,11 @@ class PopupSetRootPath(QDialog):
         self.btnSet = QPushButton(button)
         self.btnCancel = QPushButton("Cancel")
 
+        # Connect SIGNAL to SLOT
+
+        self.btnSet.clicked.connect(self.setRootPath)
+        self.btnCancel.clicked.connect(self.closePopup)
+
         # Layout Management
 
         self.layMain = QVBoxLayout()
@@ -115,3 +124,13 @@ class PopupSetRootPath(QDialog):
     def open(self):
         self.show()
 
+    def closePopup(self):
+        self.lineRootPath.clear()
+        self.close()
+        
+    def setRootPath(self):
+
+        path = self.lineRootPath.text()
+
+        with open(BARAKA_PATH + "/constants.py", "w+") as const:
+            const.PIPELINE_ROOT_PATH = path
