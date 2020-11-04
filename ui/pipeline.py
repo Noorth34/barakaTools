@@ -8,17 +8,17 @@ from ui.widgets.publisher import Publisher
 from ui.widgets.manager import Manager
 
 
-class Pipeline(QTabWidget):
+class Pipeline(QMainWindow):
 
     def __init__(self):
 
-        QTabWidget.__init__(self)
+        QMainWindow.__init__(self)
 
-        self.widthManager = 400
-        self.heightManager = 220
+        self.widthManager = 425
+        self.heightManager = 300
 
         self.widthPublisher = 225
-        self.heightPublisher = 220
+        self.heightPublisher = 275
 
         self.setWindowTitle("Pipeline")
         self.setWindowIcon(QIcon(BARAKA_ICONS_PATH + "/coca.png"))
@@ -26,27 +26,43 @@ class Pipeline(QTabWidget):
         self.setMinimumSize(self.widthManager, self.heightManager)
         self.setMaximumSize(self.widthManager*2, self.heightManager*2)
 
-        self.blockSignals(True)
-        self.currentChanged.connect(self.setWidgetSize)
-
+        self.initMenus()
+        self.initTabWidget()
         self.initManager()
         self.initPublisher()
 
-        self.blockSignals(False)
+        self.setCentralWidget(self.tabWidget)
+
+    def initMenus(self):
+
+        # UI Elements creation
+        self.menuBar = self.menuBar()
+        self.menuEdit = self.menuBar.addMenu("Edit")
+
+        self.actionEditRootPath = QAction("Edit Root Path...")
+        self.menuEdit.addAction(self.actionEditRootPath)
+
+    def initTabWidget(self):
+
+        # Ui Element creation
+        self.tabWidget = QTabWidget()
+
+        # Connect SIGNAL to SLOT
+        self.tabWidget.currentChanged.connect(self.setWidgetSize)
 
     def initManager(self):
 
         self.tabManager = Manager()
-        self.addTab(self.tabManager, "Manager")
+        self.tabWidget.addTab(self.tabManager, "Manager")
 
     def initPublisher(self):
 
     	self.tabPublisher = Publisher()
-    	self.addTab(self.tabPublisher, "Publisher")
+    	self.tabWidget.addTab(self.tabPublisher, "Publisher")
 
     def setWidgetSize(self):
 
-        currentIndex = int( self.currentIndex() )
+        currentIndex = int( self.tabWidget.currentIndex() )
 
         if currentIndex == 0:
             self.setMinimumSize(self.widthManager, self.heightManager)
