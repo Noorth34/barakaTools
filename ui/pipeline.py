@@ -18,7 +18,7 @@ class Pipeline(QMainWindow):
         self.heightManager = 300
 
         self.widthPublisher = 225
-        self.heightPublisher = 275
+        self.heightPublisher = 240
 
         self.setWindowTitle("Pipeline")
         self.setWindowIcon(QIcon(BARAKA_ICONS_PATH + "/coca.png"))
@@ -68,7 +68,7 @@ class Pipeline(QMainWindow):
             self.setMinimumSize(self.widthManager, self.heightManager)
             self.resize(self.widthManager, self.heightManager)
         else:
-            self.setMinimumSize(self.widthPublisher, self.heightPublisher)
+            self.setFixedSize(self.widthPublisher, self.heightPublisher)
             self.resize(self.widthPublisher, self.heightPublisher)
 
     def open(self):

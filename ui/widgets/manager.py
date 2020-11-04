@@ -23,7 +23,7 @@ class Manager(QWidget):
 
 		self.treeAsset = QTreeWidget()
 
-		self.labelAssetCreation = QLabel("Create Asset")
+		self.groupAssetCreation = QGroupBox("Create Asset")
 
 		self.lineAssetCreation = QLineEdit()
 		self.lineAssetCreation.setPlaceholderText("Asset Name...")
@@ -42,16 +42,17 @@ class Manager(QWidget):
 
 		self.setLayout(self.layMain)
 
-		self.layMain.addLayout(self.layAssetCreation)
+		self.layMain.addWidget(self.groupAssetCreation)
 		self.layMain.addLayout(self.layTree)
 
 		self.layTree.addWidget(self.treeAsset)
 
-		self.layAssetCreation.addWidget(self.labelAssetCreation)
 		self.layAssetCreation.addWidget(self.lineAssetCreation)
 		self.layAssetCreation.addWidget(self.btnCreateCharacter)
 		self.layAssetCreation.addWidget(self.btnCreateProp)
 		self.layAssetCreation.addWidget(self.btnCreateSet)
+
+		self.groupAssetCreation.setLayout(self.layAssetCreation)
 
 
 	def createCharacter(self):
