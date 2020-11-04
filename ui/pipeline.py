@@ -106,7 +106,7 @@ class PopupSetRootPath(QDialog):
 
         # Connect SIGNAL to SLOT
 
-        self.btnSet.clicked.connect(self.setRootPath)
+        # self.btnSet
         self.btnCancel.clicked.connect(self.closePopup)
 
         # Layout Management
@@ -128,9 +128,3 @@ class PopupSetRootPath(QDialog):
         self.lineRootPath.clear()
         self.close()
         
-    def setRootPath(self):
-
-        path = self.lineRootPath.text()
-
-        with open(BARAKA_PATH + "/constants.py", "w+") as const:
-            const.PIPELINE_ROOT_PATH = path

@@ -1,8 +1,6 @@
 # coding:utf-8
 
-
-PIPELINE_ROOT_PATH = "D:/Documents/Programmation/Python/Projets/gandalf/barakafrites" 
-# "//gandalf/3D4_20_21/barakafrites/04_asset"
+from configparser import ConfigParser
 
 BARAKA_PATH = __file__.split("\\")[0]
 BARAKA_ICONS_PATH = BARAKA_PATH + "/icons"
@@ -23,6 +21,14 @@ ASSET_TYPES = {
 }
 
 # Pipeline paths
+config = ConfigParser()
+config.read(BARAKA_PATH + "/config.ini")
+
+global PIPELINE_ROOT_PATH
+
+PIPELINE_ROOT_PATH = config["PATHS"]["rootPath"]
+# "//gandalf/3D4_20_21/barakafrites/04_asset"
+
 PIPELINE_CHARACTERS = PIPELINE_ROOT_PATH + "/character"
 PIPELINE_FX = PIPELINE_ROOT_PATH + "/FX"
 PIPELINE_PROPS = PIPELINE_ROOT_PATH + "/prop"
