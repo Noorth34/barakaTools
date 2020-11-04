@@ -3,7 +3,6 @@
 from PySide2.QtWidgets import *
 from PySide2.QtGui import QIcon, Qt
 from constants import *
-import modules.scene as scene
 from ui.widgets.publisher import Publisher
 from ui.widgets.manager import Manager
 
@@ -106,7 +105,7 @@ class PopupSetRootPath(QDialog):
 
         # Connect SIGNAL to SLOT
 
-        # self.btnSet
+        self.btnSet.clicked.connect(self.setRootPath)
         self.btnCancel.clicked.connect(self.closePopup)
 
         # Layout Management
@@ -127,4 +126,21 @@ class PopupSetRootPath(QDialog):
     def closePopup(self):
         self.lineRootPath.clear()
         self.close()
+
+    def setRootPath(self):
+        from configparser import ConfigParser
+        from maya import cmds
+        from modules.path import Path
+
+        PIPELINE_ROOT_PATH = Path.convertBackslashToSlash( self.lineRootPath.text() )
+        config.set("PATHS", "rootPath", PIPELINE_ROOT_PATH)
+        with open(BARAKA_CONFIG_PATH, "wb") as cf:
+            config.write(cf)
+
+        refreshConst()
+        print(PIPELINE_ROOT_PATH)
+        print(PIPELINE_CHARACTERS)
+        cmds.inViewMessage(amg='Root Path set to: \n <hl>' + PIPELINE_ROOT_PATH + '</hl>', pos='topCenter', fade=True)
+
+        self.closePopup()
         

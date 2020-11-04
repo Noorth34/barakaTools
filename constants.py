@@ -3,6 +3,7 @@
 from configparser import ConfigParser
 
 BARAKA_PATH = __file__.split("\\")[0]
+BARAKA_CONFIG_PATH = BARAKA_PATH + "/config.ini"
 BARAKA_ICONS_PATH = BARAKA_PATH + "/icons"
 BARAKA_STYLESHEETS_PATH = BARAKA_PATH + "/qt/stylesheets"
 BARAKA_IMAGES_PATH = BARAKA_PATH + "/qt/images"
@@ -25,6 +26,9 @@ config = ConfigParser()
 config.read(BARAKA_PATH + "/config.ini")
 
 global PIPELINE_ROOT_PATH
+global PIPELINE_CHARACTERS
+global PIPELINE_PROPS
+global PIPELINE_SETS
 
 PIPELINE_ROOT_PATH = config["PATHS"]["rootPath"]
 # "//gandalf/3D4_20_21/barakafrites/04_asset"
@@ -35,3 +39,11 @@ PIPELINE_PROPS = PIPELINE_ROOT_PATH + "/prop"
 PIPELINE_SETS = PIPELINE_ROOT_PATH + "/set"
 
 PIPELINE_ASSET_PUBLISH = "/scenes/publish"
+
+def refreshConst():
+	PIPELINE_CHARACTERS = PIPELINE_ROOT_PATH + "/character"
+	PIPELINE_PROPS = PIPELINE_ROOT_PATH + "/prop"
+	PIPELINE_SETS = PIPELINE_ROOT_PATH + "/set"
+	print("constants refreshed.")
+
+# create Const class with self to have a dynamic object to modify
