@@ -18,7 +18,7 @@ class Pipeline(QMainWindow):
         self.heightManager = 300
 
         self.widthPublisher = 225
-        self.heightPublisher = 240
+        self.heightPublisher = 260
 
         self.setWindowTitle("Pipeline")
         self.setWindowIcon(QIcon(BARAKA_ICONS_PATH + "/coca.png"))

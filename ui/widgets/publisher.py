@@ -32,8 +32,9 @@ class Publisher(QWidget):
         self.btnEdit = QPushButton("Edit")
         self.btnPublish = QPushButton("Publish")
 
-        self.checkWithAlembic = QCheckBox("With Alembic")
-        self.checkWithAlembic.setCheckState(Qt.CheckState.Unchecked)
+        self.groupWithAlembic = QGroupBox("Publish With Alembic")
+        self.groupWithAlembic.setCheckable(True)
+        self.groupWithAlembic.setChecked(False)
 
         self.lineCommit = QLineEdit()
         self.lineCommit.setPlaceholderText("Write your commit here...")
@@ -45,21 +46,18 @@ class Publisher(QWidget):
 
         self.spinFrameStart = QSpinBox()
         self.spinFrameEnd = QSpinBox()
-        self.spinFrameStart.setDisabled(True)
-        self.spinFrameEnd.setDisabled(True)
 
         # Connect SIGNAL to SLOT
 
         self.btnEdit.clicked.connect(Scene.edit)
         self.btnPublish.clicked.connect(Scene.publish)
-        self.checkWithAlembic.clicked.connect(self.toggleAlembicStartEndFrame)
 
         # Layout Management
 
         self.layEdit.addWidget(self.lineCommit)
         self.layEdit.addWidget(self.btnEdit)
 
-        self.layPublish.addWidget(self.checkWithAlembic)
+        self.layPublish.addWidget(self.groupWithAlembic)
         self.layPublish.addWidget(self.btnPublish)
 
         self.layStartEndFrame.addWidget(self.labelFrameStart, 0, 1)
@@ -67,19 +65,9 @@ class Publisher(QWidget):
         self.layStartEndFrame.addWidget(self.spinFrameStart, 1, 1)
         self.layStartEndFrame.addWidget(self.spinFrameEnd, 1, 2)
 
+        self.groupWithAlembic.setLayout(self.layStartEndFrame)
         self.layMain.addWidget(separator1)
         self.layMain.layout().addLayout(self.layEdit)
         self.layMain.addWidget(separator2)
         self.layMain.layout().addLayout(self.layStartEndFrame)
         self.layMain.layout().addLayout(self.layPublish)
-
-    def toggleAlembicStartEndFrame(self):
-
-        isChecked = self.checkWithAlembic.isChecked()
-
-        if isChecked == True:
-            self.spinFrameStart.setEnabled(True)
-            self.spinFrameEnd.setEnabled(True)
-        else:
-            self.spinFrameStart.setDisabled(True)
-            self.spinFrameEnd.setDisabled(True)
