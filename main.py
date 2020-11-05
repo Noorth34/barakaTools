@@ -8,6 +8,7 @@ import ui.autorigs as autorigs
 import ui.pipeline as pipeline
 import ui.widgets.manager as manager
 import ui.widgets.publisher as publisher
+import ui.mayaWin as mayawin
 import modules.path
 import modules.directory
 import modules.file
@@ -23,6 +24,7 @@ def loadModules():
     reload(pipeline)
     reload(manager)
     reload(publisher)
+    reload(mayawin)
     reload(modules.path)
     reload(modules.directory)
     reload(modules.file)

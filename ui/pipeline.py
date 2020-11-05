@@ -4,6 +4,7 @@ from PySide2.QtWidgets import *
 from PySide2.QtGui import QIcon, Qt
 from ui.widgets.publisher import Publisher
 from ui.widgets.manager import Manager
+import ui.mayaWin as mayawin
 import constants as const
 
 
@@ -11,7 +12,7 @@ class Pipeline(QMainWindow):
 
     def __init__(self):
 
-        QMainWindow.__init__(self)
+        QMainWindow.__init__(self, parent=mayawin.getMayaMainWindow())
 
         self.widthManager = 425
         self.heightManager = 300
@@ -89,7 +90,7 @@ class Pipeline(QMainWindow):
 class PopupSetRootPath(QDialog):
 
     def __init__(self, placeholder, button):
-        QDialog.__init__(self)
+        QDialog.__init__(self, parent=mayawin.getMayaMainWindow())
 
         self.setWindowTitle("Pipeline - Set Root Path")
         self.setWindowIcon(QIcon(const.BARAKA_ICONS_PATH + "/coca.png"))
