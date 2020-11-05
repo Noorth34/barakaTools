@@ -1,0 +1,29 @@
+import maya.cmds as cmds
+import sys
+from maya import utils
+import autoSetProject
+
+
+
+def sublimeConnect():
+	# Close ports if they were already open under another configuration
+	try:
+	    cmds.commandPort(name=":7001", close=True)
+	except:
+	    cmds.warning('Could not close port 7001 (maybe it is not opened yet...)')
+	try:
+	    cmds.commandPort(name=":7002", close=True)
+	except:
+	    cmds.warning('Could not close port 7002 (maybe it is not opened yet...)')
+
+	# Open new ports
+	cmds.commandPort(name=":7001", sourceType="mel")
+	cmds.commandPort(name=":7002", sourceType="python")
+
+
+sys.path.append("C:/Users/3D4/Documents/maya/2020/scripts/barakaTools")
+sys.path.append("C:/Users/3D4/Documents/maya/2020/scripts/barakaTools/Lib/site-packages")
+sys.path.append("C:/Users/3D4/Documents/maya/2020/scripts/barakaTools/modules")
+sublimeConnect()
+
+cmds.evalDeferred(autoSetProject.main)

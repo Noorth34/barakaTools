@@ -3,7 +3,7 @@
 from PySide2.QtWidgets import *
 from PySide2.QtGui import Qt
 from modules.scene import Scene
-from constants import *
+import constants as const
 
 class Publisher(QWidget):
 

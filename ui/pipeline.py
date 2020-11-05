@@ -2,9 +2,9 @@
 
 from PySide2.QtWidgets import *
 from PySide2.QtGui import QIcon, Qt
-from constants import *
 from ui.widgets.publisher import Publisher
 from ui.widgets.manager import Manager
+import constants as const
 
 
 class Pipeline(QMainWindow):
@@ -20,7 +20,7 @@ class Pipeline(QMainWindow):
         self.heightPublisher = 260
 
         self.setWindowTitle("Pipeline")
-        self.setWindowIcon(QIcon(BARAKA_ICONS_PATH + "/coca.png"))
+        self.setWindowIcon(QIcon(const.BARAKA_ICONS_PATH + "/coca.png"))
         self.setGeometry(600, 400, self.widthManager, self.heightManager)
         self.setMinimumSize(self.widthManager, self.heightManager)
         self.setMaximumSize(self.widthManager*2, self.heightManager*2)
@@ -92,7 +92,7 @@ class PopupSetRootPath(QDialog):
         QDialog.__init__(self)
 
         self.setWindowTitle("Pipeline - Set Root Path")
-        self.setWindowIcon(QIcon(BARAKA_ICONS_PATH + "/coca.png"))
+        self.setWindowIcon(QIcon(const.BARAKA_ICONS_PATH + "/coca.png"))
         self.setMinimumSize(300, 75)
 
         # UI elements creation and settings
@@ -132,15 +132,14 @@ class PopupSetRootPath(QDialog):
         from maya import cmds
         from modules.path import Path
 
-        PIPELINE_ROOT_PATH = Path.convertBackslashToSlash( self.lineRootPath.text() )
-        config.set("PATHS", "rootPath", PIPELINE_ROOT_PATH)
-        with open(BARAKA_CONFIG_PATH, "wb") as cf:
+        const.PIPELINE_ROOT_PATH = Path.convertBackslashToSlash( self.lineRootPath.text() )
+        config.set("PATH", "rootPath", const.PIPELINE_ROOT_PATH)
+        with open(const.BARAKA_CONFIG_PATH, "wb") as cf:
             config.write(cf)
-
-        refreshConst()
-        print(PIPELINE_ROOT_PATH)
-        print(PIPELINE_CHARACTERS)
-        cmds.inViewMessage(amg='Root Path set to: \n <hl>' + PIPELINE_ROOT_PATH + '</hl>', pos='topCenter', fade=True)
+        
+        print(const.PIPELINE_ROOT_PATH)
+        print(const.PIPELINE_CHARACTERS)
+        cmds.inViewMessage(amg='Root Path set to: \n <hl>' + const.PIPELINE_ROOT_PATH + '</hl>', pos='topCenter', fade=True)
 
         self.closePopup()
         

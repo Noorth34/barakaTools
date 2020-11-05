@@ -6,8 +6,7 @@ from path import Path
 from file import File
 from directory import Directory
 from selection import Selection
-from constants import *
-
+import constants as const
 
 class Scene():
     def __init__(self):
@@ -138,7 +137,7 @@ class Scene():
     @staticmethod
     def createCharacter(name):
 
-        char = PIPELINE_CHARACTERS + "/{}".format(name)
+        char = const.PIPELINE_CHARACTERS + "/{}".format(name)
         Directory.copy(TEMPLATE_ASSET_DIRS, char)
 
         initScene = char + "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
@@ -149,7 +148,7 @@ class Scene():
     @staticmethod
     def createSet(name):
 
-        set = PIPELINE_SETS + "/{}".format(name)
+        set = const.PIPELINE_SETS + "/{}".format(name)
         Directory.copy(TEMPLATE_ASSET_DIRS, set)
 
         initScene = set + "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
@@ -160,7 +159,7 @@ class Scene():
     @staticmethod
     def createProp(name):
 
-        prop = PIPELINE_PROPS + "/{}".format(name)
+        prop = const.PIPELINE_PROPS + "/{}".format(name)
         Directory.copy(TEMPLATE_ASSET_DIRS, prop)
 
         initScene = prop + "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
