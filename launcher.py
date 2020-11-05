@@ -2,20 +2,21 @@
 
 from PySide2.QtWidgets import *
 from PySide2.QtGui import QIcon, QPixmap, Qt
+from maya.app.general.mayaMixin import MayaQWidgetDockableMixin
 from ui.autorigs import Autorigs
 from ui.pipeline import Pipeline
 import constants as const
 import ui.mayaWin as mayawin
 
 
-class Launcher(QDialog):
+class Launcher(MayaQWidgetDockableMixin, QDialog):
     """
     """
 
     def __init__(self, *args):
         """
         """
-        QDialog.__init__(self, parent=mayawin.getMayaMainWindow())
+        super(self.__class__, self).__init__(parent=mayawin.getMayaMainWindow())
 
         self.autorigDialog = Autorigs()
         self.pipelineDialog = Pipeline()
@@ -63,3 +64,6 @@ class Launcher(QDialog):
     def printSomething(self):
 
         print("Hey buddy")
+
+    def dockCloseEventTriggered(self):
+        self.deleteLater()
