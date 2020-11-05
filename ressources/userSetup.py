@@ -27,9 +27,12 @@ try:
 except:
 	pass
 
-sys.path.append("C:/Users/{}/Documents/maya/2020/scripts/barakaTools".format(os.environ['username']))
-sys.path.append("C:/Users/{}/Documents/maya/2020/scripts/barakaTools/Lib/site-packages".format(os.environ['username']))
-sys.path.append("C:/Users/{}/Documents/maya/2020/scripts/barakaTools/modules".format(os.environ['username']))
+try:
+	sys.path.append("C:/Users/{}/Documents/maya/2020/scripts/barakaTools".format(os.environ['username']))
+	sys.path.append("C:/Users/{}/Documents/maya/2020/scripts/barakaTools/Lib/site-packages".format(os.environ['username']))
+	sys.path.append("C:/Users/{}/Documents/maya/2020/scripts/barakaTools/modules".format(os.environ['username']))
+except:
+	pass
 
 sublimeConnect()
 
