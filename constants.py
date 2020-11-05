@@ -24,7 +24,7 @@ ASSET_TYPES = {
 
 
 config = ConfigParser()
-config.read(BARAKA_PATH + "/config.ini")
+config.read(BARAKA_CONFIG_PATH)
 
 PIPELINE_ROOT_PATH = config["PATH"]["rootPath"]
 

@@ -134,6 +134,9 @@ class PopupSetRootPath(QDialog):
         from modules.path import Path
 
         const.PIPELINE_ROOT_PATH = Path.convertBackslashToSlash( self.lineRootPath.text() )
+
+        config = ConfigParser()
+        config.read(const.BARAKA_CONFIG_PATH)
         config.set("PATH", "rootPath", const.PIPELINE_ROOT_PATH)
         with open(const.BARAKA_CONFIG_PATH, "wb") as cf:
             config.write(cf)
