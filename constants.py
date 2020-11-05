@@ -32,7 +32,3 @@ PIPELINE_CHARACTERS = PIPELINE_ROOT_PATH + "/character"
 PIPELINE_FX = PIPELINE_ROOT_PATH + "/FX"
 PIPELINE_PROPS = PIPELINE_ROOT_PATH + "/prop"
 PIPELINE_SETS = PIPELINE_ROOT_PATH + "/set"
-
-# PIPELINE_ASSET_PUBLISH = "/scenes/publish"
-
-# create Const class with self to have a dynamic object to modify

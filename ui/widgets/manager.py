@@ -3,6 +3,7 @@
 from PySide2.QtWidgets import *
 from modules.scene import Scene
 from functools import partial
+import constants as const
 
 class Manager(QWidget):
 
