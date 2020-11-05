@@ -20,10 +20,17 @@ def sublimeConnect():
 	cmds.commandPort(name=":7001", sourceType="mel")
 	cmds.commandPort(name=":7002", sourceType="python")
 
+try:
+	sys.path.append("D:/Documents/Programmation/Python/Projets/barakaTools")
+	sys.path.append("D:/Documents/Programmation/Python/Projets/barakaTools/Lib/site-packages")
+	sys.path.append("D:/Documents/Programmation/Python/Projets/barakaTools/modules")
+except:
+	pass
 
-sys.path.append("C:/Users/3D4/Documents/maya/2020/scripts/barakaTools")
-sys.path.append("C:/Users/3D4/Documents/maya/2020/scripts/barakaTools/Lib/site-packages")
-sys.path.append("C:/Users/3D4/Documents/maya/2020/scripts/barakaTools/modules")
+sys.path.append("C:/Users/{}/Documents/maya/2020/scripts/barakaTools".format(os.environ['username']))
+sys.path.append("C:/Users/{}/Documents/maya/2020/scripts/barakaTools/Lib/site-packages".format(os.environ['username']))
+sys.path.append("C:/Users/{}/Documents/maya/2020/scripts/barakaTools/modules".format(os.environ['username']))
+
 sublimeConnect()
 
 cmds.evalDeferred(autoSetProject.main)
