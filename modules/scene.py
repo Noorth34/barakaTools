@@ -138,10 +138,10 @@ class Scene():
     def createCharacter(name):
 
         char = const.PIPELINE_CHARACTERS + "/{}".format(name)
-        Directory.copy(TEMPLATE_ASSET_DIRS, char)
+        Directory.copy(const.TEMPLATE_ASSET_DIRS, char)
 
         initScene = char + "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
-        File.copy(TEMPLATE_ASSET_SCENE, initScene)
+        File.copy(const.TEMPLATE_ASSET_SCENE, initScene)
 
         return char
 
@@ -149,10 +149,10 @@ class Scene():
     def createSet(name):
 
         set = const.PIPELINE_SETS + "/{}".format(name)
-        Directory.copy(TEMPLATE_ASSET_DIRS, set)
+        Directory.copy(const.TEMPLATE_ASSET_DIRS, set)
 
         initScene = set + "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
-        File.copy(TEMPLATE_ASSET_SCENE, initScene)
+        File.copy(const.TEMPLATE_ASSET_SCENE, initScene)
 
         return set
 
@@ -160,10 +160,10 @@ class Scene():
     def createProp(name):
 
         prop = const.PIPELINE_PROPS + "/{}".format(name)
-        Directory.copy(TEMPLATE_ASSET_DIRS, prop)
+        Directory.copy(const.TEMPLATE_ASSET_DIRS, prop)
 
         initScene = prop + "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
-        File.copy(TEMPLATE_ASSET_SCENE, initScene)
+        File.copy(const.TEMPLATE_ASSET_SCENE, initScene)
 
         return prop
 
