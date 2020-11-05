@@ -48,6 +48,6 @@ if __name__ == "__main__":
         mainApp = QApplication.instance()
 
     mainWidget = launcher.Launcher()
-    mainWidget.show(dockable=True)
+    mainWidget.show(dockable=True, area="right")
     mainApp.exec_()
 
