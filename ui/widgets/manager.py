@@ -2,6 +2,7 @@
 
 from PySide2.QtWidgets import *
 from modules.scene import Scene
+from modules.directory import Directory
 from functools import partial
 import constants as const
 
@@ -11,6 +12,7 @@ class Manager(QWidget):
 
 		QWidget.__init__(self)
 		self.init()
+		# self.populateTree()
 
 	def init(self):
 
@@ -54,6 +56,17 @@ class Manager(QWidget):
 		self.layAssetCreation.addWidget(self.btnCreateSet)
 
 		self.groupAssetCreation.setLayout(self.layAssetCreation)
+
+	def populateTree(self):
+
+		listCategAsset = Directory.getChildren(const.PIPELINE_ROOT_PATH)
+
+		for categ in listCategAsset:
+			categItem = QTreeWidgetItem(self.treeAsset, [categ])
+			listItemsInCateg = Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}/maya/scenes/edit/geo".format(categ) )
+
+			for item in listItemsInCateg:
+				itemItem = QTreeWidgetItem(categItem, [item])
 
 
 	def createCharacter(self):
