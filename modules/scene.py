@@ -167,3 +167,12 @@ class Scene():
 
         return prop
 
+    @staticmethod
+    def createItem(name, set):
+
+        parentSet = const.PIPELINE_SETS + "/{}".format(set)
+        item = parentSet + "/maya/scenes/edit/geo/items/{}_E_geo_0001.ma".format(name)
+        File.copy(const.TEMPLATE_ASSET_SCENE, item)
+
+        return item
+
