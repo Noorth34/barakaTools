@@ -13,6 +13,7 @@ BARAKA_RESSOURCES_PATH = BARAKA_PATH + "/ressources"
 BARAKA_TEMP_PATH = BARAKA_PATH + "/.temp"
 
 TEMPLATE_ASSET_DIRS = BARAKA_RESSOURCES_PATH + "/_template_workspace_asset"
+TEMPLATE_SET_DIRS = BARAKA_RESSOURCES_PATH + "/_template_workspace_set"
 TEMPLATE_ASSET_SCENE = BARAKA_RESSOURCES_PATH + "/asset_state_type_index.ma"
 ASSET_TYPES = {
     "Modeling": "mod",

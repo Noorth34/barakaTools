@@ -142,11 +142,13 @@ class PopupSetRootPath(QDialog):
             config.write(cf)
         
         const.PIPELINE_CHARACTERS = const.PIPELINE_ROOT_PATH + "/character"
-        const.PIPELINE_PROP = const.PIPELINE_ROOT_PATH + "/prop"
-        const.PIPELINE_SET = const.PIPELINE_ROOT_PATH + "/set"
+        const.PIPELINE_PROPS = const.PIPELINE_ROOT_PATH + "/prop"
+        const.PIPELINE_SETS = const.PIPELINE_ROOT_PATH + "/set"
 
         print(const.PIPELINE_ROOT_PATH)
         print(const.PIPELINE_CHARACTERS)
+        print(const.PIPELINE_PROPS)
+        print(const.PIPELINE_SETS)
         cmds.inViewMessage(amg='Root Path set to: \n <hl>' + const.PIPELINE_ROOT_PATH + '</hl>', pos='topCenter', fade=True)
 
         self.closePopup()

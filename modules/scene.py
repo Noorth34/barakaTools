@@ -149,7 +149,7 @@ class Scene():
     def createSet(name):
 
         set = const.PIPELINE_SETS + "/{}".format(name)
-        Directory.copy(const.TEMPLATE_ASSET_DIRS, set)
+        Directory.copy(const.TEMPLATE_SET_DIRS, set)
 
         initScene = set + "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
         File.copy(const.TEMPLATE_ASSET_SCENE, initScene)
