@@ -34,7 +34,8 @@ class Manager(QWidget):
 		# UI Elements creation and settings
 
 		self.treeAsset = QTreeWidget()
-		self.treeAsset.setHeaderLabels(['Assets'])
+		self.treeAsset.setHeaderLabels(['Pick what you want...'])
+		self.itemAssets = QTreeWidgetItem(self.treeAsset, ['Assets'])
 
 			# Assets Group
 		self.groupAssetCreation = QGroupBox("Assets Creation")
@@ -96,37 +97,56 @@ class Manager(QWidget):
 
 	def populateTree(self):
 
+		self.itemCharacter = QTreeWidgetItem(self.itemAssets, ['character'])
+		self.itemProp = QTreeWidgetItem(self.itemAssets, ['prop'])
+		self.itemSet = QTreeWidgetItem(self.itemAssets, ['set'])
+
 		listCateg = Directory.getChildren(const.PIPELINE_ROOT_PATH)
 
 		# Get asset categories
-		for cat in listCateg:
+		for categ in listCateg:
 
-			categItem = QTreeWidgetItem(self.treeAsset, [cat])
-			listInCategProjects = Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}".format(cat) )
+			listInCategProjects = Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}".format(categ) )
 
 			# Get asset projects
 			for proj in listInCategProjects:
 
-				project = QTreeWidgetItem(categItem, [proj])
-				
+				if categ == "character":
+					itemProject = QTreeWidgetItem(self.itemCharacter, [proj])
+				if categ == "prop":
+					itemProject = QTreeWidgetItem(self.itemProp, [proj])
+				if categ == "set":
+					itemProject = QTreeWidgetItem(self.itemSet, [proj])
 
+	def addItemCharacter(self, char):
 
-	def updateTree(self):
+		QTreeWidgetItem(self.itemCharacter, [char])
 
-		self.treeAsset.clear()
-		self.populateTree()
+	def addItemProp(self, prop):
+
+		QTreeWidgetItem(self.itemProp, [prop])
+
+	def addItemSet(self, set):
+
+		QTreeWidgetItem(self.itemSet, [set])
 
 	def createCharacter(self):
-		Scene.createCharacter( self.lineAssetCreation.text() )
+
+		char = self.lineAssetCreation.text()
+		Scene.createCharacter(char)
 		self.lineAssetCreation.clear()
-		self.updateTree()
+		self.addItemCharacter(char)
 
 	def createProp(self):
-		Scene.createProp( self.lineAssetCreation.text() )
+
+		prop = self.lineAssetCreation.text()
+		Scene.createProp(prop)
 		self.lineAssetCreation.clear()
-		self.updateTree()
+		self.addItemProp(prop)
 
 	def createSet(self):
-		Scene.createSet( self.lineAssetCreation.text() )
+
+		set = self.lineAssetCreation.text()
+		Scene.createSet(set)
 		self.lineAssetCreation.clear()
-		self.updateTree()
+		self.addItemSet(set)
