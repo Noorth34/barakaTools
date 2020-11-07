@@ -24,14 +24,17 @@ class Manager(QWidget):
 
 		self.layMain = QHBoxLayout()
 		self.layTree = QVBoxLayout()
+		self.layCreations = QVBoxLayout()
 		self.layAssetCreation = QVBoxLayout()
+		self.layShotCreation = QVBoxLayout()
 
 		# UI Elements creation and settings
 
 		self.treeAsset = QTreeWidget()
 		self.treeAsset.setHeaderLabels(['Assets'])
 
-		self.groupAssetCreation = QGroupBox("Create Asset")
+			# Assets Group
+		self.groupAssetCreation = QGroupBox("Assets Creation")
 
 		self.lineAssetCreation = QLineEdit()
 		self.lineAssetCreation.setPlaceholderText("Asset Name...")
@@ -40,27 +43,53 @@ class Manager(QWidget):
 		self.btnCreateProp = QPushButton("Prop")
 		self.btnCreateSet = QPushButton("Set")
 
+			# Shots Group
+		self.groupShotCreation = QGroupBox("Shots Creation")
+
+		self.lineShotCreation = QLineEdit()
+		self.lineShotCreation.setPlaceholderText("Shot name...")
+
+		self.btnCreateShot = QPushButton("Shot")
+
+
 		# Connect SIGNAL to SLOT
 
+			# assets
 		self.btnCreateCharacter.clicked.connect(self.createCharacter)
 		self.btnCreateProp.clicked.connect(self.createProp)
 		self.btnCreateSet.clicked.connect(self.createSet)
+
+			# shots
+		# self.btnCreateShot.clicked.connect(self.createShot) # TO ADD
 
 		# Layout management
 
 		self.setLayout(self.layMain)
 
-		self.layMain.addWidget(self.groupAssetCreation)
+		self.layMain.addLayout(self.layCreations)
 		self.layMain.addLayout(self.layTree)
 
-		self.layTree.addWidget(self.treeAsset)
+			# assets
+		self.layCreations.addWidget(self.groupAssetCreation)
+
+		self.groupAssetCreation.setLayout(self.layAssetCreation)
 
 		self.layAssetCreation.addWidget(self.lineAssetCreation)
 		self.layAssetCreation.addWidget(self.btnCreateCharacter)
 		self.layAssetCreation.addWidget(self.btnCreateProp)
 		self.layAssetCreation.addWidget(self.btnCreateSet)
 
-		self.groupAssetCreation.setLayout(self.layAssetCreation)
+			# shots
+		self.layCreations.addWidget(self.groupShotCreation)
+
+		self.groupShotCreation.setLayout(self.layShotCreation)
+
+		self.layShotCreation.addWidget(self.lineShotCreation)
+		self.layShotCreation.addWidget(self.btnCreateShot)
+
+			# tree view
+		self.layTree.addWidget(self.treeAsset)
+		
 
 	def populateTree(self):
 

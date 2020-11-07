@@ -2,35 +2,40 @@
 
 from PySide2.QtWidgets import *
 from PySide2.QtGui import QIcon
-from constants import *
+import constants as const
+import ui.mayaWin as mayawin
 
 
-class Autorigs(QTabWidget):
+class Autorigs(QMainWindow):
 
     def __init__(self):
 
-        QTabWidget.__init__(self)
+        QMainWindow.__init__(self, parent=mayawin.getMayaMainWindow())
 
         self.width = 225
         self.height = 225
 
         self.setWindowTitle("Autorigs")
-        self.setWindowIcon(QIcon(BARAKA_ICONS_PATH + "/burger.png"))
+        self.setWindowIcon(QIcon(const.BARAKA_ICONS_PATH + "/burger.png"))
         self.setGeometry(800, 500, 0, 0)
         self.setFixedSize(self.width, self.height)
 
         self.initTabs()
         self.initLimbWithRibbon()
 
+        self.setCentralWidget(self.tabWidget)
+
     def initTabs(self):
+
+        self.tabWidget = QTabWidget()
 
         self.tabLimb = QWidget()
         self.tabEyes = QWidget()
         self.tabUtils = QWidget()
 
-        self.addTab(self.tabLimb, "Limb")
-        self.addTab(self.tabEyes, "Eyes")
-        self.addTab(self.tabUtils, "Utils")
+        self.tabWidget.addTab(self.tabLimb, "Limb")
+        self.tabWidget.addTab(self.tabEyes, "Eyes")
+        self.tabWidget.addTab(self.tabUtils, "Utils")
 
     def initLimbWithRibbon(self):
 
