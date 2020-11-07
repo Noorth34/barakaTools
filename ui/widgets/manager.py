@@ -156,7 +156,7 @@ class Manager(QWidget):
 
 	def contextMenuEvent(self, event):
 
-		contextMenu = QMenu(self.treeAsset)
+		contextMenu = QMenu(self)
 
 		newAction = contextMenu.addAction("New")
 		openAction = contextMenu.addAction("Open")
