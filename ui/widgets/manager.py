@@ -12,7 +12,11 @@ class Manager(QWidget):
 
 		QWidget.__init__(self)
 		self.init()
-		# self.populateTree()
+
+		try:
+			self.populateTree()
+		except:
+			pass
 
 	def init(self):
 
@@ -25,6 +29,7 @@ class Manager(QWidget):
 		# UI Elements creation and settings
 
 		self.treeAsset = QTreeWidget()
+		self.treeAsset.setHeaderLabels(['Assets'])
 
 		self.groupAssetCreation = QGroupBox("Create Asset")
 
@@ -63,7 +68,7 @@ class Manager(QWidget):
 
 		for categ in listCategAsset:
 			categItem = QTreeWidgetItem(self.treeAsset, [categ])
-			listItemsInCateg = Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}/maya/scenes/edit/geo".format(categ) )
+			listItemsInCateg = Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}".format(categ) )
 
 			for item in listItemsInCateg:
 				itemItem = QTreeWidgetItem(categItem, [item])
