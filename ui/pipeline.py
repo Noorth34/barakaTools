@@ -8,6 +8,8 @@ from ui.widgets.publisher import Publisher
 from ui.widgets.manager import Manager
 import ui.mayaWin as mayawin
 import constants as const
+import time
+import threading
 
 
 class Pipeline(QMainWindow):
@@ -20,12 +22,15 @@ class Pipeline(QMainWindow):
         self.heightManager = 325
 
         self.widthPublisher = 225
-        self.heightPublisher = 260
+        self.heightPublisher = 250
 
         self.setWindowTitle("Pipeline")
         self.setWindowIcon(QIcon(const.BARAKA_ICONS_PATH + "/coca.png"))
         self.setGeometry(600, 400, self.widthManager, self.heightManager)
-        # self.setMinimumSize(self.widthManager, self.heightManager)
+        self.setMinimumWidth(self.widthPublisher)
+        self.setMinimumHeight(self.widthPublisher)
+        self.setMaximumWidth(self.widthManager)
+        self.setMaximumHeight(self.widthManager)
         # self.setMaximumSize(self.widthManager*2, self.heightManager*2)
 
         self.initMenus()
@@ -75,15 +80,14 @@ class Pipeline(QMainWindow):
     def setWidgetSize(self):
 
         currentIndex = int( self.tabWidget.currentIndex() )
-
+        
         if currentIndex == 0:
-            # self.setMinimumSize(self.widthManager, self.heightManager)
+
             self.resizeWindow(self.widthManager, self.heightManager)
-            # self.resize(self.widthManager, self.heightManager)
-        else:
-            # self.setFixedSize(self.widthPublisher, self.heightPublisher)
+
+        if currentIndex == 1:
+
             self.resizeWindow(self.widthPublisher, self.heightPublisher)
-            # self.resize(self.widthPublisher, self.heightPublisher)
 
     def setRootPath(self):
         
