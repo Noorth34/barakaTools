@@ -73,12 +73,22 @@ class Manager(QWidget):
 			for item in listItemsInCateg:
 				itemItem = QTreeWidgetItem(categItem, [item])
 
+	def updateTree(self):
+
+		self.treeAsset.clear()
+		self.populateTree()
 
 	def createCharacter(self):
 		Scene.createCharacter( self.lineAssetCreation.text() )
+		self.lineAssetCreation.clear()
+		self.updateTree()
 
 	def createProp(self):
 		Scene.createProp( self.lineAssetCreation.text() )
+		self.lineAssetCreation.clear()
+		self.updateTree()
 
 	def createSet(self):
 		Scene.createSet( self.lineAssetCreation.text() )
+		self.lineAssetCreation.clear()
+		self.updateTree()
