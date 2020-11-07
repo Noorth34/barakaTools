@@ -8,9 +8,6 @@ from ui.widgets.publisher import Publisher
 from ui.widgets.manager import Manager
 import ui.mayaWin as mayawin
 import constants as const
-import time
-import threading
-
 
 class Pipeline(QMainWindow):
 
