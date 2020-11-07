@@ -158,8 +158,92 @@ class Manager(QWidget):
 
 		contextMenu = QMenu(self)
 
-		newAction = contextMenu.addAction("New")
-		openAction = contextMenu.addAction("Open")
-		quitAction = contextMenu.addAction("Quit")
+		dictMenus = {
+
+		"Edit" : {
+
+				"Open last" : {
+
+							"Geo" : "",
+							"Rig" : "",
+							"Lookdev" : "",
+							"Dressing" : "",
+							"LightRig" : ""
+
+							},
+
+				"Import last" : {
+
+							"Geo" : "",
+							"Rig" : "",
+							"Lookdev" : "",
+							"Dressing" : "",
+							"LightRig" : ""
+
+							},
+				"Reference last" : {
+
+							"Geo" : "",
+							"Rig" : "",
+							"Lookdev" : "",
+							"Dressing" : "",
+							"LightRig" : ""
+
+							}
+				},
+
+		"Publish" : {
+
+				"Open" : {
+
+							"Geo" : "",
+							"Rig" : "",
+							"Lookdev" : "",
+							"Dressing" : "",
+							"LightRig" : ""
+
+							},
+
+				"Import" : {
+
+							"Geo" : "",
+							"Rig" : "",
+							"Lookdev" : "",
+							"Dressing" : "",
+							"LightRig" : ""
+
+							},
+				"Reference" : {
+
+							"Geo" : "",
+							"Rig" : "",
+							"Lookdev" : "",
+							"Dressing" : "",
+							"LightRig" : ""
+
+							}
+				}
+		}
+
+		listMenus = list( dictMenus.keys() )
+		listMenus.sort()
+		for x in listMenus:
+			mainMenu = contextMenu.addMenu(x)
+
+			listSubMenus = list( dictMenus[x].keys() )
+			listSubMenus.sort()
+			for y in listSubMenus:
+				actionMenu = mainMenu.addMenu(y)
+
+				listActions = list( dictMenus[x][y].keys() )
+				listActions.sort()
+				for z in listActions:
+					action = actionMenu.addAction(z)
+
+		# menuImportLast = menuEdit.addMenu("Import last")
+		# menuReferenceLast = menuEdit.addMenu("Reference last")
+
+		# menuPublish = contextMenu.addMenu("Publish")
+		# menuPublish.addAction("World")
 
 		action = contextMenu.exec_( self.mapToGlobal( event.pos() ) )
