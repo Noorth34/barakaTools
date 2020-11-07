@@ -13,6 +13,9 @@ class Manager(QWidget):
 		QWidget.__init__(self)
 
 		self.dictAssets = {}
+		self.dictAssets['character'] = {}
+		self.dictAssets['prop'] = {}
+		self.dictAssets['set'] = {}
 
 		self.init()
 
@@ -150,3 +153,13 @@ class Manager(QWidget):
 		Scene.createSet(set)
 		self.lineAssetCreation.clear()
 		self.addItemSet(set)
+
+	def contextMenuEvent(self, event):
+
+		contextMenu = QMenu(self.treeAsset)
+
+		newAction = contextMenu.addAction("New")
+		openAction = contextMenu.addAction("Open")
+		quitAction = contextMenu.addAction("Quit")
+
+		action = contextMenu.exec_( self.mapToGlobal( event.pos() ) )

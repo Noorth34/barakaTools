@@ -1,7 +1,9 @@
 # coing:utf-8
 
+from PySide2 import QtCore
 from PySide2.QtWidgets import *
-from PySide2.QtGui import QIcon, Qt
+from PySide2.QtGui import (QIcon, Qt)
+from PySide2.QtCore import (QSize, QPropertyAnimation)
 from ui.widgets.publisher import Publisher
 from ui.widgets.manager import Manager
 import ui.mayaWin as mayawin
@@ -23,8 +25,8 @@ class Pipeline(QMainWindow):
         self.setWindowTitle("Pipeline")
         self.setWindowIcon(QIcon(const.BARAKA_ICONS_PATH + "/coca.png"))
         self.setGeometry(600, 400, self.widthManager, self.heightManager)
-        self.setMinimumSize(self.widthManager, self.heightManager)
-        self.setMaximumSize(self.widthManager*2, self.heightManager*2)
+        # self.setMinimumSize(self.widthManager, self.heightManager)
+        # self.setMaximumSize(self.widthManager*2, self.heightManager*2)
 
         self.initMenus()
         self.initTabWidget()
@@ -62,16 +64,26 @@ class Pipeline(QMainWindow):
     	self.tabPublisher = Publisher()
     	self.tabWidget.addTab(self.tabPublisher, "Publisher")
 
+    def resizeWindow(self, width, height):
+        
+        self.animation = QPropertyAnimation(self, b"size")
+        self.animation.setDuration(100)
+        self.animation.setEndValue(QtCore.QSize(width, height))
+        self.animation.setEasingCurve(QtCore.QEasingCurve.Linear)
+        self.animation.start()
+
     def setWidgetSize(self):
 
         currentIndex = int( self.tabWidget.currentIndex() )
 
         if currentIndex == 0:
-            self.setMinimumSize(self.widthManager, self.heightManager)
-            self.resize(self.widthManager, self.heightManager)
+            # self.setMinimumSize(self.widthManager, self.heightManager)
+            self.resizeWindow(self.widthManager, self.heightManager)
+            # self.resize(self.widthManager, self.heightManager)
         else:
-            self.setFixedSize(self.widthPublisher, self.heightPublisher)
-            self.resize(self.widthPublisher, self.heightPublisher)
+            # self.setFixedSize(self.widthPublisher, self.heightPublisher)
+            self.resizeWindow(self.widthPublisher, self.heightPublisher)
+            # self.resize(self.widthPublisher, self.heightPublisher)
 
     def setRootPath(self):
         
