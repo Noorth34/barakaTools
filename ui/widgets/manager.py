@@ -11,6 +11,9 @@ class Manager(QWidget):
 	def __init__(self):
 
 		QWidget.__init__(self)
+
+		self.dictAssets = {}
+
 		self.init()
 
 		try:
@@ -93,14 +96,20 @@ class Manager(QWidget):
 
 	def populateTree(self):
 
-		listCategAsset = Directory.getChildren(const.PIPELINE_ROOT_PATH)
+		listCateg = Directory.getChildren(const.PIPELINE_ROOT_PATH)
 
-		for categ in listCategAsset:
-			categItem = QTreeWidgetItem(self.treeAsset, [categ])
-			listItemsInCateg = Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}".format(categ) )
+		# Get asset categories
+		for cat in listCateg:
 
-			for item in listItemsInCateg:
-				itemItem = QTreeWidgetItem(categItem, [item])
+			categItem = QTreeWidgetItem(self.treeAsset, [cat])
+			listInCategProjects = Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}".format(cat) )
+
+			# Get asset projects
+			for proj in listInCategProjects:
+
+				project = QTreeWidgetItem(categItem, [proj])
+				
+
 
 	def updateTree(self):
 
