@@ -45,19 +45,26 @@ class Manager(QWidget):
 
 		self.lineAssetCreation = QLineEdit()
 		self.lineAssetCreation.setPlaceholderText("Asset Name...")
+		self.lineAssetCreation.setMaximumHeight(20)
 
 		self.btnCreateCharacter = QPushButton("Character")
 		self.btnCreateProp = QPushButton("Prop")
 		self.btnCreateSet = QPushButton("Set")
 
+		self.btnCreateCharacter.setMaximumHeight(25)
+		self.btnCreateProp.setMaximumHeight(25)
+		self.btnCreateSet.setMaximumHeight(25)
+
 			# Shots Group
 		self.groupShotCreation = QGroupBox("Shots Creation")
+		self.groupShotCreation.setMaximumHeight(90)
 
 		self.lineShotCreation = QLineEdit()
 		self.lineShotCreation.setPlaceholderText("Shot name...")
+		self.lineShotCreation.setMaximumHeight(20)
 
 		self.btnCreateShot = QPushButton("Shot")
-
+		self.btnCreateShot.setMaximumHeight(25)
 
 		# Connect SIGNAL to SLOT
 
@@ -86,6 +93,8 @@ class Manager(QWidget):
 		self.layAssetCreation.addWidget(self.btnCreateProp)
 		self.layAssetCreation.addWidget(self.btnCreateSet)
 
+		self.layAssetCreation.setSpacing(1)
+
 			# shots
 		self.layCreations.addWidget(self.groupShotCreation)
 
@@ -93,6 +102,8 @@ class Manager(QWidget):
 
 		self.layShotCreation.addWidget(self.lineShotCreation)
 		self.layShotCreation.addWidget(self.btnCreateShot)
+
+		self.layShotCreation.setSpacing(1)
 
 			# tree view
 		self.layTree.addWidget(self.treeAsset)

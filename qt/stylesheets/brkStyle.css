@@ -1,0 +1,38 @@
+QMainWindow{
+background-color: rgb(30, 39, 42);
+}
+
+QPushButton{
+background-color: rgb(65, 131, 197);
+border-radius: 12px;
+}
+
+QPushButton:hover{
+background-color: rgb(255, 85, 255);
+}
+
+QPushButton:pressed {
+background-color: rgb(207, 69, 207);
+}
+
+QLineEdit{
+background-color: rgb(53, 53, 53);
+border-radius: 10px;
+color: rgb(149, 149, 149);
+padding-left: 10px;
+padding-right: 10px;
+}
+
+QLineEdit:hover{
+border: 1px solid rgb(65, 131, 197);
+}
+
+QLineEdit:focus{
+border: 1px solid rgb(65, 131, 197);
+}
+
+QGroupBox{
+background-color: rgb(53, 53, 53);
+border-radius : 7px;
+color: rgb(149, 149, 149);
+}
