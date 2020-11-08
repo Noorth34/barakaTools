@@ -262,14 +262,14 @@ class Manager(QWidget):
 	def printZ(self, x, y, z):
 		print("{}>{}>{}".format(x, y, z))
 
-	def doContextMenuActions(self, x, y, z):
+	def doContextMenuActions(self, actionType, action, sceneType):
 
 		selectedItem = self.treeAsset.currentItem()
 		asset = selectedItem.text(0)
 		categItem = selectedItem.parent()
 		textCateg = categItem.text(0)
 
-		if [x, y] == ['Edit', 'Import last']:
-			dirEdit = const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/{}".format(textCateg, asset, z.lower())
+		if [actionType, action] == ['Edit', 'Import last']:
+			dirEdit = const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/{}".format(textCateg, asset, sceneType.lower())
 			last = Directory.getChildren(dirEdit)[-1]
 			print(dirEdit + "/" + last)
