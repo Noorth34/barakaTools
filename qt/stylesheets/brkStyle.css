@@ -1,5 +1,30 @@
 QMainWindow{
-background-color: rgb(30, 39, 42);
+background-color: rgb(42, 42, 42);
+}
+
+QTabWidget::pane {
+  border: none;
+  top:-1px; 
+  background-color: rgb(57, 57, 57);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+} 
+
+QTabBar::tab {
+  background-color: rgb(86, 86, 86);
+  color: rgb(200, 200, 200);
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 4px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+} 
+
+QTabBar::tab:selected { 
+  background-color: rgb(57, 57, 57);
+  margin-bottom: -1px;
 }
 
 QPushButton{
@@ -16,9 +41,9 @@ background-color: rgb(207, 69, 207);
 }
 
 QLineEdit{
-background-color: rgb(53, 53, 53);
+background-color: rgb(76, 76, 76);
 border-radius: 10px;
-color: rgb(149, 149, 149);
+color: rgb(190, 190, 190);
 padding-left: 10px;
 padding-right: 10px;
 }
@@ -32,7 +57,11 @@ border: 1px solid rgb(65, 131, 197);
 }
 
 QGroupBox{
-background-color: rgb(53, 53, 53);
+background-color: rgb(48, 48, 48);
 border-radius : 7px;
 color: rgb(149, 149, 149);
+}
+
+QGroupBox:title{
+padding: 7px;
 }

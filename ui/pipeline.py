@@ -36,7 +36,7 @@ class Pipeline(QMainWindow):
         self.initPublisher()
 
         self.setCentralWidget(self.tabWidget)
-        self.setStyleSheet(open(const.BARAKA_STYLESHEETS_PATH + "/brkStyle.css").read())
+        # self.setStyleSheet(open(const.BARAKA_STYLESHEETS_PATH + "/brkStyle.css").read())
 
     def initMenus(self):
 

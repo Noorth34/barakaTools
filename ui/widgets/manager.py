@@ -37,6 +37,7 @@ class Manager(QWidget):
 		# UI Elements creation and settings
 
 		self.treeAsset = QTreeWidget()
+		self.treeAsset.setAnimated(True)
 		self.treeAsset.setHeaderLabels(['Pick what you want...'])
 		self.itemAssets = QTreeWidgetItem(self.treeAsset, ['Assets'])
 
