@@ -19,7 +19,7 @@ class Pipeline(QMainWindow):
         self.heightManager = 325
 
         self.widthPublisher = 225
-        self.heightPublisher = 250
+        self.heightPublisher = 240
 
         self.setWindowTitle("Pipeline")
         self.setWindowIcon(QIcon(const.BARAKA_ICONS_PATH + "/coca.png"))
@@ -36,7 +36,7 @@ class Pipeline(QMainWindow):
         self.initPublisher()
 
         self.setCentralWidget(self.tabWidget)
-        # self.setStyleSheet(open(const.BARAKA_STYLESHEETS_PATH + "/brkStyle.css").read())
+        self.setStyleSheet(open(const.BARAKA_STYLESHEETS_PATH + "/brkStyle.css").read())
 
     def initMenus(self):
 

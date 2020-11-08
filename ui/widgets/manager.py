@@ -76,6 +76,9 @@ class Manager(QWidget):
 			# shots
 		# self.btnCreateShot.clicked.connect(self.createShot) # TO ADD
 
+			# context menu
+
+
 		# Layout management
 
 		self.setLayout(self.layMain)
@@ -251,10 +254,10 @@ class Manager(QWidget):
 				for z in listActions:
 					action = actionMenu.addAction(z)
 
-		# menuImportLast = menuEdit.addMenu("Import last")
-		# menuReferenceLast = menuEdit.addMenu("Reference last")
-
-		# menuPublish = contextMenu.addMenu("Publish")
-		# menuPublish.addAction("World")
+					action.triggered.connect( partial(self.printZ, x, y, z) )
 
 		action = contextMenu.exec_( self.mapToGlobal( event.pos() ) )
+
+
+	def printZ(self, x, y, z):
+		print("{}>{}>{}".format(x, y, z))
