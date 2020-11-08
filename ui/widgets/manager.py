@@ -254,10 +254,22 @@ class Manager(QWidget):
 				for z in listActions:
 					action = actionMenu.addAction(z)
 
-					action.triggered.connect( partial(self.printZ, x, y, z) )
+					action.triggered.connect( partial(self.doContextMenuActions, x, y, z) )
 
 		action = contextMenu.exec_( self.mapToGlobal( event.pos() ) )
 
 
 	def printZ(self, x, y, z):
 		print("{}>{}>{}".format(x, y, z))
+
+	def doContextMenuActions(self, x, y, z):
+
+		selectedItem = self.treeAsset.currentItem()
+		asset = selectedItem.text(0)
+		categItem = selectedItem.parent()
+		textCateg = categItem.text(0)
+
+		if [x, y] == ['Edit', 'Import last']:
+			dirEdit = const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/{}".format(textCateg, asset, z.lower())
+			last = Directory.getChildren(dirEdit)[-1]
+			print(dirEdit + "/" + last)

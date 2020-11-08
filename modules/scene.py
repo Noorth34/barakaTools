@@ -13,6 +13,21 @@ class Scene():
         pass
 
     @staticmethod
+    def import_(scene):
+
+        return pms.importFile(scene)
+
+    @staticmethod
+    def reference(scene):
+
+        return pms.createReference(scene)
+
+    @staticmethod
+    def open_(scene):
+
+        return pms.openFile(scene)
+
+    @staticmethod
     def save(type):
 
         return str( pms.saveFile(type=type) )
