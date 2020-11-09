@@ -39,7 +39,7 @@ class Manager(QWidget):
 		self.treeAsset = QTreeWidget()
 		self.treeAsset.setAnimated(True)
 		self.treeAsset.setHeaderLabels(['Pick what you want...'])
-		self.itemAssets = QTreeWidgetItem(self.treeAsset, ['Assets'])
+		self.itemAssets = QTreeWidgetItem(self.treeAsset, ['ASSETS'])
 
 			# Assets Group
 		self.groupAssetCreation = QGroupBox("Assets Creation")
@@ -115,6 +115,13 @@ class Manager(QWidget):
 
 	def populateTree(self):
 
+		try:
+			self.itemAssets.removeChild(self.itemCharacter)
+			self.itemAssets.removeChild(self.itemProp)
+			self.itemAssets.removeChild(self.itemSet)
+		except:
+			pass
+
 		self.itemCharacter = QTreeWidgetItem(self.itemAssets, ['character'])
 		self.itemProp = QTreeWidgetItem(self.itemAssets, ['prop'])
 		self.itemSet = QTreeWidgetItem(self.itemAssets, ['set'])
@@ -123,6 +130,8 @@ class Manager(QWidget):
 
 		# Get asset categories
 		for categ in listCateg:
+			if categ == "workspace.mel":
+				continue
 
 			listInCategProjects = Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}".format(categ) )
 
