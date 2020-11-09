@@ -90,8 +90,11 @@ class Pipeline(QMainWindow):
     def openSetRootPathPopup(self):
         
         self.popup = PopupSetRootPath("Enter your project path...", "Set")
+
+        # Connect SIGNAL to SLOT
         self.popup.btnSet.clicked.connect(self.setRootPath)
         self.popup.btnCancel.clicked.connect(self.popup.closePopup)
+
         self.popup.open()
 
     def setRootPath(self):
@@ -146,11 +149,6 @@ class PopupSetRootPath(QDialog, Pipeline):
         self.btnSet = QPushButton(button)
         self.btnCancel = QPushButton("Cancel")
 
-        # Connect SIGNAL to SLOT
-
-        # self.btnSet.clicked.connect(self.setRootPath)
-        # self.btnCancel.clicked.connect(self.closePopup)
-
         # Layout Management
 
         self.layMain = QVBoxLayout()
@@ -169,30 +167,4 @@ class PopupSetRootPath(QDialog, Pipeline):
     def closePopup(self):
         self.lineRootPath.clear()
         self.close()
-
-    # def setRootPath(self):
-    #     from configparser import ConfigParser
-    #     from maya import cmds
-    #     from modules.path import Path
-
-    #     const.PIPELINE_ROOT_PATH = Path.convertBackslashToSlash( self.lineRootPath.text() )
-
-    #     config = ConfigParser()
-    #     config.read(const.BARAKA_CONFIG_PATH)
-    #     config.set("PATH", "rootPath", const.PIPELINE_ROOT_PATH)
-    #     with open(const.BARAKA_CONFIG_PATH, "wb") as cf:
-    #         config.write(cf)
-        
-    #     const.PIPELINE_CHARACTERS = const.PIPELINE_ROOT_PATH + "/character"
-    #     const.PIPELINE_PROPS = const.PIPELINE_ROOT_PATH + "/prop"
-    #     const.PIPELINE_SETS = const.PIPELINE_ROOT_PATH + "/set"
-
-    #     print(const.PIPELINE_ROOT_PATH)
-    #     print(const.PIPELINE_CHARACTERS)
-    #     print(const.PIPELINE_PROPS)
-    #     print(const.PIPELINE_SETS)
-    #     cmds.inViewMessage(amg='Root Path set to: \n <hl>' + const.PIPELINE_ROOT_PATH + '</hl>', pos='topCenter', fade=True)
-
-
-    #     self.closePopup()
         
