@@ -19,7 +19,7 @@ class Pipeline(QMainWindow):
         self.heightManager = 325
 
         self.widthPublisher = 225
-        self.heightPublisher = 240
+        self.heightPublisher = 250
 
         self.setWindowTitle("Pipeline")
         self.setWindowIcon(QIcon(const.BARAKA_ICONS_PATH + "/coca.png"))
@@ -143,7 +143,7 @@ class PopupSetRootPath(QDialog, Pipeline):
 
         # UI elements creation and settings
 
-        self.lineRootPath = QLineEdit()
+        self.lineRootPath = QLineEdit(const.PIPELINE_ROOT_PATH)
         self.lineRootPath.setPlaceholderText(placeholder)
 
         self.btnSet = QPushButton(button)
