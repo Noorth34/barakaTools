@@ -13,7 +13,7 @@ class Scene():
     def __init__(self):
         pass
 
-    def checkSelection(func, obj=None):
+    def checkSelection(func, obj=None, type=None, msg="Any selection. Please select something"):
         def wrapper(*args, **kwargs):
             sel = Selection.get()
             if obj:
@@ -22,8 +22,12 @@ class Scene():
                 for i in sel:
                     if not obj in i:
                         cmds.error("Bad selection. Please select {}".format(obj))
+            if type:
+                for i in sel:
+                    if cmds.objectType( cmds.listRelatives(i) ) != type:
+                        cmds.error("Selected objects are not {}".format(type))
             if not sel:
-                cmds.error("Any selection. Please select something")
+                cmds.error(msg)
             return func(*args, **kwargs)
         return wrapper
         
@@ -71,25 +75,27 @@ class Scene():
         return Scene.saveAs(edit)
 
     @staticmethod
-    @checkSelection
-    def alembicExport(sel, file, start=1, end=1):
+    @partial(checkSelection, type="mesh", msg="Select geo before publish")
+    def alembicExport(file, start=1, end=1):
 
+        toExport = " ".join( cmds.ls(sl=True, long=True, ap=True) )
 
         abcFIle = None
         # //gandalf/3d4_20_21/barakafrites/04_asset/character/patatax/maya/scenes/edit/geo/patatax_E_geo_0001.ma
         # //gandalf/3d4_20_21/barakafrites/04_asset/character/patatax/maya/cache/patatax_P_geo_0001.abc
         if "/04_asset/" and "/geo/" in file:
-            abcFile = file.replace("/scenes/edit/geo", "/cache").replace("_E_", "_P_")
+            abcFile = file.replace("/scenes/edit/geo", "/cache/alembic").replace("_E_", "_P_").replace(".ma", ".abc")
         # //gandalf/3d4_20_21/barakafrites/05_shot/shotTest/maya/scenes/edit/anim/patatax_E_anim_0001.ma
         # //gandalf/3d4_20_21/barakafrites/05_shot/shotTest/maya/cache/patatax_E_anim_0001.abc
         if "/05_shot/" and "/anim/" in file:
-            abcFile = file.replace("/scenes/edit/anim", "/cache").replace("_E_", "_P_")
+            abcFile = file.replace("/scenes/edit/anim", "/cache/alembic").replace("_E_", "_P_").replace(".ma", ".abc")
          
-        command = "-frameRange {} {} - autoSubd -uvWrite -worldSpace -root {} -file {}".format(start, end, sel, abcFile)
+        command = "-frameRange {} {} -autoSubd -uvWrite -worldSpace -root {} -file {}".format(start, end, toExport, abcFile)
 
         cmds.AbcExport(j = command)
 
     @staticmethod
+    @checkSelection
     def publish(selection=[]):
 
         # Variables
@@ -112,18 +118,17 @@ class Scene():
 
         # Securities
 
-        if not selection:
-            selection = Selection.get()
-            if not selection:
-                cmds.error("Select the TOP_GROUP (or simple geo) before publish.")
+        # if not selection:
+        #     selection = Selection.get()
+        #     if not selection:
+        #         cmds.error("Select geo before publish.")
 
-        if len(selection) != 1:
-            cmds.error(
-                "Multiple selection. Just select the TOP_GROUP (or simple geo) for publish.")
+        # if len(selection) != 1:
+        #     cmds.error(
+        #         "Multiple selection. Just select the TOP_GROUP (or simple geo) for publish.")
 
-        if not "TOP_" in selection[0]:
-            cmds.error(
-                "Bad selection. Please select the TOP_GROUP (or simple geo) for publish.")
+        # if not "TOP_" in selection[0]:
+        #     cmds.error("Bad selection. Please select the TOP_GROUP (or simple geo) for publish.")
 
         Scene.exportSelection(fullBackupScenePath, "mayaAscii")
         print("Asset backup : {}".format(fullBackupScenePath))
