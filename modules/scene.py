@@ -7,10 +7,30 @@ from file import File
 from directory import Directory
 from selection import Selection
 import constants as const
+from functools import partial
 
 class Scene():
     def __init__(self):
         pass
+
+    def checkSelection(func, obj=None):
+        def wrapper(*args, **kwargs):
+            sel = Selection.get()
+            if obj:
+                if not sel:
+                    cmds.error("Any selection. Please select {}".format(obj))
+                for i in sel:
+                    if not obj in i:
+                        cmds.error("Bad selection. Please select {}".format(obj))
+            if not sel:
+                cmds.error("Any selection. Please select something")
+            return func(*args, **kwargs)
+        return wrapper
+        
+    # @staticmethod
+    # @partial(checkSelection, obj="TOP")
+    # def _printStuff():
+    #     print("GOOD !")
 
     @staticmethod
     def import_(scene):
@@ -51,6 +71,25 @@ class Scene():
         return Scene.saveAs(edit)
 
     @staticmethod
+    @checkSelection
+    def alembicExport(sel, file, start=1, end=1):
+
+
+        abcFIle = None
+        # //gandalf/3d4_20_21/barakafrites/04_asset/character/patatax/maya/scenes/edit/geo/patatax_E_geo_0001.ma
+        # //gandalf/3d4_20_21/barakafrites/04_asset/character/patatax/maya/cache/patatax_P_geo_0001.abc
+        if "/04_asset/" and "/geo/" in file:
+            abcFile = file.replace("/scenes/edit/geo", "/cache").replace("_E_", "_P_")
+        # //gandalf/3d4_20_21/barakafrites/05_shot/shotTest/maya/scenes/edit/anim/patatax_E_anim_0001.ma
+        # //gandalf/3d4_20_21/barakafrites/05_shot/shotTest/maya/cache/patatax_E_anim_0001.abc
+        if "/05_shot/" and "/anim/" in file:
+            abcFile = file.replace("/scenes/edit/anim", "/cache").replace("_E_", "_P_")
+         
+        command = "-frameRange {} {} - autoSubd -uvWrite -worldSpace -root {} -file {}".format(start, end, sel, abcFile)
+
+        cmds.AbcExport(j = command)
+
+    @staticmethod
     def publish(selection=[]):
 
         # Variables
@@ -76,15 +115,15 @@ class Scene():
         if not selection:
             selection = Selection.get()
             if not selection:
-                cmds.error("Select the TOP group before publish.")
+                cmds.error("Select the TOP_GROUP (or simple geo) before publish.")
 
         if len(selection) != 1:
             cmds.error(
-                "Multiple selection. Just select the TOP group for publish.")
+                "Multiple selection. Just select the TOP_GROUP (or simple geo) for publish.")
 
         if not "TOP_" in selection[0]:
             cmds.error(
-                "Bad selection. Please select the TOP group for publish.")
+                "Bad selection. Please select the TOP_GROUP (or simple geo) for publish.")
 
         Scene.exportSelection(fullBackupScenePath, "mayaAscii")
         print("Asset backup : {}".format(fullBackupScenePath))
