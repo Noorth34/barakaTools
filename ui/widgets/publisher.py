@@ -74,4 +74,11 @@ class Publisher(QWidget):
 
         ##Set Properties
 
-        
+        self.lineCommit.setMinimumHeight(20)
+        self.btnEdit.setMinimumHeight(30)
+
+        self.groupWithAlembic.setMinimumHeight(80)
+
+        self.btnPublish.setMinimumHeight(30)   
+
+        self.layStartEndFrame.setContentsMargins(9, 25, 9, 9)     

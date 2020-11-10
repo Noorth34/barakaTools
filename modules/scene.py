@@ -135,6 +135,9 @@ class Scene():
         Scene.exportSelection(fullPublishScenePath, "mayaAscii")
         print("Asset published : {}".format(fullPublishScenePath))
 
+        # Alembic
+        # Scene.alembicExport(scene)
+        
         cmds.inViewMessage(amg='Asset published: \n <hl>' + fullPublishScenePath + '</hl>. \n Publish backup: \n <hl>' + fullBackupScenePath + '</hl>.', pos='topCenter', fade=True)
 
     @staticmethod

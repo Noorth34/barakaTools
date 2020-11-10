@@ -114,7 +114,7 @@ class Manager(QWidget):
 		self.lineShotCreation.setMaximumHeight(20)
 		self.btnCreateShot.setMaximumHeight(25)
 
-		self.treeAsset.setMaximumSize(1000, 1000)
+		self.treeAsset.setMaximumSize(10000, 10000)
 		self.treeAsset.setMinimumSize(100, 150)
 		self.treeAsset.setAnimated(True)
 		self.treeAsset.setHeaderHidden(True)
