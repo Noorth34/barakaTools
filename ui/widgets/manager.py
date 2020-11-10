@@ -146,7 +146,7 @@ class Manager(QWidget):
 
 		# Get asset categories
 		for categ in listCateg:
-			if categ == "workspace.mel":
+			if categ in const.FILE_TO_IGNORE_LIST:
 				continue
 
 			listInCategProjects = Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}".format(categ) )
@@ -180,9 +180,9 @@ class Manager(QWidget):
 						if file == "items": 
 							i_Items = QTreeWidgetItem(i_Prop, ['items'])
 
-							# # List all item folders
-							# for i in Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/geo/items".format(categ, proj) ):
-							# 	i_itemFol = QTreeWidgetItem(i_Items, [i])
+							# List all item folders
+							for i in Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/geo/items".format(categ, proj) ):
+								i_itemFol = QTreeWidgetItem(i_Items, [i])
 
 				# For Sets
 				if categ == "set":
