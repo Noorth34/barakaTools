@@ -71,3 +71,7 @@ class Publisher(QWidget):
         self.layMain.addWidget(separator2)
         self.layMain.layout().addLayout(self.layStartEndFrame)
         self.layMain.layout().addLayout(self.layPublish)
+
+        ##Set Properties
+
+        

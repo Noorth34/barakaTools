@@ -2,13 +2,37 @@ QMainWindow{
 background-color: rgb(42, 42, 42);
 }
 
+QMenuBar{
+    background-color: rgb(57, 57, 57);
+}
+
+QMenuBar::item{
+  background-color: rgb(57, 57, 57);
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+QMenuBar::item::selected{
+  background-color: rgb(255, 85, 255);
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
 QTabWidget::pane {
   border: none;
   top:-1px; 
   background-color: rgb(57, 57, 57);
-  border-top-right-radius: 10px;
+/*  border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-bottom-left-radius: 10px;*/
 } 
 
 QTabBar::tab {
@@ -34,10 +58,28 @@ border-radius: 12px;
 
 QPushButton:hover{
 background-color: rgb(255, 85, 255);
+border-radius: 6px;
 }
 
 QPushButton:pressed {
 background-color: rgb(207, 69, 207);
+}
+
+QSpinBox{
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  padding-left: 30%;
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
+
+QSpinBox::up-button {
+  
+  width: 20%;
+}
+
+QSpinBox::down-button {
+  width: 20%;
 }
 
 QLineEdit{
@@ -58,10 +100,22 @@ border: 1px solid rgb(65, 131, 197);
 
 QGroupBox{
 background-color: rgb(48, 48, 48);
-border-radius : 7px;
+border-radius : 12px;
 color: rgb(149, 149, 149);
 }
 
 QGroupBox:title{
-padding: 7px;
+padding-top: 5px;
+padding-left: 15px;
+}
+
+QTreeWidget{
+color: rgb(213, 213, 213);
+background-color: rgb(48, 48, 48);
+border-radius: 12px;
+padding-top: 8px;
+padding-left: 5px;
+}
+
+QTreeWidget:branch{
 }

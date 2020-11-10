@@ -16,7 +16,7 @@ class Pipeline(QMainWindow):
         QMainWindow.__init__(self, parent=mayawin.getMayaMainWindow())
 
         self.widthManager = 425
-        self.heightManager = 325
+        self.heightManager = 350
 
         self.widthPublisher = 225
         self.heightPublisher = 250
@@ -26,8 +26,8 @@ class Pipeline(QMainWindow):
         self.setGeometry(600, 400, self.widthManager, self.heightManager)
         self.setMinimumWidth(self.widthPublisher)
         self.setMinimumHeight(self.widthPublisher)
-        self.setMaximumWidth(self.widthManager)
-        self.setMaximumHeight(self.widthManager)
+        # self.setMaximumWidth(self.widthManager)
+        # self.setMaximumHeight(self.widthManager)
         # self.setMaximumSize(self.widthManager*2, self.heightManager*2)
 
         self.initMenus()
@@ -36,7 +36,7 @@ class Pipeline(QMainWindow):
         self.initPublisher()
 
         self.setCentralWidget(self.tabWidget)
-        # self.setStyleSheet(open(const.BARAKA_STYLESHEETS_PATH + "/brkStyle.css").read())
+        self.setStyleSheet(open(const.BARAKA_STYLESHEETS_PATH + "/brkStyle.css").read())
 
     def initMenus(self):
 

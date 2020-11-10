@@ -29,7 +29,7 @@ class Manager(QWidget):
 		# Layouts creation
 
 		self.layMain = QHBoxLayout()
-		self.layTree = QVBoxLayout()
+		# self.layTree = QVBoxLayout()
 		self.layCreations = QVBoxLayout()
 		self.layAssetCreation = QVBoxLayout()
 		self.layShotCreation = QVBoxLayout()
@@ -37,8 +37,6 @@ class Manager(QWidget):
 		# UI Elements creation and settings
 
 		self.treeAsset = QTreeWidget()
-		self.treeAsset.setAnimated(True)
-		self.treeAsset.setHeaderLabels(['Pick what you want...'])
 		self.itemAssets = QTreeWidgetItem(self.treeAsset, ['ASSETS'])
 
 			# Assets Group
@@ -46,26 +44,18 @@ class Manager(QWidget):
 
 		self.lineAssetCreation = QLineEdit()
 		self.lineAssetCreation.setPlaceholderText("Asset Name...")
-		self.lineAssetCreation.setMaximumHeight(20)
 
 		self.btnCreateCharacter = QPushButton("Character")
 		self.btnCreateProp = QPushButton("Prop")
 		self.btnCreateSet = QPushButton("Set")
 
-		self.btnCreateCharacter.setMaximumHeight(25)
-		self.btnCreateProp.setMaximumHeight(25)
-		self.btnCreateSet.setMaximumHeight(25)
-
 			# Shots Group
 		self.groupShotCreation = QGroupBox("Shots Creation")
-		self.groupShotCreation.setMaximumHeight(90)
 
 		self.lineShotCreation = QLineEdit()
 		self.lineShotCreation.setPlaceholderText("Shot name...")
-		self.lineShotCreation.setMaximumHeight(20)
 
 		self.btnCreateShot = QPushButton("Shot")
-		self.btnCreateShot.setMaximumHeight(25)
 
 		# Connect SIGNAL to SLOT
 
@@ -85,7 +75,6 @@ class Manager(QWidget):
 		self.setLayout(self.layMain)
 
 		self.layMain.addLayout(self.layCreations)
-		self.layMain.addLayout(self.layTree)
 
 			# assets
 		self.layCreations.addWidget(self.groupAssetCreation)
@@ -97,8 +86,6 @@ class Manager(QWidget):
 		self.layAssetCreation.addWidget(self.btnCreateProp)
 		self.layAssetCreation.addWidget(self.btnCreateSet)
 
-		self.layAssetCreation.setSpacing(1)
-
 			# shots
 		self.layCreations.addWidget(self.groupShotCreation)
 
@@ -107,11 +94,40 @@ class Manager(QWidget):
 		self.layShotCreation.addWidget(self.lineShotCreation)
 		self.layShotCreation.addWidget(self.btnCreateShot)
 
-		self.layShotCreation.setSpacing(1)
-
 			# tree view
-		self.layTree.addWidget(self.treeAsset)
+		self.layMain.addWidget(self.treeAsset)
 		
+		## Set Properties
+
+		self.groupAssetCreation.setMinimumSize(110,158)
+		self.groupAssetCreation.setMaximumSize(133,550)
+
+		self.lineAssetCreation.setMaximumHeight(20)
+
+		self.btnCreateCharacter.setMaximumHeight(25)
+		self.btnCreateProp.setMaximumHeight(25)
+		self.btnCreateSet.setMaximumHeight(25)
+
+		self.groupShotCreation.setMinimumSize(110,110)
+		self.groupShotCreation.setMaximumSize(133,550)
+
+		self.lineShotCreation.setMaximumHeight(20)
+		self.btnCreateShot.setMaximumHeight(25)
+
+		self.treeAsset.setMaximumSize(1000, 1000)
+		self.treeAsset.setMinimumSize(100, 150)
+		self.treeAsset.setAnimated(True)
+		self.treeAsset.setHeaderHidden(True)
+
+		self.layMain.setSpacing(8)
+
+		self.layCreations.setSpacing(8)
+
+		self.layAssetCreation.setContentsMargins(9,25,9,9)
+		self.layAssetCreation.setSpacing(8)
+
+		self.layShotCreation.setContentsMargins(9,25,9,9)
+		self.layShotCreation.setSpacing(8)
 
 	def populateTree(self):
 
