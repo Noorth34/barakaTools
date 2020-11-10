@@ -154,12 +154,37 @@ class Manager(QWidget):
 			# Get asset projects
 			for proj in listInCategProjects:
 
+				# For Characters
 				if categ == "character":
-					itemProject = QTreeWidgetItem(self.itemCharacter, [proj])
+					i_Char = QTreeWidgetItem(self.itemCharacter, [proj])
+
+					# Check for items
+					for file in Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/geo".format(categ, proj) ): 
+						if file == "items": 
+							i_Items = QTreeWidgetItem(i_Char, ['items'])
+
+				# For Props
 				if categ == "prop":
-					itemProject = QTreeWidgetItem(self.itemProp, [proj])
+					i_Prop = QTreeWidgetItem(self.itemProp, [proj])
+
+					# Check for items
+					for file in Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/geo".format(categ, proj) ): 
+						if file == "items": 
+							i_Items = QTreeWidgetItem(i_Prop, ['items'])
+
+				# For Sets
 				if categ == "set":
-					itemProject = QTreeWidgetItem(self.itemSet, [proj])
+					i_Set = QTreeWidgetItem(self.itemSet, [proj])
+
+					# Check for items folder
+					for file in Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/geo".format(categ, proj) ): 
+						if file == "items": 
+							i_Items = QTreeWidgetItem(i_Set, ['items'])
+
+							# List all item folders
+							for i in Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/geo/items".format(categ, proj) ):
+								i_itemFol = QTreeWidgetItem(i_Items, [i])
+
 
 	def addItemCharacter(self, char):
 
