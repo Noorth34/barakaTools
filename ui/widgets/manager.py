@@ -328,11 +328,38 @@ class Manager(QWidget):
 	def doContextMenuActions(self, actionType, action, sceneType):
 
 		selectedItem = self.treeAsset.currentItem()
-		asset = selectedItem.text(0)
-		categItem = selectedItem.parent()
-		textCateg = categItem.text(0)
+		textSelectedItem = selectedItem.text(0)
 
-		if [actionType, action] == ['Edit', 'Import last']:
-			dirEdit = const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/{}".format(textCateg, asset, sceneType.lower())
-			last = Directory.getChildren(dirEdit)[-1]
-			print(dirEdit + "/" + last)
+		if selectedItem.parent().text(0) == "items":
+			
+			# Asset Proj root
+			proj = selectedItem.parent().parent()
+			textProj = proj.text(0)
+
+			# Categ asset
+			categ = proj.parent()
+			textCateg = categ.text(0)
+
+			# Edit > Import last
+			if [actionType, action] == ['Edit', 'Import last']:
+
+				# if selectedItem is an item 
+				dirEditItem = const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/{}/items/{}".format(textCateg, textProj, sceneType.lower(), textSelectedItem)
+				lastItem = Directory.getChildren(dirEditItem)[-1]
+				print("ITEM: " + dirEditItem + "/" + lastItem)
+
+		else:
+			categ = selectedItem.parent()
+			textCateg = categ.text(0)
+			# Edit > Import last
+			if [actionType, action] == ['Edit', 'Import last']:
+
+			# if selectedItem is an item 
+				dirEditItem = const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/{}/items/{}".format(textCateg, asset, sceneType.lower())
+				lastItem = Directory.getChildren(dirEditItem)[-1]
+				print("ITEM: " + dirEditItem + "/" + last)
+
+				# Normal
+				dirEdit = const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/{}".format(textCateg, asset, sceneType.lower())
+				last = Directory.getChildren(dirEdit)[-1]
+				print(dirEdit + "/" + last)
