@@ -27,6 +27,8 @@ ASSET_TYPES = {
 config = ConfigParser()
 config.read(BARAKA_CONFIG_PATH)
 
+FILE_TO_IGNORE_LIST = config["PIPELINE"]["ignore"]
+
 PIPELINE_ROOT_PATH = config["PATH"]["rootPath"]
 
 PIPELINE_CHARACTERS = PIPELINE_ROOT_PATH + "/character"

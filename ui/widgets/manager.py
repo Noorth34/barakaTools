@@ -154,6 +154,10 @@ class Manager(QWidget):
 			# Get asset projects
 			for proj in listInCategProjects:
 
+				# Filter temp gelax folder
+				if proj in const.FILE_TO_IGNORE_LIST:
+					continue
+
 				# For Characters
 				if categ == "character":
 					i_Char = QTreeWidgetItem(self.itemCharacter, [proj])
@@ -163,6 +167,10 @@ class Manager(QWidget):
 						if file == "items": 
 							i_Items = QTreeWidgetItem(i_Char, ['items'])
 
+							# List all item folders
+							for i in Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/geo/items".format(categ, proj) ):
+								i_itemFol = QTreeWidgetItem(i_Items, [i])
+
 				# For Props
 				if categ == "prop":
 					i_Prop = QTreeWidgetItem(self.itemProp, [proj])
@@ -171,6 +179,10 @@ class Manager(QWidget):
 					for file in Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/geo".format(categ, proj) ): 
 						if file == "items": 
 							i_Items = QTreeWidgetItem(i_Prop, ['items'])
+
+							# # List all item folders
+							# for i in Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/geo/items".format(categ, proj) ):
+							# 	i_itemFol = QTreeWidgetItem(i_Items, [i])
 
 				# For Sets
 				if categ == "set":
