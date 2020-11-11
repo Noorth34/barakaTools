@@ -35,19 +35,19 @@ if __name__ == "__main__":
 
     loadModules()
 
-    global mainWidget
+    global main_widget
 
     try:
-        mainWidget.close()
+        main_widget.close()
     except:
         pass
 
     try:
-        mainApp = QApplication([])
+        app = QApplication([])
     except:
-        mainApp = QApplication.instance()
+        app = QApplication.instance()
 
-    mainWidget = launcher.Launcher()
-    mainWidget.show(dockable=True, area="right")
-    mainApp.exec_()
+    main_widget = launcher.Launcher()
+    main_widget.show(dockable=True, area="right")
+    app.exec_()
 

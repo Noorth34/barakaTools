@@ -6,68 +6,68 @@ from PySide2.QtGui import (QIcon, Qt)
 from PySide2.QtCore import (QSize, QPropertyAnimation)
 from ui.widgets.publisher import Publisher
 from ui.widgets.manager import Manager
-import ui.mayaWin as mayawin
+import ui.maya_win as mayawin
 import constants as const
 
 class Pipeline(QMainWindow):
 
     def __init__(self):
 
-        QMainWindow.__init__(self, parent=mayawin.getMayaMainWindow())
+        QMainWindow.__init__(self, parent=mayawin.get_maya_main_window())
 
-        self.widthManager = 425
-        self.heightManager = 350
+        self.width_manager = 425
+        self.height_manager = 350
 
-        self.widthPublisher = 225
-        self.heightPublisher = 280
+        self.width_publisher = 225
+        self.height_publisher = 280
 
         self.setWindowTitle("Pipeline")
         self.setWindowIcon(QIcon(const.BARAKA_ICONS_PATH + "/coca.png"))
-        self.setGeometry(600, 400, self.widthManager, self.heightManager)
-        self.setMinimumWidth(self.widthPublisher)
-        self.setMinimumHeight(self.widthPublisher)
+        self.setGeometry(600, 400, self.width_manager, self.height_manager)
+        self.setMinimumWidth(self.width_publisher)
+        self.setMinimumHeight(self.width_publisher)
         # self.setMaximumWidth(self.widthManager)
         # self.setMaximumHeight(self.widthManager)
         # self.setMaximumSize(self.widthManager*2, self.heightManager*2)
 
-        self.initMenus()
-        self.initTabWidget()
-        self.initManager()
-        self.initPublisher()
+        self.init_menus()
+        self.init_tab_widget()
+        self.init_manager()
+        self.init_publisher()
 
-        self.setCentralWidget(self.tabWidget)
+        self.setCentralWidget(self.tab_widget)
         self.setStyleSheet(open(const.BARAKA_STYLESHEETS_PATH + "/brkStyle.css").read())
 
-    def initMenus(self):
+    def init_menus(self):
 
         # UI Elements creation
-        self.menuBar = self.menuBar()
-        self.menuEdit = self.menuBar.addMenu("Edit")
+        self.menu_bar = self.menuBar()
+        self.menu_edit = self.menu_bar.addMenu("Edit")
 
-        self.actionEditRootPath = QAction("Edit Root Path...")
-        self.menuEdit.addAction(self.actionEditRootPath)
+        self.action_edit_root_path = QAction("Edit Root Path...")
+        self.menu_edit.addAction(self.action_edit_root_path)
 
-        self.actionEditRootPath.triggered.connect(self.openSetRootPathPopup)
+        self.action_edit_root_path.triggered.connect(self.open_set_root_path_popup)
 
-    def initTabWidget(self):
+    def init_tab_widget(self):
 
         # Ui Element creation
-        self.tabWidget = QTabWidget()
+        self.tab_widget = QTabWidget()
 
         # Connect SIGNAL to SLOT
-        self.tabWidget.currentChanged.connect(self.setWidgetSize)
+        self.tab_widget.currentChanged.connect(self.set_widget_size)
 
-    def initManager(self):
+    def init_manager(self):
 
-        self.tabManager = Manager()
-        self.tabWidget.addTab(self.tabManager, "Manager")
+        self.tab_manager = Manager()
+        self.tab_widget.addTab(self.tab_manager, "Manager")
 
-    def initPublisher(self):
+    def init_publisher(self):
 
-    	self.tabPublisher = Publisher()
-    	self.tabWidget.addTab(self.tabPublisher, "Publisher")
+    	self.tab_publisher = Publisher()
+    	self.tab_widget.addTab(self.tab_publisher, "Publisher")
 
-    def resizeWindow(self, width, height):
+    def resize_window(self, width, height):
         
         self.animation = QPropertyAnimation(self, b"size")
         self.animation.setDuration(100)
@@ -75,34 +75,34 @@ class Pipeline(QMainWindow):
         self.animation.setEasingCurve(QtCore.QEasingCurve.Linear)
         self.animation.start()
 
-    def setWidgetSize(self):
+    def set_widget_size(self):
 
-        currentIndex = int( self.tabWidget.currentIndex() )
+        current_index = int( self.tabWidget.currentIndex() )
         
-        if currentIndex == 0:
+        if current_index == 0:
 
-            self.resizeWindow(self.widthManager, self.heightManager)
+            self.resize_window(self.width_manager, self.height_manager)
 
-        if currentIndex == 1:
+        if current_index == 1:
 
-            self.resizeWindow(self.widthPublisher, self.heightPublisher)
+            self.resize_window(self.width_publisher, self.height_publisher)
 
-    def openSetRootPathPopup(self):
+    def open_set_root_path_popup(self):
         
         self.popup = PopupSetRootPath("Enter your project path...", "Set")
 
         # Connect SIGNAL to SLOT
-        self.popup.btnSet.clicked.connect(self.setRootPath)
-        self.popup.btnCancel.clicked.connect(self.popup.closePopup)
+        self.popup.btn_set.clicked.connect(self.set_root_path)
+        self.popup.btn_cancel.clicked.connect(self.popup.close_popup)
 
         self.popup.open()
 
-    def setRootPath(self):
+    def set_root_path(self):
         from configparser import ConfigParser
         from maya import cmds
         from modules.path import Path
 
-        const.PIPELINE_ROOT_PATH = Path.convertBackslashToSlash( self.popup.lineRootPath.text() )
+        const.PIPELINE_ROOT_PATH = Path.convert_backslash_to_slash( self.popup.line_root_path.text() )
 
         config = ConfigParser()
         config.read(const.BARAKA_CONFIG_PATH)
@@ -120,22 +120,22 @@ class Pipeline(QMainWindow):
         print(const.PIPELINE_SETS)
         cmds.inViewMessage(amg='Root Path set to: \n <hl>' + const.PIPELINE_ROOT_PATH + '</hl>', pos='topCenter', fade=True)
 
-        self.tabManager.populateTree()
-        self.popup.closePopup()
+        self.tab_manager.populateTree()
+        self.popup.close_popup()
 
     def open(self):
 
         self.show()
 
     def closeEvent(self, event):
-        self.tabManager.lineAssetCreation.clear()
+        self.tab_manager.line_asset_creation.clear()
         event.accept()
 
 
 class PopupSetRootPath(QDialog, Pipeline):
 
     def __init__(self, placeholder, button):
-        QDialog.__init__(self, parent=mayawin.getMayaMainWindow())
+        QDialog.__init__(self, parent=mayawin.get_maya_main_window())
 
         self.setWindowTitle("Pipeline - Set Root Path")
         self.setWindowIcon(QIcon(const.BARAKA_ICONS_PATH + "/coca.png"))
@@ -143,28 +143,28 @@ class PopupSetRootPath(QDialog, Pipeline):
 
         # UI elements creation and settings
 
-        self.lineRootPath = QLineEdit(const.PIPELINE_ROOT_PATH)
-        self.lineRootPath.setPlaceholderText(placeholder)
+        self.line_root_path = QLineEdit(const.PIPELINE_ROOT_PATH)
+        self.line_root_path.setPlaceholderText(placeholder)
 
-        self.btnSet = QPushButton(button)
-        self.btnCancel = QPushButton("Cancel")
+        self.btn_set = QPushButton(button)
+        self.btn_cancel = QPushButton("Cancel")
 
         # Layout Management
 
-        self.layMain = QVBoxLayout()
-        self.layButtons = QHBoxLayout()
+        self.lay_main = QVBoxLayout()
+        self.lay_buttons = QHBoxLayout()
 
-        self.layMain.addWidget(self.lineRootPath)
-        self.layButtons.addWidget(self.btnSet)
-        self.layButtons.addWidget(self.btnCancel)
+        self.lay_main.addWidget(self.line_root_path)
+        self.lay_buttons.addWidget(self.btn_set)
+        self.lay_buttons.addWidget(self.btn_cancel)
 
-        self.layMain.layout().addLayout(self.layButtons)
-        self.setLayout(self.layMain)
+        self.lay_main.layout().addLayout(self.lay_buttons)
+        self.setLayout(self.lay_main)
 
     def open(self):
         self.show()
 
-    def closePopup(self):
-        self.lineRootPath.clear()
+    def close_popup(self):
+        self.line_root_path.clear()
         self.close()
         

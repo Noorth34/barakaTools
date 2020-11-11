@@ -12,15 +12,15 @@ class Manager(QWidget):
 
 		QWidget.__init__(self)
 
-		self.dictAssets = {}
-		self.dictAssets['character'] = {}
-		self.dictAssets['prop'] = {}
-		self.dictAssets['set'] = {}
+		self.dict_assets = {}
+		self.dict_assets['character'] = {}
+		self.dict_assets['prop'] = {}
+		self.dict_assets['set'] = {}
 
 		self.init()
 
 		try:
-			self.populateTree()
+			self.populate_tree()
 		except:
 			pass
 
@@ -28,41 +28,41 @@ class Manager(QWidget):
 
 		# Layouts creation
 
-		self.layMain = QHBoxLayout()
+		self.lay_main = QHBoxLayout()
 		# self.layTree = QVBoxLayout()
-		self.layCreations = QVBoxLayout()
-		self.layAssetCreation = QVBoxLayout()
-		self.layShotCreation = QVBoxLayout()
+		self.lay_creations = QVBoxLayout()
+		self.lay_asset_creation = QVBoxLayout()
+		self.lay_shot_creation = QVBoxLayout()
 
 		# UI Elements creation and settings
 
-		self.treeAsset = QTreeWidget()
-		self.itemAssets = QTreeWidgetItem(self.treeAsset, ['ASSETS'])
+		self.tree_asset = QTreeWidget()
+		self.item_assets = QTreeWidgetItem(self.tree_asset, ['ASSETS'])
 
 			# Assets Group
-		self.groupAssetCreation = QGroupBox("Assets Creation")
+		self.group_asset_creation = QGroupBox("Assets Creation")
 
-		self.lineAssetCreation = QLineEdit()
-		self.lineAssetCreation.setPlaceholderText("Asset Name...")
+		self.line_asset_creation = QLineEdit()
+		self.line_asset_creation.setPlaceholderText("Asset Name...")
 
-		self.btnCreateCharacter = QPushButton("Character")
-		self.btnCreateProp = QPushButton("Prop")
-		self.btnCreateSet = QPushButton("Set")
+		self.btn_create_character = QPushButton("Character")
+		self.btn_create_prop = QPushButton("Prop")
+		self.btn_create_set = QPushButton("Set")
 
 			# Shots Group
-		self.groupShotCreation = QGroupBox("Shots Creation")
+		self.group_shot_creation = QGroupBox("Shots Creation")
 
-		self.lineShotCreation = QLineEdit()
-		self.lineShotCreation.setPlaceholderText("Shot name...")
+		self.line_shot_creation = QLineEdit()
+		self.line_shot_creation.setPlaceholderText("Shot name...")
 
-		self.btnCreateShot = QPushButton("Shot")
+		self.btn_create_shot = QPushButton("Shot")
 
 		# Connect SIGNAL to SLOT
 
 			# assets
-		self.btnCreateCharacter.clicked.connect(self.createCharacter)
-		self.btnCreateProp.clicked.connect(self.createProp)
-		self.btnCreateSet.clicked.connect(self.createSet)
+		self.btn_create_character.clicked.connect(self.create_character)
+		self.btn_create_prop.clicked.connect(self.create_prop)
+		self.btn_create_set.clicked.connect(self.create_set)
 
 			# shots
 		# self.btnCreateShot.clicked.connect(self.createShot) # TO ADD
@@ -72,87 +72,87 @@ class Manager(QWidget):
 
 		# Layout management
 
-		self.setLayout(self.layMain)
+		self.setLayout(self.lay_main)
 
-		self.layMain.addLayout(self.layCreations)
+		self.lay_main.addLayout(self.lay_creations)
 
 			# assets
-		self.layCreations.addWidget(self.groupAssetCreation)
+		self.lay_creations.addWidget(self.group_asset_creation)
 
-		self.groupAssetCreation.setLayout(self.layAssetCreation)
+		self.group_asset_creation.setLayout(self.lay_asset_creation)
 
-		self.layAssetCreation.addWidget(self.lineAssetCreation)
-		self.layAssetCreation.addWidget(self.btnCreateCharacter)
-		self.layAssetCreation.addWidget(self.btnCreateProp)
-		self.layAssetCreation.addWidget(self.btnCreateSet)
+		self.lay_asset_creation.addWidget(self.line_asset_creation)
+		self.lay_asset_creation.addWidget(self.btn_create_character)
+		self.lay_asset_creation.addWidget(self.btn_create_prop)
+		self.lay_asset_creation.addWidget(self.btn_create_set)
 
 			# shots
-		self.layCreations.addWidget(self.groupShotCreation)
+		self.lay_creations.addWidget(self.group_shot_creation)
 
-		self.groupShotCreation.setLayout(self.layShotCreation)
+		self.group_shot_creation.setLayout(self.lay_shot_creation)
 
-		self.layShotCreation.addWidget(self.lineShotCreation)
-		self.layShotCreation.addWidget(self.btnCreateShot)
+		self.lay_shot_creation.addWidget(self.line_shot_creation)
+		self.lay_shot_creation.addWidget(self.btn_create_shot)
 
 			# tree view
-		self.layMain.addWidget(self.treeAsset)
+		self.lay_main.addWidget(self.tree_asset)
 		
 		## Set Properties
 
-		self.groupAssetCreation.setMinimumSize(110,158)
-		self.groupAssetCreation.setMaximumSize(133,550)
+		self.group_asset_creation.setMinimumSize(110,158)
+		self.group_asset_creation.setMaximumSize(133,550)
 
-		self.lineAssetCreation.setMaximumHeight(20)
+		self.line_asset_creation.setMaximumHeight(20)
 
-		self.btnCreateCharacter.setMaximumHeight(25)
-		self.btnCreateProp.setMaximumHeight(25)
-		self.btnCreateSet.setMaximumHeight(25)
+		self.btn_create_character.setMaximumHeight(25)
+		self.btn_create_prop.setMaximumHeight(25)
+		self.btn_create_set.setMaximumHeight(25)
 
-		self.groupShotCreation.setMinimumSize(110,110)
-		self.groupShotCreation.setMaximumSize(133,550)
+		self.group_shot_creation.setMinimumSize(110,110)
+		self.group_shot_creation.setMaximumSize(133,550)
 
-		self.lineShotCreation.setMaximumHeight(20)
-		self.btnCreateShot.setMaximumHeight(25)
+		self.line_shot_creation.setMaximumHeight(20)
+		self.btn_create_shot.setMaximumHeight(25)
 
-		self.treeAsset.setMaximumSize(10000, 10000)
-		self.treeAsset.setMinimumSize(100, 150)
-		self.treeAsset.setAnimated(True)
-		self.treeAsset.setHeaderHidden(True)
+		self.tree_asset.setMaximumSize(10000, 10000)
+		self.tree_asset.setMinimumSize(100, 150)
+		self.tree_asset.setAnimated(True)
+		self.tree_asset.setHeaderHidden(True)
 
-		self.layMain.setSpacing(8)
+		self.lay_main.setSpacing(8)
 
-		self.layCreations.setSpacing(8)
+		self.lay_creations.setSpacing(8)
 
-		self.layAssetCreation.setContentsMargins(9,25,9,9)
-		self.layAssetCreation.setSpacing(8)
+		self.lay_asset_creation.setContentsMargins(9,25,9,9)
+		self.lay_asset_creation.setSpacing(8)
 
-		self.layShotCreation.setContentsMargins(9,25,9,9)
-		self.layShotCreation.setSpacing(8)
+		self.lay_shot_creation.setContentsMargins(9,25,9,9)
+		self.lay_shot_creation.setSpacing(8)
 
-	def populateTree(self):
+	def populate_tree(self):
 
 		try:
-			self.itemAssets.removeChild(self.itemCharacter)
-			self.itemAssets.removeChild(self.itemProp)
-			self.itemAssets.removeChild(self.itemSet)
+			self.item_assets.removeChild(self.item_character)
+			self.item_assets.removeChild(self.item_prop)
+			self.item_assets.removeChild(self.item_set)
 		except:
 			pass
 
-		self.itemCharacter = QTreeWidgetItem(self.itemAssets, ['character'])
-		self.itemProp = QTreeWidgetItem(self.itemAssets, ['prop'])
-		self.itemSet = QTreeWidgetItem(self.itemAssets, ['set'])
+		self.item_character = QTreeWidgetItem(self.item_assets, ['character'])
+		self.item_prop = QTreeWidgetItem(self.item_assets, ['prop'])
+		self.item_set = QTreeWidgetItem(self.item_assets, ['set'])
 
-		listCateg = Directory.getChildren(const.PIPELINE_ROOT_PATH)
+		list_categ = Directory.get_children(const.PIPELINE_ROOT_PATH)
 
 		# Get asset categories
-		for categ in listCateg:
+		for categ in list_categ:
 			if categ in const.FILE_TO_IGNORE_LIST:
 				continue
 
-			listInCategProjects = Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}".format(categ) )
+			list_projects_in_categ = Directory.get_children( const.PIPELINE_ROOT_PATH + "/{}".format(categ) )
 
 			# Get asset projects
-			for proj in listInCategProjects:
+			for proj in list_projects_in_categ:
 
 				# Filter temp gelax folder
 				if proj in const.FILE_TO_IGNORE_LIST:
@@ -160,82 +160,82 @@ class Manager(QWidget):
 
 				# For Characters
 				if categ == "character":
-					i_Char = QTreeWidgetItem(self.itemCharacter, [proj])
+					item_char = QTreeWidgetItem(self.item_character, [proj])
 
 					# Check for items
-					for file in Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/geo".format(categ, proj) ): 
-						if file == "items": 
-							i_Items = QTreeWidgetItem(i_Char, ['items'])
+					for folder in Directory.get_children( const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/geo".format(categ, proj) ): 
+						if folder == "items": 
+							item_items = QTreeWidgetItem(item_char, ['items'])
 
 							# List all item folders
-							for i in Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/geo/items".format(categ, proj) ):
-								i_itemFol = QTreeWidgetItem(i_Items, [i])
+							for i in Directory.get_children( const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/geo/items".format(categ, proj) ):
+								item_item_folder = QTreeWidgetItem(item_items, [i])
 
 				# For Props
 				if categ == "prop":
-					i_Prop = QTreeWidgetItem(self.itemProp, [proj])
+					item_prop = QTreeWidgetItem(self.item_prop, [proj])
 
 					# Check for items
-					for file in Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/geo".format(categ, proj) ): 
-						if file == "items": 
-							i_Items = QTreeWidgetItem(i_Prop, ['items'])
+					for folder in Directory.get_children( const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/geo".format(categ, proj) ): 
+						if folder == "items": 
+							item_items = QTreeWidgetItem(item_prop, ['items'])
 
 							# List all item folders
-							for i in Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/geo/items".format(categ, proj) ):
-								i_itemFol = QTreeWidgetItem(i_Items, [i])
+							for i in Directory.get_children( const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/geo/items".format(categ, proj) ):
+								item_item_folder = QTreeWidgetItem(item_items, [i])
 
 				# For Sets
 				if categ == "set":
-					i_Set = QTreeWidgetItem(self.itemSet, [proj])
+					item_set = QTreeWidgetItem(self.item_set, [proj])
 
 					# Check for items folder
-					for file in Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/geo".format(categ, proj) ): 
-						if file == "items": 
-							i_Items = QTreeWidgetItem(i_Set, ['items'])
+					for folder in Directory.get_children( const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/geo".format(categ, proj) ): 
+						if folder == "items": 
+							item_items = QTreeWidgetItem(item_set, ['items'])
 
 							# List all item folders
-							for i in Directory.getChildren( const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/geo/items".format(categ, proj) ):
-								i_itemFol = QTreeWidgetItem(i_Items, [i])
+							for i in Directory.get_children( const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/geo/items".format(categ, proj) ):
+								item_item_folder = QTreeWidgetItem(item_items, [i])
 
 
-	def addItemCharacter(self, char):
+	def add_item_character(self, char):
 
-		QTreeWidgetItem(self.itemCharacter, [char])
+		QTreeWidgetItem(self.item_character, [char])
 
-	def addItemProp(self, prop):
+	def add_ttem_prop(self, prop):
 
-		QTreeWidgetItem(self.itemProp, [prop])
+		QTreeWidgetItem(self.item_prop, [prop])
 
-	def addItemSet(self, set):
+	def add_item_set(self, set):
 
-		QTreeWidgetItem(self.itemSet, [set])
+		QTreeWidgetItem(self.item_set, [set])
 
-	def createCharacter(self):
+	def create_character(self):
 
-		char = self.lineAssetCreation.text()
-		Scene.createCharacter(char)
-		self.lineAssetCreation.clear()
-		self.addItemCharacter(char)
+		char = self.line_asset_creation.text()
+		Scene.create_character(char)
+		self.line_asset_creation.clear()
+		self.add_item_character(char)
 
-	def createProp(self):
+	def create_prop(self):
 
-		prop = self.lineAssetCreation.text()
-		Scene.createProp(prop)
-		self.lineAssetCreation.clear()
-		self.addItemProp(prop)
+		prop = self.line_asset_creation.text()
+		Scene.create_prop(prop)
+		self.line_asset_creation.clear()
+		self.add_item_prop(prop)
 
-	def createSet(self):
+	def create_set(self):
 
-		set = self.lineAssetCreation.text()
-		Scene.createSet(set)
-		self.lineAssetCreation.clear()
-		self.addItemSet(set)
+		set = self.line_asset_creation.text()
+		Scene.create_set(set)
+		self.line_asset_creation.clear()
+		self.add_item_set(set)
 
 	def contextMenuEvent(self, event):
 
-		contextMenu = QMenu(self)
+		context_menu = QMenu(self)
 
-		dictMenus = {
+		dict_menus = {
 
 		"Edit" : {
 
@@ -302,64 +302,64 @@ class Manager(QWidget):
 				}
 		}
 
-		listMenus = list( dictMenus.keys() )
-		listMenus.sort()
-		for x in listMenus:
-			mainMenu = contextMenu.addMenu(x)
+		list_menus = list( dict_menus.keys() )
+		list_menus.sort()
+		for x in list_menus:
+			main_menu = context_menu.addMenu(x)
 
-			listSubMenus = list( dictMenus[x].keys() )
-			listSubMenus.sort()
-			for y in listSubMenus:
-				actionMenu = mainMenu.addMenu(y)
+			list_submenus = list( dict_menus[x].keys() )
+			list_submenus.sort()
+			for y in list_submenus:
+				action_menu = main_menu.addMenu(y)
 
-				listActions = list( dictMenus[x][y].keys() )
-				listActions.sort()
-				for z in listActions:
-					action = actionMenu.addAction(z)
+				list_actions = list( dict_menus[x][y].keys() )
+				list_actions.sort()
+				for z in list_actions:
+					action = action_menu.addAction(z)
 
-					action.triggered.connect( partial(self.doContextMenuActions, x, y, z) )
+					action.triggered.connect( partial(self.do_context_menu_actions, x, y, z) )
 
-		action = contextMenu.exec_( self.mapToGlobal( event.pos() ) )
+		action = context_menu.exec_( self.mapToGlobal( event.pos() ) )
 
 
 	def printZ(self, x, y, z):
 		print("{}>{}>{}".format(x, y, z))
 
-	def doContextMenuActions(self, actionType, action, sceneType):
+	def do_context_menu_actions(self, action_type, action, scene_type):
 
-		selectedItem = self.treeAsset.currentItem()
-		textSelectedItem = selectedItem.text(0)
+		selected_item = self.tree_asset.currentItem()
+		text_selected_item = selected_item.text(0)
 
-		if selectedItem.parent().text(0) == "items":
+		if selected_item.parent().text(0) == "items":
 			
 			# Asset Proj root
-			proj = selectedItem.parent().parent()
-			textProj = proj.text(0)
+			proj = selected_item.parent().parent()
+			text_proj = proj.text(0)
 
 			# Categ asset
 			categ = proj.parent()
-			textCateg = categ.text(0)
+			text_categ = categ.text(0)
 
 			# Edit > Import last
-			if [actionType, action] == ['Edit', 'Import last']:
+			if [action_type, action] == ['Edit', 'Import last']:
 
-				# if selectedItem is an item 
-				dirEditItem = const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/{}/items/{}".format(textCateg, textProj, sceneType.lower(), textSelectedItem)
-				lastItem = Directory.getChildren(dirEditItem)[-1]
-				print("ITEM: " + dirEditItem + "/" + lastItem)
+				# if selected_item is an item 
+				dir_edit_item = const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/{}/items/{}".format(text_categ, text_proj, scene_type.lower(), text_selected_item)
+				lastItem = Directory.get_children(dir_edit_item)[-1]
+				print("ITEM: " + dir_edit_item + "/" + lastItem)
 
 		else:
-			categ = selectedItem.parent()
-			textCateg = categ.text(0)
+			categ = selected_item.parent()
+			text_categ = categ.text(0)
 			# Edit > Import last
-			if [actionType, action] == ['Edit', 'Import last']:
+			if [action_type, action] == ['Edit', 'Import last']:
 
-			# if selectedItem is an item 
-				dirEditItem = const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/{}/items/{}".format(textCateg, asset, sceneType.lower())
-				lastItem = Directory.getChildren(dirEditItem)[-1]
-				print("ITEM: " + dirEditItem + "/" + last)
+			# if selected_item is an item 
+				dir_edit_item = const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/{}/items/{}".format(text_categ, asset, scene_type.lower())
+				lastItem = Directory.get_children(dir_edit_item)[-1]
+				print("ITEM: " + dir_edit_item + "/" + last)
 
 				# Normal
-				dirEdit = const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/{}".format(textCateg, asset, sceneType.lower())
-				last = Directory.getChildren(dirEdit)[-1]
+				dirEdit = const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/{}".format(text_categ, asset, sceneType.lower())
+				last = Directory.get_children(dirEdit)[-1]
 				print(dirEdit + "/" + last)

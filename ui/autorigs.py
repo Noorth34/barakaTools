@@ -3,14 +3,14 @@
 from PySide2.QtWidgets import *
 from PySide2.QtGui import QIcon
 import constants as const
-import ui.mayaWin as mayawin
+import ui.maya_win as mayawin
 
 
 class Autorigs(QMainWindow):
 
     def __init__(self):
 
-        QMainWindow.__init__(self, parent=mayawin.getMayaMainWindow())
+        QMainWindow.__init__(self, parent=mayawin.get_maya_main_window())
 
         self.width = 225
         self.height = 225
@@ -20,88 +20,87 @@ class Autorigs(QMainWindow):
         self.setGeometry(800, 500, 0, 0)
         self.setFixedSize(self.width, self.height)
 
-        self.initTabs()
-        self.initLimbWithRibbon()
+        self.init_tabs()
+        self.init_limb_with_ribbon()
 
-        self.setCentralWidget(self.tabWidget)
+        self.setCentralWidget(self.tab_widget)
 
     def initTabs(self):
 
-        self.tabWidget = QTabWidget()
+        self.tab_widget = QTabWidget()
 
-        self.tabLimb = QWidget()
-        self.tabEyes = QWidget()
-        self.tabUtils = QWidget()
+        self.tab_limb = QWidget()
+        self.tab_eyes = QWidget()
+        self.tab_utils = QWidget()
 
-        self.tabWidget.addTab(self.tabLimb, "Limb")
-        self.tabWidget.addTab(self.tabEyes, "Eyes")
-        self.tabWidget.addTab(self.tabUtils, "Utils")
+        self.tab_widget.addTab(self.tab_limb, "Limb")
+        self.tab_widget.addTab(self.tab_eyes, "Eyes")
+        self.tab_widget.addTab(self.tab_utils, "Utils")
 
-    def initLimbWithRibbon(self):
+    def init_limb_with_ribbon(self):
 
         # Create UI Elements
 
-        self.widgetLimbRibbon = QWidget()
-        self.layLimbRibbon = QVBoxLayout(self.widgetLimbRibbon)
+        self.widget_limb_ribbon = QWidget()
+        self.lay_limb_ribbon = QVBoxLayout(self.widget_limb_ribbon)
 
-        self.layLimb = QVBoxLayout()
-        self.tabLimb.setLayout(self.layLimb)
+        self.lay_limb = QVBoxLayout()
+        self.tab_limb.setLayout(self.lay_limb)
 
-        self.layDriverJoints = QHBoxLayout()
-        self.layBindJoints = QHBoxLayout()
-        self.layRigFeatures = QGridLayout()
+        self.lay_driver_joints = QHBoxLayout()
+        self.lay_bind_joints = QHBoxLayout()
+        self.lay_rig_features = QGridLayout()
 
-        self.listRigMethod = QComboBox()
-        self.listRigMethod.addItem("Ribbon")
-        self.listRigMethod.addItem("Spline")
-        self.listRigMethod.currentTextChanged.connect(
-            self.toggleWidgetLimbRibbon)
+        self.list_rig_method = QComboBox()
+        self.list_rig_method.addItem("Ribbon")
+        self.list_rig_method.addItem("Spline")
+        self.list_rig_method.currentTextChanged.connect(self.toggle_widget_limb_ribbon)
 
-        self.btnCreateWithRibbon = QPushButton("Create with Ribbon")
+        self.btn_create_with_ribbon = QPushButton("Create with Ribbon")
 
-        self.labelDriverJoints = QLabel("Driver Joints")
-        self.labelBindJoints = QLabel("Bind Joints")
-        self.spinDriverJoints = QSpinBox()
-        self.spinBindJoints = QSpinBox()
+        self.label_driver_joints = QLabel("Driver Joints")
+        self.label_bind_joints = QLabel("Bind Joints")
+        self.spin_driver_joints = QSpinBox()
+        self.spin_dind_joints = QSpinBox()
 
-        self.checkHasTwist = QCheckBox("Twist")
-        self.checkHasBend = QCheckBox("Bend")
-        self.checkHasStretch = QCheckBox("Stretch")
-        self.checkHasKeepVolume = QCheckBox("Keep Volume")
-        self.checkHasIK = QCheckBox("IK")
-        self.checkHasFK = QCheckBox("FK")
+        self.check_has_twist = QCheckBox("Twist")
+        self.check_has_bend = QCheckBox("Bend")
+        self.check_has_stretch = QCheckBox("Stretch")
+        self.check_has_keep_volume = QCheckBox("Keep Volume")
+        self.check_has_IK = QCheckBox("IK")
+        self.check_has_FK = QCheckBox("FK")
 
         # Layout management
 
-        self.layLimb.addWidget(self.listRigMethod)
-        self.layLimb.addWidget(self.widgetLimbRibbon)
+        self.lay_limb.addWidget(self.list_rig_method)
+        self.lay_limb.addWidget(self.widget_limb_ribbon)
 
-        self.layLimbRibbon.layout().addLayout(self.layDriverJoints)
-        self.layLimbRibbon.layout().addLayout(self.layBindJoints)
-        self.layLimbRibbon.layout().addLayout(self.layRigFeatures)
-        self.layLimbRibbon.addWidget(self.btnCreateWithRibbon)
+        self.laylimb_ribbon.layout().addLayout(self.lay_driver_joints)
+        self.laylimb_ribbon.layout().addLayout(self.lay_bind_joints)
+        self.laylimb_ribbon.layout().addLayout(self.lay_rig_features)
+        self.laylimb_ribbon.addWidget(self.btn_create_with_ribbon)
 
-        self.layDriverJoints.addWidget(self.labelDriverJoints)
-        self.layDriverJoints.addWidget(self.spinDriverJoints)
+        self.lay_driver_joints.addWidget(self.label_driver_joints)
+        self.lay_driver_joints.addWidget(self.spin_driver_joints)
 
-        self.layBindJoints.addWidget(self.labelBindJoints)
-        self.layBindJoints.addWidget(self.spinBindJoints)
+        self.lay_bind_joints.addWidget(self.label_bind_joints)
+        self.lay_bind_joints.addWidget(self.spin_bind_joints)
 
-        self.layRigFeatures.addWidget(self.checkHasStretch, 0, 1)
-        self.layRigFeatures.addWidget(self.checkHasBend, 1, 1)
-        self.layRigFeatures.addWidget(self.checkHasKeepVolume, 2, 1)
-        self.layRigFeatures.addWidget(self.checkHasTwist, 0, 2)
-        self.layRigFeatures.addWidget(self.checkHasFK, 1, 2)
-        self.layRigFeatures.addWidget(self.checkHasIK, 2, 2)
+        self.lay_rig_features.addWidget(self.check_has_Stretch, 0, 1)
+        self.lay_rig_features.addWidget(self.check_has_Bend, 1, 1)
+        self.lay_rig_features.addWidget(self.check_has_KeepVolume, 2, 1)
+        self.lay_rig_features.addWidget(self.check_has_Twist, 0, 2)
+        self.lay_rig_features.addWidget(self.check_has_FK, 1, 2)
+        self.lay_rig_features.addWidget(self.check_has_IK, 2, 2)
 
-    def toggleWidgetLimbRibbon(self):
+    def toggle_widget_limb_ribbon(self):
 
-        method = self.listRigMethod.currentText()
+        method = self.list_rig_method.currentText()
 
         if method == "Spline":
-            self.widgetLimbRibbon.hide()
+            self.widget_limb_ribbon.hide()
         else:
-            self.widgetLimbRibbon.show()
+            self.widget_limb_ribbon.show()
 
     def open(self):
 

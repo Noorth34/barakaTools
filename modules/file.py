@@ -10,12 +10,12 @@ class File():
         pass
 
     # @staticmethod
-    def isFile(func):
-        def inside(path, *args, **kwargs):
-            if Path.isFile(path) is False:
+    def is_file(func):
+        def wrapper(path, *args, **kwargs):
+            if Path.is_file(path) is False:
                 raise TypeError("This path doesn't refer to a file")
             return func(path, *args, **kwargs)
-        return inside
+        return wrapper
 
     @staticmethod
     def create(path, name="_New_File"):
@@ -26,61 +26,61 @@ class File():
         return path
 
     @staticmethod
-    @isFile
+    @is_file
     def copy(src, dest):
 
         return shutil.copy(src, dest)
 
     @staticmethod
-    @isFile
+    @is_file
     def move(src=None, dest=None):
 
         return shutil.move(src, dest)
 
     @staticmethod
-    @isFile
+    @is_file
     def delete(path=None):
 
         return os.remove(path)
 
     @staticmethod
-    @isFile
-    def getShortName(path):
+    @is_file
+    def get_short_name(path):
 
         return path.split("/")[-1]
 
     @staticmethod
-    @isFile
-    def getParent(path):
+    @is_file
+    def get_parent(path):
 
         parent = os.path.dirname(path)
         return parent
 
     @staticmethod
-    @isFile
-    def getRecursiveParent(path, iteration=1):
+    @is_file
+    def get_recursive_parent(path, iteration=1):
 
         temp = None
         for i in range(iteration):
-            temp = getParent(path)
+            temp = get_parent(path)
             path = temp
 
         parent = path
         return parent
 
     @staticmethod
-    @isFile
-    def setHidden(path):
+    @is_file
+    def set_hidden(path):
 
-        backSlashPath = Path.convertSlashToBackslash(path)
-        os.system("attrib +h {}".format(backSlashPath))
+        back_slash_path = Path.convert_slash_to_backslash(path)
+        os.system("attrib +h {}".format(back_slash_path))
 
     @staticmethod
-    @isFile
-    def setVisible(path):
+    @is_file
+    def set_visible(path):
 
-        backSlashPath = Path.convertSlashToBackslash(path)
-        os.system("attrib -h {}".format(backSlashPath))
+        back_slash_path = Path.convert_slash_to_backslash(path)
+        os.system("attrib -h {}".format(back_slash_path))
 
 
 """

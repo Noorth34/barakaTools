@@ -6,7 +6,7 @@ from maya.app.general.mayaMixin import MayaQWidgetDockableMixin
 from ui.autorigs import Autorigs
 from ui.pipeline import Pipeline
 import constants as const
-import ui.mayaWin as mayawin
+import ui.maya_win as mayawin
 
 
 class Launcher(MayaQWidgetDockableMixin, QDialog):
@@ -16,10 +16,10 @@ class Launcher(MayaQWidgetDockableMixin, QDialog):
     def __init__(self, *args):
         """
         """
-        super(self.__class__, self).__init__(parent=mayawin.getMayaMainWindow())
+        super(self.__class__, self).__init__(parent=mayawin.get_maya_main_window())
 
-        self.autorigDialog = Autorigs()
-        self.pipelineDialog = Pipeline()
+        self.autorig_window = Autorigs()
+        self.pipeline_window = Pipeline()
 
         self.width = 200
         self.height = 300
@@ -29,9 +29,9 @@ class Launcher(MayaQWidgetDockableMixin, QDialog):
         self.setGeometry(600, 400, 0, 0)
         self.setFixedSize(self.width, self.height)
 
-        self.initLauncher()
+        self.init_launcher()
 
-    def initLauncher(self):
+    def init_launcher(self):
 
         image = QLabel()
         image.setPixmap(QPixmap(const.BARAKA_IMAGES_PATH + "/title.png"))
@@ -39,29 +39,29 @@ class Launcher(MayaQWidgetDockableMixin, QDialog):
 
         # Create UI Elements
 
-        self.layMainButtons = QVBoxLayout(self)
-        self.layMainButtons.addWidget(image)
+        self.lay_main_buttons = QVBoxLayout(self)
+        self.lay_main_buttons.addWidget(image)
 
-        self.btnAutorig = QPushButton("Autorigs", self)
-        self.btnAutorig.setIcon(QIcon(const.BARAKA_ICONS_PATH + "/burger.png"))
-        self.btnAutorig.clicked.connect(self.autorigDialog.open)
-        self.btnAutorig.setToolTip("This is the autorig tool box")
+        self.btn_autorig = QPushButton("Autorigs", self)
+        self.btn_autorig.setIcon(QIcon(const.BARAKA_ICONS_PATH + "/burger.png"))
+        self.btn_autorig.clicked.connect(self.autorig_window.open)
+        self.btn_autorig.setToolTip("This is the autorig tool box")
 
-        self.btnPipeline = QPushButton("Manager", self)
-        self.btnPipeline.setIcon(QIcon(const.BARAKA_ICONS_PATH + "/coca.png"))
-        self.btnPipeline.clicked.connect(self.pipelineDialog.open)
+        self.btn_pipeline = QPushButton("Manager", self)
+        self.btn_pipeline.setIcon(QIcon(const.BARAKA_ICONS_PATH + "/coca.png"))
+        self.btn_pipeline.clicked.connect(self.pipeline_window.open)
 
-        self.btnHelp = QPushButton("Help", self)
-        self.btnHelp.setIcon(QIcon(const.BARAKA_ICONS_PATH + "/help.png"))
-        self.btnHelp.clicked.connect(self.printSomething)
+        self.btn_help = QPushButton("Help", self)
+        self.btn_help.setIcon(QIcon(const.BARAKA_ICONS_PATH + "/help.png"))
+        self.btn_help.clicked.connect(self.print_something)
 
         # Layout Management
 
-        self.layMainButtons.addWidget(self.btnAutorig)
-        self.layMainButtons.addWidget(self.btnPipeline)
-        self.layMainButtons.addWidget(self.btnHelp)
+        self.lay_main_buttons.addWidget(self.btn_autorig)
+        self.lay_main_buttons.addWidget(self.btn_pipeline)
+        self.lay_main_buttons.addWidget(self.btn_help)
 
-    def printSomething(self):
+    def print_something(self):
 
         print("Hey buddy")
 

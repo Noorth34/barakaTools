@@ -9,35 +9,35 @@ class Path():
         pass
 
     @staticmethod
-    def isDir(path):
+    def is_dir(path):
 
         return os.path.isdir(path)
 
     @staticmethod    
-    def isFile(path):
+    def is_file(path):
 
         return os.path.isfile(path)
 
     @staticmethod
-    def convertSlashToBackslash(path):
+    def convert_slash_to_backslash(path):
 
         path = path.replace("/", "\\")
         return path
 
     @staticmethod
-    def convertBackslashToSlash(path):
+    def convert_backslash_to_slash(path):
 
         path = path.replace("\\", "/")
         return path
 
     @staticmethod
-    def addExtension(path, ext):
+    def add_extension(path, ext):
 
         path = path + ext
         return path
 
     @staticmethod
-    def deleteExtension(path):
+    def delete_extension(path):
 
         ext = "." + path.split(".")[-1]
 

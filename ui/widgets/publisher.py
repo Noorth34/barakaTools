@@ -16,11 +16,11 @@ class Publisher(QWidget):
 
         # Layouts creation
 
-        self.layMain = QVBoxLayout()
-        self.setLayout(self.layMain)
-        self.layEdit = QVBoxLayout()
-        self.layPublish = QVBoxLayout()
-        self.layStartEndFrame = QGridLayout()
+        self.lay_main = QVBoxLayout()
+        self.setLayout(self.lay_main)
+        self.lay_edit = QVBoxLayout()
+        self.lay_publish = QVBoxLayout()
+        self.lay_start_end_frame = QGridLayout()
 
         separator1 = QFrame()
         separator1.setFrameShape(QFrame.HLine)
@@ -29,56 +29,56 @@ class Publisher(QWidget):
 
         # UI Elements creation and settings
 
-        self.btnEdit = QPushButton("Edit")
-        self.btnPublish = QPushButton("Publish")
+        self.btn_edit = QPushButton("Edit")
+        self.btn_publish = QPushButton("Publish")
 
-        self.groupWithAlembic = QGroupBox("Publish With Alembic")
-        self.groupWithAlembic.setCheckable(True)
-        self.groupWithAlembic.setChecked(False)
+        self.group_with_alembic = QGroupBox("Publish With Alembic")
+        self.group_with_alembic.setCheckable(True)
+        self.group_with_alembic.setChecked(False)
 
-        self.lineCommit = QLineEdit()
-        self.lineCommit.setPlaceholderText("Write your commit here...")
+        self.line_commit = QLineEdit()
+        self.line_commit.setPlaceholderText("Write your commit here...")
 
-        self.labelFrameStart = QLabel("Start")
-        self.labelFrameEnd = QLabel("End")
-        self.labelFrameStart.setAlignment(Qt.AlignCenter)
-        self.labelFrameEnd.setAlignment(Qt.AlignCenter)
+        self.label_frame_start = QLabel("Start")
+        self.label_frame_end = QLabel("End")
+        self.label_frame_start.setAlignment(Qt.AlignCenter)
+        self.label_frame_end.setAlignment(Qt.AlignCenter)
 
-        self.spinFrameStart = QSpinBox()
-        self.spinFrameEnd = QSpinBox()
+        self.spin_frame_start = QSpinBox()
+        self.spin_frame_end = QSpinBox()
 
         # Connect SIGNAL to SLOT
 
-        self.btnEdit.clicked.connect(Scene.edit)
-        self.btnPublish.clicked.connect(Scene.publish)
+        self.btn_edit.clicked.connect(Scene.edit)
+        self.btn_publish.clicked.connect(Scene.publish)
 
         # Layout Management
 
-        self.layEdit.addWidget(self.lineCommit)
-        self.layEdit.addWidget(self.btnEdit)
+        self.lay_edit.addWidget(self.line_commit)
+        self.lay_edit.addWidget(self.btn_edit)
 
-        self.layPublish.addWidget(self.groupWithAlembic)
-        self.layPublish.addWidget(self.btnPublish)
+        self.lay_publish.addWidget(self.group_with_alembic)
+        self.lay_publish.addWidget(self.btn_publish)
 
-        self.layStartEndFrame.addWidget(self.labelFrameStart, 0, 1)
-        self.layStartEndFrame.addWidget(self.labelFrameEnd, 0, 2)
-        self.layStartEndFrame.addWidget(self.spinFrameStart, 1, 1)
-        self.layStartEndFrame.addWidget(self.spinFrameEnd, 1, 2)
+        self.lay_start_end_frame.addWidget(self.label_frame_start, 0, 1)
+        self.lay_start_end_frame.addWidget(self.label_frame_end, 0, 2)
+        self.lay_start_end_frame.addWidget(self.spin_frame_start, 1, 1)
+        self.lay_start_end_frame.addWidget(self.spin_frame_end, 1, 2)
 
-        self.groupWithAlembic.setLayout(self.layStartEndFrame)
-        self.layMain.addWidget(separator1)
-        self.layMain.layout().addLayout(self.layEdit)
-        self.layMain.addWidget(separator2)
-        self.layMain.layout().addLayout(self.layStartEndFrame)
-        self.layMain.layout().addLayout(self.layPublish)
+        self.group_with_alembic.setLayout(self.lay_start_end_frame)
+        self.lay_main.addWidget(separator1)
+        self.lay_main.layout().addLayout(self.lay_edit)
+        self.lay_main.addWidget(separator2)
+        self.lay_main.layout().addLayout(self.lay_start_end_frame)
+        self.lay_main.layout().addLayout(self.lay_publish)
 
         ##Set Properties
 
-        self.lineCommit.setMinimumHeight(20)
+        self.line_commit.setMinimumHeight(20)
         self.btnEdit.setMinimumHeight(30)
 
-        self.groupWithAlembic.setMinimumHeight(80)
+        self.group_with_alembic.setMinimumHeight(80)
 
-        self.btnPublish.setMinimumHeight(30)   
+        self.btn_publish.setMinimumHeight(30)   
 
-        self.layStartEndFrame.setContentsMargins(9, 25, 9, 9)     
+        self.lay_start_end_frame.setContentsMargins(9, 25, 9, 9)     

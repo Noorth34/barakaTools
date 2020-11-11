@@ -9,13 +9,13 @@ class Directory():
     def __init__(self):
         pass
 
-    def isDir(func):
-        def inside(path, *args):
-            if Path.isDir(path) is False:
+    def is_dir(func):
+        def wrapper(path, *args):
+            if Path.is_dir(path) is False:
                 raise TypeError("This path doesn't refer to a directory")
                 return
             func(path, *args)
-        return inside
+        return wrapper
 
     @staticmethod
     def create(path, name="_New_Dir"):
@@ -25,52 +25,52 @@ class Directory():
         return path
 
     @staticmethod
-    def getChildren(path):
+    def get_children(path):
 
         return os.listdir(path)
 
     @staticmethod
-    @isDir
+    @is_dir
     def copy(src, dest):
 
         return shutil.copytree(src, dest)
 
 
     @staticmethod
-    @isDir
+    @is_dir
     def move(src, dest):
 
         return shutil.move(src, dest)
 
 
     @staticmethod
-    @isDir
+    @is_dir
     def delete(path):
 
         return shutil.rmtree(path)
 
 
     @staticmethod
-    @isDir
-    def getShortName(path):
+    @is_dir
+    def get_short_name(path):
 
         return path.split("/")[-1]
 
 
     @staticmethod
-    @isDir
-    def getParent(path):
+    @is_dir
+    def get_parent(path):
 
         return os.path.dirname(path)
 
 
     @staticmethod
-    @isDir
-    def getRecursiveParent(path, iteration=1):
+    @is_dir
+    def get_recursive_parent(path, iteration=1):
 
         temp = None
         for i in range(iteration):
-            temp = getParent(path)
+            temp = get_parent(path)
             path = temp
 
         parent = path
@@ -78,16 +78,16 @@ class Directory():
 
 
     @staticmethod
-    @isDir
-    def setHidden(path):
+    @is_dir
+    def set_hidden(path):
 
-        backSlashPath = Path.convertSlashToBackslash(path)
-        os.system("attrib +h {}".format(backSlashPath))
+        back_slash_path = Path.convert_slash_to_backslash(path)
+        os.system("attrib +h {}".format(back_slash_path))
 
 
     @staticmethod
-    @isDir
-    def setVisible(path):
+    @is_dir
+    def set_visible(path):
 
-        backSlashPath = Path.convertSlashToBackslash(path)
-        os.system("attrib -h {}".format(backSlashPath))
+        back_slash_path = Path.convert_slash_to_backslash(path)
+        os.system("attrib -h {}".format(back_slash_path))

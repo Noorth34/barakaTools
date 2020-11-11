@@ -13,7 +13,7 @@ class Scene():
     def __init__(self):
         pass
 
-    def checkSelection(func, obj=None, type=None, msg="Any selection. Please select something"):
+    def check_selection(func, obj=None, type=None, msg="Any selection. Please select something"):
         def wrapper(*args, **kwargs):
             sel = Selection.get()
             if obj:
@@ -37,17 +37,17 @@ class Scene():
     #     print("GOOD !")
 
     @staticmethod
-    def import_(scene):
+    def import_scene(scene):
 
         return pms.importFile(scene)
 
     @staticmethod
-    def reference(scene):
+    def reference_scene(scene):
 
         return pms.createReference(scene)
 
     @staticmethod
-    def open_(scene):
+    def open_scene(scene):
 
         return pms.openFile(scene)
 
@@ -57,12 +57,12 @@ class Scene():
         return str( pms.saveFile(type=type) )
 
     @staticmethod
-    def saveAs(dest):
+    def save_as(dest):
 
         return str( pms.saveAs(dest) )
 
     @staticmethod
-    def exportSelection(dest, type):
+    def export_selection(dest, type):
 
         return str( pms.exportSelected(dest, type=type) )
 
@@ -75,46 +75,46 @@ class Scene():
         return Scene.saveAs(edit)
 
     @staticmethod
-    @partial(checkSelection, type="mesh", msg="Select geo before publish")
-    def alembicExport(file, start=1, end=1):
+    @partial(check_selection, type="mesh", msg="Select geo before publish")
+    def alembic_export(file, start=1, end=1):
 
-        toExport = " ".join( cmds.ls(sl=True, long=True, ap=True) )
+        to_export = " ".join( cmds.ls(sl=True, long=True, ap=True) )
 
-        abcFIle = None
+        abc_file = None
         # //gandalf/3d4_20_21/barakafrites/04_asset/character/patatax/maya/scenes/edit/geo/patatax_E_geo_0001.ma
         # //gandalf/3d4_20_21/barakafrites/04_asset/character/patatax/maya/cache/patatax_P_geo_0001.abc
         if "/04_asset/" and "/geo/" in file:
-            abcFile = file.replace("/scenes/edit/geo", "/cache/alembic").replace("_E_", "_P_").replace(".ma", ".abc")
+            abc_file = file.replace("/scenes/edit/geo", "/cache/alembic").replace("_E_", "_P_").replace(".ma", ".abc")
         # //gandalf/3d4_20_21/barakafrites/05_shot/shotTest/maya/scenes/edit/anim/patatax_E_anim_0001.ma
         # //gandalf/3d4_20_21/barakafrites/05_shot/shotTest/maya/cache/patatax_E_anim_0001.abc
         if "/05_shot/" and "/anim/" in file:
-            abcFile = file.replace("/scenes/edit/anim", "/cache/alembic").replace("_E_", "_P_").replace(".ma", ".abc")
+            abc_file = file.replace("/scenes/edit/anim", "/cache/alembic").replace("_E_", "_P_").replace(".ma", ".abc")
          
-        command = "-frameRange {} {} -autoSubd -uvWrite -worldSpace -root {} -file {}".format(start, end, toExport, abcFile)
+        command = "-frameRange {} {} -autoSubd -uvWrite -worldSpace -root {} -file {}".format(start, end, to_export, abc_file)
 
         cmds.AbcExport(j = command)
 
     @staticmethod
-    @checkSelection
+    @check_selection
     def publish(selection=[]):
 
         # Variables
 
-        scene = Scene.getScene()  # ../maya/scenes/edit/geo/........
+        scene = Scene.get_name()  # ../maya/scenes/edit/geo/........
 
-        asset = Scene.getAsset(scene)
-        state = Scene.getState(scene)
-        type = Scene.getType(scene)
-        index = Scene.getIndex(scene)
+        asset = Scene.get_asset(scene)
+        state = Scene.get_state(scene)
+        type = Scene.get_type(scene)
+        index = Scene.get_index(scene)
 
-        shortSceneName = File.getShortName(scene)
-        stateChangedScene = shortSceneName.replace("_E_", "_P_")
-        stateChangedSceneNoIndex = stateChangedScene.replace("_" + index, "")
-        dirBackup = Scene.createDirBackup()
-        dirPublish = scene.replace("/edit/", "/publish/").replace(shortSceneName, "")
+        scene_name = File.getShortName(scene)
+        state_changed_scene = scene_name.replace("_E_", "_P_")
+        state_changed_scene_no_index = state_changed_scene.replace("_" + index, "")
+        dir_backup = Scene.create_dir_backup()
+        dir_publish = scene.replace("/edit/", "/publish/").replace(scene_name, "")
 
-        fullBackupScenePath = dirBackup + "/" + stateChangedScene
-        fullPublishScenePath = dirPublish + "/" + stateChangedSceneNoIndex
+        full_backup_scene_path = dir_backup + "/" + state_changed_scene
+        full_publish_scene_path = dir_publish + "/" + state_changed_scene_no_index
 
         # Securities
 
@@ -130,120 +130,120 @@ class Scene():
         # if not "TOP_" in selection[0]:
         #     cmds.error("Bad selection. Please select the TOP_GROUP (or simple geo) for publish.")
 
-        Scene.exportSelection(fullBackupScenePath, "mayaAscii")
-        print("Asset backup : {}".format(fullBackupScenePath))
-        Scene.exportSelection(fullPublishScenePath, "mayaAscii")
-        print("Asset published : {}".format(fullPublishScenePath))
+        Scene.export_selection(full_backup_scene_path, "mayaAscii")
+        print("Asset backup : {}".format(full_backup_scene_path))
+        Scene.exportSelection(full_publish_scene_path, "mayaAscii")
+        print("Asset published : {}".format(full_publish_scene_path))
 
         # Alembic
         # Scene.alembicExport(scene)
         
-        cmds.inViewMessage(amg='Asset published: \n <hl>' + fullPublishScenePath + '</hl>. \n Publish backup: \n <hl>' + fullBackupScenePath + '</hl>.', pos='topCenter', fade=True)
+        cmds.inViewMessage(amg='Asset published: \n <hl>' + full_publish_scene_path + '</hl>. \n Publish backup: \n <hl>' + full_backup_scene_path + '</hl>.', pos='topCenter', fade=True)
 
     @staticmethod
-    def createDirBackup(scene=None):
+    def create_dir_backup(scene=None):
 
         if scene is None:
-            scene = Scene.getScene()
+            scene = Scene.get_name()
 
-        publishDir = File.getParent(scene).replace("/edit/", "/publish/")
+        publish_dir = File.get_parent(scene).replace("/edit/", "/publish/")
 
-        if not "backup" in Directory.getChildren(publishDir):
-            backup = Directory.create(publishDir, name="backup")
+        if not "backup" in Directory.get_children(publish_dir):
+            backup = Directory.create(publish_dir, name="backup")
             print("Directory 'backup' created : {}".format(backup))
             return backup
         else:
-            return publishDir + "/backup"
+            return publish_dir + "/backup"
 
     @staticmethod
-    def incrementIndex(scene):
+    def increment_index(scene):
 
         if not scene:
-            scene = Scene.getScene()
-        scene = Path.deleteExtension(scene)
+            scene = Scene.get_name()
+        scene = Path.delete_extension(scene)
 
-        currentIndex = scene.split("/")[-1].split("_")[-1]
-        newIndex = str(int(currentIndex) + 1)
-        newIndex = newIndex.zfill(4)
+        current_index = scene.split("/")[-1].split("_")[-1]
+        new_index = str(int(current_index) + 1)
+        new_index = new_index.zfill(4)
 
-        scene = scene.replace(currentIndex, newIndex)
+        scene = scene.replace(current_index, new_index)
         scene = Path.addExtension(scene, ".ma")
         return scene
 
     @staticmethod
-    def getScene():
+    def get_name():
 
         return str( pms.sceneName() )
 
     @staticmethod
-    def getAsset(scene):
+    def get_asset(scene):
 
         return scene.split("/")[-1].split("_")[0]
 
     @staticmethod
-    def getState(scene):
+    def get_state(scene):
 
         return scene.split("/")[-1].split("_")[-3]
 
     @staticmethod
-    def getType(scene):
+    def get_type(scene):
 
         return scene.split("/")[-1].split("_")[-2]
 
     @staticmethod
-    def getIndex(scene):
+    def get_index(scene):
 
-        sceneWithNoExt = Path.deleteExtension(scene)
-        return sceneWithNoExt.split("/")[-1].split("_")[-1]
+        scene_with_no_ext = Path.delete_extension(scene)
+        return scene_with_no_ext.split("/")[-1].split("_")[-1]
 
     @staticmethod
-    def createCharacter(name):
+    def create_character(name):
 
         char = const.PIPELINE_CHARACTERS + "/{}".format(name)
         Directory.copy(const.TEMPLATE_ASSET_DIRS, char)
 
         # initScene = char + "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
-        dirEdit = "{}/maya/scenes/edit".format(char)
+        dir_edit = "{}/maya/scenes/edit".format(char)
 
-        for dir in Directory.getChildren(dirEdit):
-            initScene = "{}_E_{}_0001.ma".format(name, dir)
-            File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}/{}".format(dirEdit, dir, initScene))
+        for dir in Directory.get_children(dir_edit):
+            init_scene = "{}_E_{}_0001.ma".format(name, dir)
+            File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}/{}".format(dir_edit, dir, init_scene))
 
         return char
 
     @staticmethod
-    def createSet(name):
+    def create_set(name):
 
         set = const.PIPELINE_SETS + "/{}".format(name)
         Directory.copy(const.TEMPLATE_SET_DIRS, set)
 
-        dirEdit = "{}/maya/scenes/edit".format(set)
+        dir_edit = "{}/maya/scenes/edit".format(set)
 
-        for dir in Directory.getChildren(dirEdit):
+        for dir in Directory.getChildren(dir_edit):
             initScene = "{}_E_{}_0001.ma".format(name, dir)
-            File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}/{}".format(dirEdit, dir, initScene))
+            File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}/{}".format(dir_edit, dir, init_scene))
 
         return set
 
     @staticmethod
-    def createProp(name):
+    def create_prop(name):
 
         prop = const.PIPELINE_PROPS + "/{}".format(name)
         Directory.copy(const.TEMPLATE_ASSET_DIRS, prop)
 
-        dirEdit = "{}/maya/scenes/edit".format(prop)
+        dir_edit = "{}/maya/scenes/edit".format(prop)
 
-        for dir in Directory.getChildren(dirEdit):
+        for dir in Directory.getChildren(dir_edit):
             initScene = "{}_E_{}_0001.ma".format(name, dir)
-            File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}/{}".format(dirEdit, dir, initScene))
+            File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}/{}".format(dir_edit, dir, init_scene))
 
         return prop
 
     @staticmethod
-    def createItem(name, set):
+    def create_item(name, set):
 
-        parentSet = const.PIPELINE_SETS + "/{}".format(set)
-        item = parentSet + "/maya/scenes/edit/geo/items/{}_E_geo_0001.ma".format(name)
+        parent_set = const.PIPELINE_SETS + "/{}".format(set)
+        item = parent_set + "/maya/scenes/edit/geo/items/{}_E_geo_0001.ma".format(name)
         File.copy(const.TEMPLATE_ASSET_SCENE, item)
 
         return item
