@@ -1,9 +1,9 @@
 QMainWindow{
-background-color: rgb(42, 42, 42);
+  background-color: rgb(42, 42, 42);
 }
 
 QMenuBar{
-    background-color: rgb(57, 57, 57);
+  background-color: rgb(57, 57, 57);
 }
 
 QMenuBar::item{
@@ -52,22 +52,23 @@ QTabBar::tab:selected {
 }
 
 QPushButton{
-background-color: rgb(65, 131, 197);
-border-radius: 12px;
+  background-color: rgb(65, 131, 197);
+  border-radius: 12px;
 }
 
 QPushButton:hover{
-background-color: rgb(255, 85, 255);
-border-radius: 6px;
+  background-color: rgb(255, 85, 255);
+  border-radius: 6px;
 }
 
 QPushButton:pressed {
-background-color: rgb(207, 69, 207);
+  background-color: rgb(207, 69, 207);
 }
 
 QSpinBox{
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
+  background-color: rgb(40,40,40);
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
   padding-left: 30%;
   padding-bottom: 5px;
   padding-top: 5px;
@@ -83,39 +84,61 @@ QSpinBox::down-button {
 }
 
 QLineEdit{
-background-color: rgb(76, 76, 76);
-border-radius: 10px;
-color: rgb(190, 190, 190);
-padding-left: 10px;
-padding-right: 10px;
+  background-color: rgb(76, 76, 76);
+  border-radius: 10px;
+  color: rgb(190, 190, 190);
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 QLineEdit:hover{
-border: 1px solid rgb(65, 131, 197);
+  border: 1px solid rgb(65, 131, 197);
 }
 
 QLineEdit:focus{
-border: 1px solid rgb(65, 131, 197);
+  border: 1px solid rgb(65, 131, 197);
 }
 
 QGroupBox{
-background-color: rgb(48, 48, 48);
-border-radius : 12px;
-color: rgb(149, 149, 149);
+  background-color: rgb(48, 48, 48);
+  border-radius : 12px;
+  color: rgb(149, 149, 149);
 }
 
 QGroupBox:title{
-padding-top: 5px;
-padding-left: 15px;
+  padding-top: 5px;
+  padding-left: 15px;
+}
+
+QGroupBox::indicator{
+  border-radius: 6px;
+  border: 2px solid rgb(30, 30, 30);
+}
+
+QGroupBox::indicator:unchecked{
+  background-color: rgb(180,0,75)
+}
+
+QGroupBox::indicator:checked{
+  background-color: rgb(0,180,75)
+}
+
+QGroupBox::indicator:unchecked:hover{
+  background-color: rgb(0, 255, 255);
+}
+
+QGroupBox::indicator:checked:hover{
+  background-color: rgb(0, 255, 255);
 }
 
 QTreeWidget{
-color: rgb(213, 213, 213);
-background-color: rgb(48, 48, 48);
-border-radius: 12px;
-padding-top: 8px;
-padding-left: 5px;
+  color: rgb(213, 213, 213);
+  background-color: rgb(48, 48, 48);
+  border-radius: 12px;
+  padding-top: 8px;
+  padding-left: 5px;
 }
 
-QTreeWidget:branch{
+QTreeWidget::indicator{
+  color: rgb(255,0,255);
 }
