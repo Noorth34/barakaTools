@@ -202,7 +202,7 @@ class Scene():
         char = const.PIPELINE_CHARACTERS + "/{}".format(name)
         Directory.copy(const.TEMPLATE_ASSET_DIRS, char)
 
-        # initScene = char + "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
+        # init_scene = char + "/maya/scenes/edit/geo/{}_E_geo_0001.ma".format(name)
         dir_edit = "{}/maya/scenes/edit".format(char)
 
         for dir in Directory.get_children(dir_edit):
@@ -219,8 +219,8 @@ class Scene():
 
         dir_edit = "{}/maya/scenes/edit".format(set)
 
-        for dir in Directory.getChildren(dir_edit):
-            initScene = "{}_E_{}_0001.ma".format(name, dir)
+        for dir in Directory.get_children(dir_edit):
+            init_scene = "{}_E_{}_0001.ma".format(name, dir)
             File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}/{}".format(dir_edit, dir, init_scene))
 
         return set
@@ -233,8 +233,8 @@ class Scene():
 
         dir_edit = "{}/maya/scenes/edit".format(prop)
 
-        for dir in Directory.getChildren(dir_edit):
-            initScene = "{}_E_{}_0001.ma".format(name, dir)
+        for dir in Directory.get_children(dir_edit):
+            init_scene = "{}_E_{}_0001.ma".format(name, dir)
             File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}/{}".format(dir_edit, dir, init_scene))
 
         return prop

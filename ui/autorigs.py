@@ -25,7 +25,7 @@ class Autorigs(QMainWindow):
 
         self.setCentralWidget(self.tab_widget)
 
-    def initTabs(self):
+    def init_tabs(self):
 
         self.tab_widget = QTabWidget()
 
@@ -61,7 +61,7 @@ class Autorigs(QMainWindow):
         self.label_driver_joints = QLabel("Driver Joints")
         self.label_bind_joints = QLabel("Bind Joints")
         self.spin_driver_joints = QSpinBox()
-        self.spin_dind_joints = QSpinBox()
+        self.spin_bind_joints = QSpinBox()
 
         self.check_has_twist = QCheckBox("Twist")
         self.check_has_bend = QCheckBox("Bend")
@@ -75,10 +75,10 @@ class Autorigs(QMainWindow):
         self.lay_limb.addWidget(self.list_rig_method)
         self.lay_limb.addWidget(self.widget_limb_ribbon)
 
-        self.laylimb_ribbon.layout().addLayout(self.lay_driver_joints)
-        self.laylimb_ribbon.layout().addLayout(self.lay_bind_joints)
-        self.laylimb_ribbon.layout().addLayout(self.lay_rig_features)
-        self.laylimb_ribbon.addWidget(self.btn_create_with_ribbon)
+        self.lay_limb_ribbon.layout().addLayout(self.lay_driver_joints)
+        self.lay_limb_ribbon.layout().addLayout(self.lay_bind_joints)
+        self.lay_limb_ribbon.layout().addLayout(self.lay_rig_features)
+        self.lay_limb_ribbon.addWidget(self.btn_create_with_ribbon)
 
         self.lay_driver_joints.addWidget(self.label_driver_joints)
         self.lay_driver_joints.addWidget(self.spin_driver_joints)
@@ -86,10 +86,10 @@ class Autorigs(QMainWindow):
         self.lay_bind_joints.addWidget(self.label_bind_joints)
         self.lay_bind_joints.addWidget(self.spin_bind_joints)
 
-        self.lay_rig_features.addWidget(self.check_has_Stretch, 0, 1)
-        self.lay_rig_features.addWidget(self.check_has_Bend, 1, 1)
-        self.lay_rig_features.addWidget(self.check_has_KeepVolume, 2, 1)
-        self.lay_rig_features.addWidget(self.check_has_Twist, 0, 2)
+        self.lay_rig_features.addWidget(self.check_has_stretch, 0, 1)
+        self.lay_rig_features.addWidget(self.check_has_bend, 1, 1)
+        self.lay_rig_features.addWidget(self.check_has_keep_volume, 2, 1)
+        self.lay_rig_features.addWidget(self.check_has_twist, 0, 2)
         self.lay_rig_features.addWidget(self.check_has_FK, 1, 2)
         self.lay_rig_features.addWidget(self.check_has_IK, 2, 2)
 

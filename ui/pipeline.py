@@ -77,7 +77,7 @@ class Pipeline(QMainWindow):
 
     def set_widget_size(self):
 
-        current_index = int( self.tabWidget.currentIndex() )
+        current_index = int( self.tab_widget.currentIndex() )
         
         if current_index == 0:
 

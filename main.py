@@ -8,7 +8,7 @@ import ui.autorigs as autorigs
 import ui.pipeline as pipeline
 import ui.widgets.manager as manager
 import ui.widgets.publisher as publisher
-import ui.mayaWin as mayawin
+import ui.maya_win as mayawin
 import modules.path
 import modules.directory
 import modules.file

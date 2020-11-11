@@ -3,7 +3,7 @@
 from configparser import ConfigParser
 from modules.path import Path
 
-BARAKA_PATH = Path.convertBackslashToSlash( __file__.split("\\")[0] )
+BARAKA_PATH = Path.convert_backslash_to_slash( __file__.split("\\")[0] )
 BARAKA_CONFIG_PATH = BARAKA_PATH + "/config.ini"
 BARAKA_ICONS_PATH = BARAKA_PATH + "/icons"
 BARAKA_STYLESHEETS_PATH = BARAKA_PATH + "/qt/stylesheets"
