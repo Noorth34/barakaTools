@@ -115,9 +115,9 @@ QGroupBox::indicator{
   border: 2px solid rgb(30, 30, 30);
 }
 
-QGroupBox::indicator:unchecked{
+/*QGroupBox::indicator:unchecked{
   background-color: rgb(180,0,75)
-}
+}*/
 
 QGroupBox::indicator:checked{
   background-color: rgb(0,180,75)
