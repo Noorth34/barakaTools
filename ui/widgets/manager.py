@@ -3,6 +3,7 @@
 from PySide2.QtWidgets import *
 from modules.scene import Scene
 from modules.directory import Directory
+from modules.path import Path
 from functools import partial
 import constants as const
 
@@ -345,13 +346,13 @@ class Manager(QWidget):
 			last_item = Directory.get_children(folder_item)[-1]
 			print("ITEM: " + folder_item + "/" + last_item)
 
-			if action == 'Import last':
+			if 'Import' in action:
 				Scene.import_scene(folder_item + "/" + last_item)
 
-			if action == 'Open last':
+			if 'Open' in action:
 				Scene.open_scene(folder_item + "/" + last_item)
 
-			if action == 'Reference last':
+			if 'Reference' in action:
 				Scene.reference_scene(folder_item + "/" + last_item)
 
 		else:
@@ -360,15 +361,22 @@ class Manager(QWidget):
 
 			# Normal
 			folder = const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/{}/{}".format(text_categ, text_selected_item, action_type.lower(), scene_type.lower())
-			last = Directory.get_children(folder)[-1]
+			files_and_folders = Directory.get_children(folder)
+
+			last = None
+			for x in files_and_folders:
+				if x in const.FILE_TO_IGNORE_LIST:
+					continue
+				last = x
+
 			print(folder + "/" + last)
 
 			# Edit > Open last
-			if [action_type, action] == ['Edit', 'Import last']:
+			if 'Import' in action:
 				Scene.import_scene(folder + "/" + last)
 
-			if [action_type, action] == ['Edit', 'Open last']:
+			if 'Open' in action:
 				Scene.open_scene(folder + "/" + last)
 
-			if [action_type, action] == ['Edit', 'Reference last']:
+			if 'Reference' in action:
 				Scene.reference_scene(folder + "/" + last)

@@ -3,7 +3,6 @@
 //Last modified: Wed, Oct 21, 2020 10:58:43 AM
 //Codeset: 1252
 requires maya "2020";
-requires "mtoa" "4.0.0";
 currentUnit -l centimeter -a degree -t film;
 fileInfo "application" "maya";
 fileInfo "product" "Maya 2020";
