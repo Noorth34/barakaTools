@@ -17,7 +17,7 @@ import modules.scene
 import constants
 from PySide2.QtWidgets import QApplication
 
-def loadModules():
+def load_modules():
     reload(launcher)
     reload(constants)
     reload(autorigs)
@@ -33,7 +33,7 @@ def loadModules():
 
 if __name__ == "__main__":
 
-    loadModules()
+    load_modules()
 
     global main_widget
 

@@ -39,17 +39,17 @@ class Scene():
     @staticmethod
     def import_scene(scene):
 
-        return pms.importFile(scene)
+        return pms.importFile(scene, force=True)
 
     @staticmethod
     def reference_scene(scene):
 
-        return pms.createReference(scene)
+        return pms.createReference(scene, force=True)
 
     @staticmethod
     def open_scene(scene):
 
-        return pms.openFile(scene)
+        return pms.openFile(scene, force=True)
 
     @staticmethod
     def save(type):
@@ -69,10 +69,10 @@ class Scene():
     @staticmethod
     def edit():
 
-        scene = Scene.getScene()
-        edit = Scene.incrementIndex(scene)
+        scene = Scene.get_name()
+        edit = Scene.increment_index(scene)
         cmds.inViewMessage(amg='Asset edited: \n <hl>' + edit + '</hl>.', pos='topCenter', fade=True)
-        return Scene.saveAs(edit)
+        return Scene.save_as(edit)
 
     @staticmethod
     @partial(check_selection, type="mesh", msg="Select geo before publish")
@@ -107,7 +107,7 @@ class Scene():
         type = Scene.get_type(scene)
         index = Scene.get_index(scene)
 
-        scene_name = File.getShortName(scene)
+        scene_name = File.get_short_name(scene)
         state_changed_scene = scene_name.replace("_E_", "_P_")
         state_changed_scene_no_index = state_changed_scene.replace("_" + index, "")
         dir_backup = Scene.create_dir_backup()
@@ -132,7 +132,7 @@ class Scene():
 
         Scene.export_selection(full_backup_scene_path, "mayaAscii")
         print("Asset backup : {}".format(full_backup_scene_path))
-        Scene.exportSelection(full_publish_scene_path, "mayaAscii")
+        Scene.export_selection(full_publish_scene_path, "mayaAscii")
         print("Asset published : {}".format(full_publish_scene_path))
 
         # Alembic
@@ -167,7 +167,7 @@ class Scene():
         new_index = new_index.zfill(4)
 
         scene = scene.replace(current_index, new_index)
-        scene = Path.addExtension(scene, ".ma")
+        scene = Path.add_extension(scene, ".ma")
         return scene
 
     @staticmethod

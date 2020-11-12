@@ -120,7 +120,7 @@ class Pipeline(QMainWindow):
         print(const.PIPELINE_SETS)
         cmds.inViewMessage(amg='Root Path set to: \n <hl>' + const.PIPELINE_ROOT_PATH + '</hl>', pos='topCenter', fade=True)
 
-        self.tab_manager.populateTree()
+        self.tab_manager.populate_tree()
         self.popup.close_popup()
 
     def open(self):
