@@ -340,38 +340,35 @@ class Manager(QWidget):
 			categ = proj.parent()
 			text_categ = categ.text(0)
 
-			# if selected_item is an item 
-			dir_edit_item = const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/{}/items/{}".format(text_categ, text_proj, scene_type.lower(), text_selected_item)
-			last_item = Directory.get_children(dir_edit_item)[-1]
-			print("ITEM: " + dir_edit_item + "/" + last_item)
-
-			if [action_type, action] == ['Edit', 'Import last']:
-				Scene.import_scene(dir_edit_item + "/" + last_item)
-
-			if [action_type, action] == ['Edit', 'Open last']:
-				Scene.open_scene(dir_edit_item + "/" + last_item)
-
-			if [action_type, action] == ['Edit', 'Reference last']:
-				Scene.reference_scene(dir_edit_item + "/" + last_item)
-
 				
+			folder_item = const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/{}/{}/items/{}".format(text_categ, text_proj, action_type.lower(), scene_type.lower(), text_selected_item)
+			last_item = Directory.get_children(folder_item)[-1]
+			print("ITEM: " + folder_item + "/" + last_item)
 
+			if action == 'Import last':
+				Scene.import_scene(folder_item + "/" + last_item)
+
+			if action == 'Open last':
+				Scene.open_scene(folder_item + "/" + last_item)
+
+			if action == 'Reference last':
+				Scene.reference_scene(folder_item + "/" + last_item)
 
 		else:
 			categ = selected_item.parent()
 			text_categ = categ.text(0)
 
 			# Normal
-			dir_edit = const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/edit/{}".format(text_categ, text_selected_item, scene_type.lower())
-			last = Directory.get_children(dir_edit)[-1]
-			print(dir_edit + "/" + last)
+			folder = const.PIPELINE_ROOT_PATH + "/{}/{}/maya/scenes/{}/{}".format(text_categ, text_selected_item, action_type.lower(), scene_type.lower())
+			last = Directory.get_children(folder)[-1]
+			print(folder + "/" + last)
 
 			# Edit > Open last
 			if [action_type, action] == ['Edit', 'Import last']:
-				Scene.import_scene(dir_edit + "/" + last)
+				Scene.import_scene(folder + "/" + last)
 
 			if [action_type, action] == ['Edit', 'Open last']:
-				Scene.open_scene(dir_edit + "/" + last)
+				Scene.open_scene(folder + "/" + last)
 
 			if [action_type, action] == ['Edit', 'Reference last']:
-				Scene.reference_scene(dir_edit + "/" + last)
+				Scene.reference_scene(folder + "/" + last)

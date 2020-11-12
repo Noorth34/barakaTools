@@ -45,12 +45,14 @@ class Publisher(QWidget):
         self.label_frame_end.setAlignment(Qt.AlignCenter)
 
         self.spin_frame_start = QSpinBox()
+        self.spin_frame_start.setValue(1)
         self.spin_frame_end = QSpinBox()
+        self.spin_frame_end.setValue(1)
 
         # Connect SIGNAL to SLOT
 
         self.btn_edit.clicked.connect(Scene.edit)
-        self.btn_publish.clicked.connect(Scene.publish)
+        self.btn_publish.clicked.connect(self.publish_scene)
 
         # Layout Management
 
@@ -81,4 +83,13 @@ class Publisher(QWidget):
 
         self.btn_publish.setMinimumHeight(30)   
 
-        self.lay_start_end_frame.setContentsMargins(9, 25, 9, 9)     
+        self.lay_start_end_frame.setContentsMargins(9, 25, 9, 9)
+
+    def publish_scene(self):
+
+        Scene.publish()
+
+        if self.group_with_alembic.isChecked() == True:
+            print("Alembic exporting.......")
+            scene = Scene.get_name()
+            Scene.alembic_export(scene, start = self.spin_frame_start.value(), end = self.spin_frame_end.value())
