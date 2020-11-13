@@ -106,19 +106,23 @@ class Pipeline(QMainWindow):
 
         config = ConfigParser()
         config.read(const.BARAKA_CONFIG_PATH)
-        config.set("PATH", "rootPath", const.PIPELINE_ROOT_PATH)
+        config.set("PATH", "root", const.PIPELINE_ROOT_PATH)
         with open(const.BARAKA_CONFIG_PATH, "wb") as cf:
             config.write(cf)
         
-        const.PIPELINE_CHARACTERS = const.PIPELINE_ROOT_PATH + "/character"
-        const.PIPELINE_PROPS = const.PIPELINE_ROOT_PATH + "/prop"
-        const.PIPELINE_SETS = const.PIPELINE_ROOT_PATH + "/set"
+        const.PIPELINE_ASSET_PATH = const.PIPELINE_ROOT_PATH + "/04_asset"
 
-        print(const.PIPELINE_ROOT_PATH)
+        const.PIPELINE_CHARACTERS = const.PIPELINE_ASSET_PATH + "/character"
+        const.PIPELINE_PROPS = const.PIPELINE_ASSET_PATH + "/prop"
+        const.PIPELINE_SETS = const.PIPELINE_ASSET_PATH + "/set"
+
+        const.PIPELINE_SHOT_PATH = const.PIPELINE_ROOT_PATH + "/05_shot"
+
+        print(const.PIPELINE_ASSET_PATH)
         print(const.PIPELINE_CHARACTERS)
         print(const.PIPELINE_PROPS)
         print(const.PIPELINE_SETS)
-        cmds.inViewMessage(amg='Root Path set to: \n <hl>' + const.PIPELINE_ROOT_PATH + '</hl>', pos='topCenter', fade=True)
+        cmds.inViewMessage(amg='Root Path set to: \n <hl>' + const.PIPELINE_ASSET_PATH + '</hl>', pos='topCenter', fade=True)
 
         self.tab_manager.populate_tree()
         self.popup.close_popup()
@@ -143,7 +147,7 @@ class PopupSetRootPath(QDialog, Pipeline):
 
         # UI elements creation and settings
 
-        self.line_root_path = QLineEdit(const.PIPELINE_ROOT_PATH)
+        self.line_root_path = QLineEdit(const.PIPELINE_ASSET_PATH)
         self.line_root_path.setPlaceholderText(placeholder)
 
         self.btn_set = QPushButton(button)
