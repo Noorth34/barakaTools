@@ -1,6 +1,7 @@
 # coding:utf-8
 
 from PySide2.QtWidgets import *
+from PySide2.QtCore import Qt
 from modules.scene import Scene
 from modules.directory import Directory
 from modules.path import Path
@@ -38,7 +39,10 @@ class Manager(QWidget):
 		# UI Elements creation and settings
 
 		self.tree_asset = QTreeWidget()
-		self.item_assets = QTreeWidgetItem(self.tree_asset, ['ASSETS'])
+		self.tree_asset.setFocusPolicy(Qt.NoFocus)
+		self.item_assets = QTreeWidgetItem(self.tree_asset, ['ASSET'])
+		self.item_assets.setFlags(Qt.ItemIsEnabled)
+		self.item_shots = QTreeWidgetItem(self.tree_asset, ['SHOT'])
 
 			# Assets Group
 		self.group_asset_creation = QGroupBox("Assets Creation")
