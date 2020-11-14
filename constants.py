@@ -3,6 +3,14 @@
 from configparser import ConfigParser
 from modules.path import Path
 
+
+config = ConfigParser()
+config.read(BARAKA_CONFIG_PATH)
+
+
+FILE_TO_IGNORE_LIST = config["PIPELINE"]["ignore"]
+
+
 BARAKA_PATH = Path.convert_backslash_to_slash( __file__.split("\\")[0] )
 BARAKA_CONFIG_PATH = BARAKA_PATH + "/config.ini"
 BARAKA_ICONS_PATH = BARAKA_PATH + "/icons"
@@ -10,7 +18,9 @@ BARAKA_STYLESHEETS_PATH = BARAKA_PATH + "/qt/stylesheets"
 BARAKA_IMAGES_PATH = BARAKA_PATH + "/qt/images"
 BARAKA_RESSOURCES_PATH = BARAKA_PATH + "/ressources"
 
+
 BARAKA_TEMP_PATH = BARAKA_PATH + "/.temp"
+
 
 TEMPLATE_ASSET_DIRS = BARAKA_RESSOURCES_PATH + "/_template_workspace_asset"
 TEMPLATE_SET_DIRS = BARAKA_RESSOURCES_PATH + "/_template_workspace_set"
@@ -24,14 +34,16 @@ ASSET_TYPES = {
 }
 
 
-config = ConfigParser()
-config.read(BARAKA_CONFIG_PATH)
+PIPELINE_ROOT_PATH = config["PATH"]["root"]
 
-FILE_TO_IGNORE_LIST = config["PIPELINE"]["ignore"]
 
-PIPELINE_ROOT_PATH = config["PATH"]["rootPath"]
+PIPELINE_ASSET_PATH = PIPELINE_ROOT_PATH + "/04_asset"
+PIPELINE_CHARACTERS = PIPELINE_ASSET_PATH + "/character"
+PIPELINE_FX = PIPELINE_ASSET_PATH + "/FX"
+PIPELINE_PROPS = PIPELINE_ASSET_PATH + "/prop"
+PIPELINE_SETS = PIPELINE_ASSET_PATH + "/set"
 
-PIPELINE_CHARACTERS = PIPELINE_ROOT_PATH + "/character"
-PIPELINE_FX = PIPELINE_ROOT_PATH + "/FX"
-PIPELINE_PROPS = PIPELINE_ROOT_PATH + "/prop"
-PIPELINE_SETS = PIPELINE_ROOT_PATH + "/set"
+
+PIPELINE_SHOT_PATH = PIPELINE_ROOT_PATH + "/05_shot"
+
+
