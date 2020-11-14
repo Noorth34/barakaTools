@@ -31,8 +31,6 @@ class Manager(QWidget):
 
 		self.tree_asset = QTreeWidget()
 
-		self.tree_asset.setFocusPolicy(Qt.NoFocus)
-
 		self.main_item_asset = QTreeWidgetItem(self.tree_asset, ['ASSET'])
 		self.main_item_shot = QTreeWidgetItem(self.tree_asset, ['SHOT'])
 
