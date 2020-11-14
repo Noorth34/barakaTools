@@ -30,15 +30,11 @@ class Manager(QWidget):
 		# UI Elements creation and settings
 
 		self.tree_asset = QTreeWidget()
-<<<<<<< HEAD
+
 		self.tree_asset.setFocusPolicy(Qt.NoFocus)
-		self.item_assets = QTreeWidgetItem(self.tree_asset, ['ASSET'])
-		self.item_assets.setFlags(Qt.ItemIsEnabled)
-		self.item_shots = QTreeWidgetItem(self.tree_asset, ['SHOT'])
-=======
+
 		self.main_item_asset = QTreeWidgetItem(self.tree_asset, ['ASSET'])
 		self.main_item_shot = QTreeWidgetItem(self.tree_asset, ['SHOT'])
->>>>>>> 476a1015c3a51435a00ee787bdc2f207e0320380
 
 			# Assets Group
 		self.group_asset_creation = QGroupBox("Assets Creation")
@@ -300,16 +296,17 @@ class Manager(QWidget):
 				action_shot = menu_shot.addAction(action)
 
 		# Do
-		if self.tree_asset.currentItem().parent().text(0) in ['character', 'prop', 'set']:
+		selected_item_parent = lambda: self.tree_asset.currentItem().parent().text(0)
+
+		if selected_item_parent() in ['character', 'prop', 'set']:
 			action = context_menu_asset.exec_( self.mapToGlobal( event.pos() ) )
 
-		if self.tree_asset.currentItem().parent().text(0) in ['SHOT']:
+		if selected_item_parent() in ['SHOT']:
 			action = context_menu_shot.exec_( self.mapToGlobal( event.pos() ) )
 
 		if self.tree_asset.currentItem() is None:
 			pass
 			
-
 	def printZ(self, x, y, z):
 		print("{}>{}>{}".format(x, y, z))
 

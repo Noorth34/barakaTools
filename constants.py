@@ -4,13 +4,6 @@ from configparser import ConfigParser
 from modules.path import Path
 
 
-config = ConfigParser()
-config.read(BARAKA_CONFIG_PATH)
-
-
-FILE_TO_IGNORE_LIST = config["PIPELINE"]["ignore"]
-
-
 BARAKA_PATH = Path.convert_backslash_to_slash( __file__.split("\\")[0] )
 BARAKA_CONFIG_PATH = BARAKA_PATH + "/config.ini"
 BARAKA_ICONS_PATH = BARAKA_PATH + "/icons"
@@ -33,9 +26,13 @@ ASSET_TYPES = {
     "Lighting": "lighting"
 }
 
+config = ConfigParser()
+config.read(BARAKA_CONFIG_PATH)
+
+FILE_TO_IGNORE_LIST = config["PIPELINE"]["ignore"]
+
 
 PIPELINE_ROOT_PATH = config["PATH"]["root"]
-
 
 PIPELINE_ASSET_PATH = PIPELINE_ROOT_PATH + "/04_asset"
 PIPELINE_CHARACTERS = PIPELINE_ASSET_PATH + "/character"
