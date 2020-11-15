@@ -7,6 +7,7 @@ from modules.directory import Directory
 from modules.path import Path
 from functools import partial
 import constants as const
+import sys
 
 class Manager(QWidget):
 
@@ -16,6 +17,8 @@ class Manager(QWidget):
 
 		self.init()
 		self.populate_tree()
+
+		self.selected_item_parent = lambda: self.tree_asset.currentItem().parent().text(0)
 
 	def init(self):
 
@@ -61,10 +64,8 @@ class Manager(QWidget):
 		self.btn_create_set.clicked.connect(self.create_set)
 
 			# shots
-		# self.btnCreateShot.clicked.connect(self.createShot) # TO ADD
-
-			# context menu
-
+		self.btn_create_seq.clicked.connect(self.create_sequence)
+		self.btn_create_shot.clicked.connect(self.create_shot)
 
 		# Layout management
 
@@ -236,6 +237,16 @@ class Manager(QWidget):
 		QTreeWidgetItem(self.item_set, [set])
 
 
+	def add_item_seq(self, seq):
+
+		QTreeWidgetItem(self.main_item_shot, [seq])
+
+
+	def add_item_shot(self, shot):
+		
+		QTreeWidgetItem(self.tree_asset.currentItem(), [shot])
+
+
 	def create_character(self):
 
 		char = self.line_asset_creation.text()
@@ -258,6 +269,22 @@ class Manager(QWidget):
 		Scene.create_set(set)
 		self.line_asset_creation.clear()
 		self.add_item_set(set)
+
+
+	def create_sequence(self):
+
+		seq_name = self.line_shot_creation.text()
+		Scene.create_sequence(seq_name)
+		self.line_shot_creation.clear()
+		self.add_item_seq(seq_name)
+
+
+	def create_shot(self):
+
+		shot_name = self.line_shot_creation.text()
+		Scene.create_shot(shot_name, self.tree_asset.currentItem().text(0))
+		self.line_shot_creation.clear()
+		self.add_item_shot(shot_name)
 
 
 	def contextMenuEvent(self, event):
@@ -296,14 +323,17 @@ class Manager(QWidget):
 		# Do
 		selected_item_parent = lambda: self.tree_asset.currentItem().parent().text(0)
 
+		try: 
+			selected_item_parent()
+		except:
+			return
+
 		if selected_item_parent() in ['character', 'prop', 'set']:
 			action = context_menu_asset.exec_( self.mapToGlobal( event.pos() ) )
 
 		if selected_item_parent() in ['SHOT']:
 			action = context_menu_shot.exec_( self.mapToGlobal( event.pos() ) )
 
-		if self.tree_asset.currentItem() is None:
-			pass
 			
 	def printZ(self, x, y, z):
 		print("{}>{}>{}".format(x, y, z))

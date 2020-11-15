@@ -39,12 +39,12 @@ class Scene():
     @staticmethod
     def import_scene(scene):
 
-        return pms.importFile(scene, force=True)
+        return pms.importFile(scene, force=True,)
 
     @staticmethod
     def reference_scene(scene):
 
-        return pms.createReference(scene, force=True)
+        return pms.createReference(scene, force=True, defaultNamespace=True)
 
     @staticmethod
     def open_scene(scene):
@@ -248,3 +248,20 @@ class Scene():
 
         return item
 
+
+    @staticmethod
+    def create_sequence(name):
+
+        seq_path = const.PIPELINE_SHOT_PATH
+        Directory.create(seq_path, name=name)
+
+        return seq_path + "/" + name
+
+
+    @staticmethod
+    def create_shot(name, seq):
+
+        shot_path = const.PIPELINE_SHOT_PATH + "/{}/{}".format(seq, name)
+        Directory.copy(const.TEMPLATE_SHOT_DIRS, shot_path)
+
+        return shot_path
