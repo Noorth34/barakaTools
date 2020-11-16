@@ -243,19 +243,24 @@ class Scene():
     def create_item(name, set):
 
         parent_set = const.PIPELINE_SETS + "/{}".format(set)
-        item = parent_set + "/maya/scenes/edit/geo/items/{}_E_geo_0001.ma".format(name)
-        File.copy(const.TEMPLATE_ASSET_SCENE, item)
+        items_path = parent_set + "/maya/scenes/edit/geo/items/"
+        item_folder = Directory.create(items_path, name=name)
+        # {}_E_geo_0001.ma".format(name)"
+        File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}_E_geo_0001.ma".format(item_folder, name))
 
-        return item
+        return item_folder
 
 
     @staticmethod
     def create_sequence(name):
 
-        seq_path = const.PIPELINE_SHOT_PATH
-        Directory.create(seq_path, name=name)
+        seq_path = const.PIPELINE_SHOT_PATH + "/" + name
+        Directory.copy(const.TEMPLATE_SEQUENCE_DIRS, seq_path)
 
-        return seq_path + "/" + name
+        for folder in Directory.get_children("{}/master/maya/scenes".format(seq_path)):
+            File.copy(const.TEMPLATE_ASSET_SCENE, "{}/master/maya/scenes/{}/{}_{}_0001.ma".format(seq_path, folder, name, folder))
+
+        return seq_path
 
 
     @staticmethod
@@ -263,5 +268,11 @@ class Scene():
 
         shot_path = const.PIPELINE_SHOT_PATH + "/{}/{}".format(seq, name)
         Directory.copy(const.TEMPLATE_SHOT_DIRS, shot_path)
+
+        scenes_folder = "{}/maya/scenes/".format(shot_path)
+
+        for folder in Directory.get_children(scenes_folder):
+            init_scene = "{}_{}_0001.ma".format(name, folder)
+            File.copy( const.TEMPLATE_ASSET_SCENE, "{}/{}/{}".format(scenes_folder, folder, init_scene) )
 
         return shot_path

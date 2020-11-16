@@ -50,6 +50,7 @@ class Manager(QWidget):
 		self.btn_create_character = QPushButton("Character")
 		self.btn_create_prop = QPushButton("Prop")
 		self.btn_create_set = QPushButton("Set")
+		self.btn_create_set_item = QPushButton("Item")
 
 			# Shots Group
 		self.group_shot_creation = QGroupBox("Shots Creation")
@@ -66,6 +67,7 @@ class Manager(QWidget):
 		self.btn_create_character.clicked.connect(self.create_character)
 		self.btn_create_prop.clicked.connect(self.create_prop)
 		self.btn_create_set.clicked.connect(self.create_set)
+		self.btn_create_set_item.clicked.connect(self.create_set_item)
 
 			# shots
 		self.btn_create_seq.clicked.connect(self.create_sequence)
@@ -86,6 +88,7 @@ class Manager(QWidget):
 		self.lay_asset_creation.addWidget(self.btn_create_character)
 		self.lay_asset_creation.addWidget(self.btn_create_prop)
 		self.lay_asset_creation.addWidget(self.btn_create_set)
+		self.lay_asset_creation.addWidget(self.btn_create_set_item)
 
 			# shots
 		self.lay_creations.addWidget(self.group_shot_creation)
@@ -101,16 +104,17 @@ class Manager(QWidget):
 		
 		## Set Properties
 
-		self.group_asset_creation.setMinimumSize(110,158)
-		self.group_asset_creation.setMaximumSize(133,550)
+		self.group_asset_creation.setMinimumSize(133,185)
+		self.group_asset_creation.setMaximumSize(133,575)
 
 		self.line_asset_creation.setMaximumHeight(20)
 
 		self.btn_create_character.setMaximumHeight(25)
 		self.btn_create_prop.setMaximumHeight(25)
 		self.btn_create_set.setMaximumHeight(25)
+		self.btn_create_set_item.setMaximumHeight(25)
 
-		self.group_shot_creation.setMinimumSize(110,110)
+		self.group_shot_creation.setMinimumSize(133,120)
 		self.group_shot_creation.setMaximumSize(133,550)
 
 		self.line_shot_creation.setMaximumHeight(20)
@@ -226,71 +230,6 @@ class Manager(QWidget):
 				item_shot = QTreeWidgetItem(item_seq, [shot])
 
 
-	def add_item_character(self, char):
-
-		QTreeWidgetItem(self.item_character, [char])
-
-
-	def add_ttem_prop(self, prop):
-
-		QTreeWidgetItem(self.item_prop, [prop])
-
-
-	def add_item_set(self, set):
-
-		QTreeWidgetItem(self.item_set, [set])
-
-
-	def add_item_seq(self, seq):
-
-		QTreeWidgetItem(self.main_item_shot, [seq])
-
-
-	def add_item_shot(self, shot):
-		
-		QTreeWidgetItem(self.tree_asset.currentItem(), [shot])
-
-
-	def create_character(self):
-
-		char = self.line_asset_creation.text()
-		Scene.create_character(char)
-		self.line_asset_creation.clear()
-		self.add_item_character(char)
-
-
-	def create_prop(self):
-
-		prop = self.line_asset_creation.text()
-		Scene.create_prop(prop)
-		self.line_asset_creation.clear()
-		self.add_item_prop(prop)
-
-
-	def create_set(self):
-
-		set = self.line_asset_creation.text()
-		Scene.create_set(set)
-		self.line_asset_creation.clear()
-		self.add_item_set(set)
-
-
-	def create_sequence(self):
-
-		seq_name = self.line_shot_creation.text()
-		Scene.create_sequence(seq_name)
-		self.line_shot_creation.clear()
-		self.add_item_seq(seq_name)
-
-
-	def create_shot(self):
-
-		shot_name = self.line_shot_creation.text()
-		Scene.create_shot(shot_name, self.tree_asset.currentItem().text(0))
-		self.line_shot_creation.clear()
-		self.add_item_shot(shot_name)
-
-
 	def contextMenuEvent(self, event):
 
 		# ASSET
@@ -309,7 +248,7 @@ class Manager(QWidget):
 				for z in list_actions_asset:
 					action_asset = action_menu_asset.addAction(z)
 
-					action_asset.triggered.connect( partial(self.do_context_menu_actions, x, y, z) )
+					action_asset.triggered.connect( partial(self.do_context_asset_actions, x, y, z) )
 
 
 		# SHOT
@@ -324,6 +263,22 @@ class Manager(QWidget):
 			for action in list_actions_shot:
 				action_shot = menu_shot.addAction(action)
 
+				action_shot.triggered.connect( partial(self.do_context_shot_actions, menu, action) )
+
+
+		# master
+		context_menu_master = QMenu(self)
+
+		list_menus_master = ['Open last', 'Import last', 'Reference last']
+		list_actions_master = ['roughLayout', 'technicalLayout', 'finalLayout']
+
+		for menu in list_menus_master:
+			menu_master = context_menu_master.addMenu(menu)
+
+			for action in list_actions_master:
+				action_master = menu_master.addAction(action)
+
+
 		# Do
 		selected_item_parent = lambda: self.tree_asset.currentItem().parent().text(0)
 
@@ -332,18 +287,17 @@ class Manager(QWidget):
 		except:
 			return
 
-		if selected_item_parent() in ['character', 'prop', 'set']:
+		if selected_item_parent() in ['character', 'prop', 'set', 'items', 'modules']:
 			action = context_menu_asset.exec_( self.mapToGlobal( event.pos() ) )
 
-		if selected_item_parent() in ['SHOT']:
+		if "shot" in self.tree_asset.currentItem().text(0):
 			action = context_menu_shot.exec_( self.mapToGlobal( event.pos() ) )
 
-			
-	def printZ(self, x, y, z):
-		print("{}>{}>{}".format(x, y, z))
+		if "master" in self.tree_asset.currentItem().text(0):
+			action = context_menu_master.exec_( self.mapToGlobal( event.pos() ) )
 
 
-	def do_context_menu_actions(self, action_type, action, scene_type):
+	def do_context_asset_actions(self, action_type, action, scene_type):
 
 		selected_item = self.tree_asset.currentItem()
 		text_selected_item = selected_item.text(0)
@@ -409,3 +363,135 @@ class Manager(QWidget):
 
 			if 'Reference' in action:
 				Scene.reference_scene(folder + "/" + last)
+
+	def do_context_shot_actions(self, action, scene_type):
+
+		shot_item = self.tree_asset.currentItem()
+		sequence_item = shot_item.parent()
+
+		shot = shot_item.text(0)
+		sequence = sequence_item.text(0)
+
+		if sequence_item.parent().text(0) == "SHOT":
+
+			folder = const.PIPELINE_SHOT_PATH + "/{}/{}/maya/scenes/{}".format(sequence, shot, scene_type.lower())
+			last = Directory.get_children(folder)[-1]
+			scene = folder + "/" + last
+
+			if 'Import' in action:
+				Scene.import_scene(scene)
+
+			if 'Open' in action:
+				Scene.open_scene(scene)
+
+			if 'Reference' in action:
+				Scene.reference_scene(scene)
+
+
+	def add_item_character(self, char):
+
+		if char == "":
+			raise TypeError("Any name in line edit. Please put a name in line edit.")
+			return
+
+		QTreeWidgetItem(self.item_character, [char])
+
+
+	def add_item_prop(self, prop):
+
+		if prop == "":
+			raise TypeError("Any name in line edit. Please put a name in line edit.")
+			return
+
+		QTreeWidgetItem(self.item_prop, [prop])
+
+
+	def add_item_set(self, set):
+
+		if set == "":
+			raise TypeError("Any name in line edit. Please put a name in line edit.")
+			return
+
+		QTreeWidgetItem(self.item_set, [set])
+		self.populate_tree()
+
+
+	def add_item_set_item(self, set_item):
+
+		if set_item == "":
+			raise TypeError("Any name in line edit. Please put a name in line edit.")
+			return
+
+		try:
+			QTreeWidgetItem(self.tree_asset.currentItem(), [set_item])
+		except:
+			raise SelectionError("Any set selected. Please select the parent's item set before create item.")
+
+
+	def add_item_seq(self, seq):
+
+		if seq == "":
+			raise TypeError("Any name in line edit. Please put a name in line edit.")
+			return
+
+		QTreeWidgetItem(self.main_item_shot, [seq])
+
+
+	def add_item_shot(self, shot):
+		
+		if shot == "":
+			raise TypeError("Any name in line edit. Please put a name in line edit.")
+			return
+
+		QTreeWidgetItem(self.tree_asset.currentItem(), [shot])
+
+
+	def create_character(self):
+
+		char = self.line_asset_creation.text()
+
+		self.add_item_character(char)
+		self.line_asset_creation.clear()
+
+		Scene.create_character(char)
+		
+		
+	def create_prop(self):
+
+		prop = self.line_asset_creation.text()
+		self.add_item_prop(prop)
+		self.line_asset_creation.clear()
+		Scene.create_prop(prop)
+		
+		
+	def create_set(self):
+
+		set = self.line_asset_creation.text()
+		self.add_item_set(set)
+		self.line_asset_creation.clear()
+		Scene.create_set(set)
+
+
+	def create_set_item(self):
+
+		set = self.tree_asset.currentItem().parent().text(0)
+		set_item = self.line_asset_creation.text()
+		self.add_item_set_item(set_item)
+		self.line_asset_creation.clear()
+		Scene.create_item(set_item, set)
+
+
+	def create_sequence(self):
+
+		seq_name = self.line_shot_creation.text()
+		self.add_item_seq(seq_name)		
+		self.line_shot_creation.clear()
+		Scene.create_sequence(seq_name)
+
+
+	def create_shot(self):
+
+		shot_name = self.line_shot_creation.text()
+		self.add_item_shot(shot_name)
+		self.line_shot_creation.clear()
+		Scene.create_shot(shot_name, self.tree_asset.currentItem().text(0))
