@@ -16,7 +16,11 @@ class Manager(QWidget):
 		QWidget.__init__(self)
 
 		self.init()
-		self.populate_tree()
+
+		try:
+			self.populate_tree()
+		except:
+			pass
 
 		self.selected_item_parent = lambda: self.tree_asset.currentItem().parent().text(0)
 
