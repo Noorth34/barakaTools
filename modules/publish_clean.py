@@ -22,6 +22,10 @@ cmds.polyClean
 
 """
 
+from maya import cmds
+from pymel.core.general import MeshFace
+
+
 def check_geo_transforms(geo):
 
 	transform = cmds.listRelatives(geo, parent=True, path=True)
@@ -68,16 +72,25 @@ def check_geo_history(geo):
 
 
 def check_geo_shape(geo):
-	# non manifold
-	# lamina faces
+
 	# holes
-	# UVs bugs
+	faces = MeshFace(geo)
+
+	holed_faces = [str(holed_face) for holed_face in faces if face.isHoled()]
+
+	if holed_faces:
+		print("All those faces are holed: \n [{}] \n Please cleanup that shit.".format( ", ".join( holed_faces ) ) )
+
+	# lamina faces
+	lamina_faces = [str(lamina_face) for lamina_face in faces if face.isLamina()]
+
+	if lamina_faces:
+		print("All those faces are holed: \n [{}] \n Please cleanup that shit.".format( ", ".join( lamina_faces ) ) )
+
+	# non manifold
 	non_manifold_edges = cmds.polyInfo(geo, nonManifoldEdges=True)
 	non_manifold_vertices = cmds.polyInfo(geo, nonManifoldVertices=True)
 
+	# UVs bugs
 	non_manifold_uvs = cmds.polyInfo(geo, nonManifoldUVs=True)
 	non_manifold_uv_edges = cmds.polyInfo(geo, nonManifoldUVEdges=True)
-
-	lamina_faces = cmds.polyInfo(geo, laminaFaces=True)
-
-
