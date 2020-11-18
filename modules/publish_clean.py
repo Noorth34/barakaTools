@@ -26,7 +26,7 @@ cmds.polyClean
 from maya import cmds
 from pymel.core.general import MeshFace, MeshEdge
 
-
+######### TO DEBUG
 def check_geo_transforms(geo):
 
 	transform = cmds.listRelatives(geo, parent=True, path=True)
@@ -38,28 +38,28 @@ def check_geo_transforms(geo):
 	for t, r, s in zip(translates, rotates, scales):
 		if t != 0 or r != 0 or s != 1:
 			cmds.error("Object has transforms. Please freeze transforms before publish.")
-			
-	cmds.warning("Object's transforms are clean.")
+			return 1
 
 
-def check_geo_pivot():
+def check_geo_pivot(geo):
 
 	parent = cmds.listRelatives(geo, parent=True, path=True)[0]
 	
-	geo_bbox = cmds.xform(cmds.ls(sl=True, ap=True), q=True, bb=True)
+	geo_bbox = cmds.xform(parent, q=True, bb=True)
 
 	bbox_min = geo_bbox[0:3]
 	bbox_max = geo_bbox[3:]
 	
-	bbox_center = [(min+max)/2 for min,max in zip(bbox_min, bbox_max)]
-	# for min, max in zip(bbox_min, bbox_max):
-	# 	average = (min + max)/2.0
-	# 	bbox_center.append(average)
+	bbox_center = []
+	for min, max in zip(bbox_min, bbox_max):
+		average = (min + max)/2.0
+		bbox_center.append(average)
 	
 	current_pivot = cmds.getAttr("{}.rotatePivot".format(parent))
 	
 	if current_pivot != bbox_center:
 		cmds.error("Object pivot is at Babelwed. Please center pivot each geometry before publish.")
+		return 1
 
 
 def check_geo_history(geo):
@@ -68,9 +68,8 @@ def check_geo_history(geo):
 	
 	if history:
 		cmds.error("Geometries have a construction history. Please delete history for each geometry before publish.")
-	
-	cmds.warning("Geometries' construction history are clean.")
-
+		return 1
+######### TO DEBUG 
 
 def check_holes_in_geometry(geo):
 
@@ -146,6 +145,9 @@ def check_geo_shape(geo):
 
 	exceptions = [
 
+	check_geo_transforms(geo),
+	check_geo_pivot(geo),
+	check_geo_history(geo),
 	check_holed_faces(geo),
 	check_holes_in_geometry(geo),
 	check_lamina_faces(geo),
