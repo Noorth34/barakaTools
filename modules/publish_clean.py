@@ -22,7 +22,7 @@ cmds.polyInfo
 cmds.polyClean
 
 """
-
+from math import trunc
 from maya import cmds
 from pymel.core.general import MeshFace, MeshEdge
 
@@ -33,7 +33,7 @@ def check_geo_transforms(geo):
 	
 	translates = cmds.xform(transform, q=True, translation=True)
 	rotates = cmds.xform(transform, q=True, rotation=True)
-	scales = cmds.xform(transform, q=True, scale=True)
+	scales = cmds.xform(transform, q=True, scale=True, relative=True)
 	
 	for t, r, s in zip(translates, rotates, scales):
 		if t != 0 or r != 0 or s != 1:
@@ -43,23 +43,20 @@ def check_geo_transforms(geo):
 
 def check_geo_pivot(geo):
 
-	parent = cmds.listRelatives(geo, parent=True, path=True)[0]
-	
-	geo_bbox = cmds.xform(parent, q=True, bb=True)
+	transform = cmds.listRelatives(geo, parent=True, path=True)[0]
+	current_pivot = cmds.xform(transform, q=True, pivots=True, ws=True)[0:3]
 
-	bbox_min = geo_bbox[0:3]
-	bbox_max = geo_bbox[3:]
-	
+	bbox = cmds.xform(transform, q=True, bb=True)
+	bbox_min = bbox[0:3]
+	bbox_max = bbox[3:]
+
 	bbox_center = []
 	for min, max in zip(bbox_min, bbox_max):
-		average = (min + max)/2.0
-		bbox_center.append(average)
-	
-	current_pivot = cmds.getAttr("{}.rotatePivot".format(parent))
-	
+		average = (min+max)/2
+		bbox_center.append(average) 
+
 	if current_pivot != bbox_center:
 		cmds.error("Object pivot is at Babelwed. Please center pivot each geometry before publish.")
-		return 1
 
 
 def check_geo_history(geo):
