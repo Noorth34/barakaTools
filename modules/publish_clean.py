@@ -105,10 +105,10 @@ def check_lamina_faces(geo):
 		return 1
 
 
-def check_non_4_sided_faces(geo):
+def check_faces_with_more_4_sides(geo):
 
 	faces = MeshFace(geo)
-	non_4_sided_faces = [str(face) for face in faces if len(face.getEdges()) != 4]
+	non_4_sided_faces = [str(face) for face in faces if len(face.getEdges()) < 3 or len(face.getEdges()) > 4]
 
 	if non_4_sided_faces:
 		cmds.select(non_4_sided_faces, add=True)
@@ -134,11 +134,13 @@ def check_non_manifold_uvs(geo):
 	non_manifold_uvs = cmds.polyInfo(geo, nonManifoldUVs=True)
 	non_manifold_uv_edges = cmds.polyInfo(geo, nonManifoldUVEdges=True)
 
-	if non_manifold_uvs or non_manifold_uv_edges:
+	if non_manifold_uvs:
 		cmds.warning("All those UVs are non-manifold: \n [{}] \n Please cleanup that shit.".format( ", ".join( non_manifold_uvs ) ))
+		cmds.select(non_manifold_uvs, add=True)
+
+	if non_manifold_uv_edges:
 		cmds.warning("All those UV edges are non-manifold: \n [{}] \n Please cleanup that shit.".format( ", ".join( non_manifold_uv_edges ) ))
-		cmds.select(non_manifold_edges, add=True)
-		cmds.select(non_manifold_vertices, add=True)
+		cmds.select(non_manifold_uvs_edges, add=True)
 		return 1
 
 
@@ -152,12 +154,12 @@ def check_geo(geo):
 	check_holed_faces(geo),
 	check_holes_in_geometry(geo),
 	check_lamina_faces(geo),
-	check_non_4_sided_faces(geo),
+	check_faces_with_more_4_sides(geo),
 	check_non_manifold_components(geo),
 	check_non_manifold_uvs(geo)
 
 	]
 
-	if 1 in exceptions:
-		cmds.error("Geometries cannot be published.")
+	# if 1 in exceptions:
+	# 	cmds.error("Geometries cannot be published.")
 
