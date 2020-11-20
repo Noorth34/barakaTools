@@ -29,7 +29,7 @@ from pymel.core.general import MeshFace, MeshEdge
 ######### TO DEBUG
 def check_geo_transforms(geo):
 
-	transform = cmds.listRelatives(geo, parent=True, path=True)
+	transform = cmds.listRelatives(geo, parent=True, path=True)[0]
 	
 	translates = cmds.xform(transform, q=True, translation=True)
 	rotates = cmds.xform(transform, q=True, rotation=True)
@@ -37,7 +37,7 @@ def check_geo_transforms(geo):
 	
 	for t, r, s in zip(translates, rotates, scales):
 		if t != 0 or r != 0 or s != 1:
-			cmds.error("Object has transforms. Please freeze transforms before publish.")
+			cmds.warning("Object ''{}'' has transforms. Please freeze transforms before publish.".format(transform))
 			return 1
 
 
@@ -56,7 +56,7 @@ def check_geo_pivot(geo):
 		bbox_center.append(average) 
 
 	if current_pivot != bbox_center:
-		cmds.error("Object pivot is at Babelwed. Please center pivot each geometry before publish.")
+		cmds.warning("''{}'' pivot is at Babelwed. Please center pivot each geometry before publish.".format(transform))
 
 
 def check_geo_history(geo):
@@ -64,18 +64,22 @@ def check_geo_history(geo):
 	history = cmds.listConnections(geo, connections=True, destination=False) # get input connections
 	
 	if history:
-		cmds.error("Geometries have a construction history. Please delete history for each geometry before publish.")
+		cmds.warning("''{}'' has a construction history. Please delete history for each geometry before publish.".format(geo))
 		return 1
 ######### TO DEBUG 
 
 def check_holes_in_geometry(geo):
 
-	edges = MeshEdge(geo)
-	non_two_faces_edges = [ str(edge) for edge in edges if len(edge.connectedFaces()) < 2 ]
+	faces = MeshFace(geo)
+	
+	faces_around_hole = []
+	for face in faces:
+		if len(face.connectedFaces()) == 3 and len(face.connectedEdges()) == 8:
+			faces_around_hole.append(str(face))
 
-	if non_two_faces_edges:
-		cmds.select(non_two_faces_edges, add=True)
-		cmds.warning("Some geometries are opened. Please close all geometries before publish.")
+	if len(faces_around_hole) > 1:
+		cmds.select(faces_around_hole, add=True)
+		cmds.warning("''{}'' geometry is opened. Please close all geometries before publish.".format(geo))
 		return 1
 
 
@@ -104,11 +108,11 @@ def check_lamina_faces(geo):
 def check_non_4_sided_faces(geo):
 
 	faces = MeshFace(geo)
-	non_4_sided_faces = [str(face) for face in faces if len(face.connectedEdges()) % 2 == 1]
+	non_4_sided_faces = [str(face) for face in faces if len(face.getEdges()) != 4]
 
 	if non_4_sided_faces:
 		cmds.select(non_4_sided_faces, add=True)
-		cmds.warning("Geometries have non-4-sided faces. Please retopoly geometries to have quads (or tris...)")
+		cmds.warning("''{}'' have non-4-sided faces. Please retopoly geometries with quads (or tris...)".format(geo))
 		return 1
 
 
@@ -138,7 +142,7 @@ def check_non_manifold_uvs(geo):
 		return 1
 
 
-def check_geo_shape(geo):
+def check_geo(geo):
 
 	exceptions = [
 
