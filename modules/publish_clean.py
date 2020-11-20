@@ -77,7 +77,7 @@ def check_holes_in_geometry(geo):
 		if len(face.connectedFaces()) == 3 and len(face.connectedEdges()) == 8:
 			faces_around_hole.append(str(face))
 
-	if len(faces_around_hole) > 1:
+	if len(faces_around_hole):
 		cmds.select(faces_around_hole, add=True)
 		cmds.warning("''{}'' geometry is opened. Please close all geometries before publish.".format(geo))
 		return 1
@@ -108,11 +108,11 @@ def check_lamina_faces(geo):
 def check_faces_with_more_4_sides(geo):
 
 	faces = MeshFace(geo)
-	non_4_sided_faces = [str(face) for face in faces if len(face.getEdges()) < 3 or len(face.getEdges()) > 4]
+	non_conform_faces = [str(face) for face in faces if len(face.getEdges()) < 3 or len(face.getEdges()) > 4]
 
-	if non_4_sided_faces:
-		cmds.select(non_4_sided_faces, add=True)
-		cmds.warning("''{}'' have non-4-sided faces. Please retopoly geometries with quads (or tris...)".format(geo))
+	if non_conform_faces:
+		cmds.select(non_conform_faces, add=True)
+		cmds.warning("''{}'' have faces with more than 4 sides or less than 3 sides. Please retopoly geometries with quads (or tris...)".format(geo))
 		return 1
 
 
@@ -148,18 +148,18 @@ def check_geo(geo):
 
 	exceptions = [
 
-	check_geo_transforms(geo),
-	check_geo_pivot(geo),
-	check_geo_history(geo),
 	check_holed_faces(geo),
 	check_holes_in_geometry(geo),
 	check_lamina_faces(geo),
 	check_faces_with_more_4_sides(geo),
 	check_non_manifold_components(geo),
-	check_non_manifold_uvs(geo)
-
+	check_non_manifold_uvs(geo),
+	check_geo_transforms(geo),
+	check_geo_pivot(geo),
+	check_geo_history(geo)
+	
 	]
 
-	# if 1 in exceptions:
-	# 	cmds.error("Geometries cannot be published.")
+	if 1 in exceptions:
+		cmds.warning("''{}'' cannot be published.".format(geo))
 
