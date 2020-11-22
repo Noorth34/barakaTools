@@ -10,13 +10,17 @@ class Nomenclature():
 
 		self.dict_nomenclature = {
 
-								"transform" : ['TOP_', 'grp_', 'hook_', '_offset', 'cstr_', 'master_', 'msh_', 'geo_', 'lookdev_', 'dressing', 'layout_', 'set_'],
+								"camera" : ['cam_', 'persp', 'top', 'front', 'side'],
+
+								"transform" : ['TOP_', 'grp_', 'hook_', '_offset', 'cstr_', 'master_', 'lookdev_', 'dressing', 'layout_', 'set_'],
+								
+								"mesh" : ['msh_', 'geo_', 'geoDriv_'],
 
 								"locator" : ['loc_'],
 
 								"nurbsSurface" : ['surf_', 'ribbon_'],
 
-								"joint" : ['jnt_', 'bind_', 'drivJnt_', 'bone_'],
+								"joint" : ['jnt_', 'bind_', 'drivJnt_', 'bone_', 'null_bind_', 'null_bone_'],
 
 								"nurbsCurve" : ['ctrl_', 'crv_', 'crvWire_', 'crvBind_'],
 
@@ -36,21 +40,23 @@ class Nomenclature():
 
 								"fourByFourMatrix" : ['fbfMatrix_'],
 
-								"ikHandle" : ['ik_'],
-
-								"ikSplineHandle" : ['ikSpline_'],
+								"ikHandle" : ['ik_', 'ikSpline_'],
 
 								"ikEffector" : ['effec_'],
 
-								"blendshape" : ['bshp_'],
+								"blendShape" : ['bshp_'],
+
+								"nonLinear" : ['wrap_', 'twist_', 'wire_', 'sine_', 'squash_'],
 
 								"wrap" : ['wrap_'],
 
-								"twist" : ['twist_'],
+								"deformTwist" : ['twist_'],
 
 								"wire" : ['wire_'],
 
-								"sine" : ['sine_'],
+								"deformSine" : ['sine_'],
+
+								"deformSquash" : ['squash_'],
 
 								"deltaMush" : ['dMush_'],
 
@@ -71,13 +77,34 @@ class Nomenclature():
 
 	def check(self):
 
-		for node in self.nodes_list:
-			type = cmds.objectType(node)
-
-			if type in list(self.dict_nomenclature.keys()):
-				for prefix in self.dict_nomenclature[type]:
-					if not prefix in node:
-						self.to_rename.append(node)
+		for type in list(self.dict_nomenclature.keys()):
+			nodes_list = cmds.ls(exactType=type)
+			
+			if type == 'transform':
+				
+				for node in nodes_list:
+					child = cmds.listRelatives(node, shapes=True)
+				
+					if child:
+						child_type = cmds.objectType(child[0])
+						
+						match = 0
+						for prefix in self.dict_nomenclature[child_type]:
+							if prefix in node:
+								match+=1
+						if match == 0:
+							self.to_rename.append(node)
+			
+			else:
+				for node in nodes_list:
+						
+					match = 0
+					for prefix in self.dict_nomenclature[type]:
+						
+						if prefix in node:
+							match +=1
+					if match == 0:
+						self.to_rename.append(node)				
 	
 
 	def select_nodes_to_rename(self):
