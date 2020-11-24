@@ -21,6 +21,10 @@ Function to prevent bad publish.
 cmds.polyInfo
 cmds.polyClean
 
+DEBUG : bypass shading group connection
+
+to ADD : search for polySurfaceShapes*
+
 """
 from math import trunc
 from maya import cmds
