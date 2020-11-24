@@ -1,6 +1,7 @@
 # coding:utf-8
 
 # real mirror script
+#
 
 sel = cmds.ls(sl=True, ap=True)
 
