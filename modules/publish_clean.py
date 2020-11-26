@@ -30,7 +30,7 @@ from math import trunc
 from maya import cmds
 from pymel.core.general import MeshFace, MeshEdge
 
-######### TO DEBUG
+
 def check_geo_transforms(geo):
 
 	transform = cmds.listRelatives(geo, parent=True, path=True)[0]
@@ -65,12 +65,27 @@ def check_geo_pivot(geo):
 
 def check_geo_history(geo):
 	# history
-	history = cmds.listConnections(geo, connections=True, destination=False) # get input connections
+	input_cons = cmds.listConnections(shape, d=False)
+	output_cons = cmds.listConnections(shape, d=True, source=False)
 	
-	if history:
-		cmds.warning("''{}'' has a construction history. Please delete history for each geometry before publish.".format(geo))
-		return 1
-######### TO DEBUG 
+	if input_cons:
+		cmds.warning("{} has construction history.".format(shape))
+	
+	if output_cons:
+		if len(output_cons) > 1:
+			cmds.warning("{} has construction history.".format(shape))
+			return 1
+		
+		if cmds.objectType(output_cons[0]) == "shadingEngine":
+			if cmds.objectType(cmds.listConnections(output_cons[0]+".surfaceShader")) == "lambert":
+				pass
+			else:
+				cmds.warning("Not lambert on {}. Must apply lambert for publish".format(geo))
+				return 1
+	# TO DEBUG : detect shaders and shadingGroups on geo and raise error.
+	# Check if shader is lambert, then pass.
+	# Else, raise ShaderError : "{shader} on {object}. Must apply lambert for publish" 
+
 
 def check_holes_in_geometry(geo):
 
