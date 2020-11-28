@@ -86,3 +86,5 @@ for i in sel:
 	cmds.xform(i, ro=[-rot_x, -rot_y, rot_z])
 	
 	cmds.delete(global_move)
+
+	#hello
