@@ -22,19 +22,21 @@
 # / ! \  *(-1) translate X on each null joint
 #
 sel = cmds.ls(sl=True, ap=True)
+cmds.select(cl=True)
 
-duplicata = cmds.duplicate(sel, returnRootsOnly=True, upstreamNodes=True)
+duplicata = cmds.duplicate(sel, returnRootsOnly=False, rc=True, upstreamNodes=True)
 
-for id, module in enumerate(duplicata):
-	# rename nodes
-	for child in cmds.listRelatives(module, ad=True, path=True):
-		cmds.rename(child, child.split("|")[-1].replace("_L_", "_R_"))
-	renamed_module = cmds.rename(module, sel[id].replace("_L_", "_R_"))
+renamed_duplicata = []
+for node in duplicata:
+	renamed_node = cmds.rename(node, node.replace("_L", "_R").rstrip("1"))
+	renamed_duplicata.append(renamed_node)
+
+for id, node in enumerate(renamed_duplicata[0:len(sel)]):
 
 	# do mirror
 	parents_list = []
 	offsets_list = []
-	for child in cmds.listRelatives(renamed_module, ad=True, path=True):
+	for child in cmds.listRelatives(renamed_duplicata[id], ad=True, path=True):
 		
 		if cmds.objectType(child, isType="joint") and child.startswith("null"):
 			pos_x, pos_y, pos_z = cmds.xform(child, q=True, t=True)
@@ -59,32 +61,3 @@ for id, module in enumerate(duplicata):
 			
 	for offset, parent in zip(offsets_list, parents_list):
 		cmds.parent(offset, parent)
-
-
-
-
-sel = cmds.ls(sl=True, ap=True)
-
-for i in sel:
-	pos_x, pos_y, pos_z = cmds.xform(i, q=True, t=True)
-	rot_x, rot_y, rot_z = cmds.xform(i, q=True, ro=True)
-	
-	
-	global_move = cmds.createNode("transform", n="temp")
-	
-	cmds.xform(global_move, t=[pos_x, pos_y, pos_z])
-	
-	cmds.parent(i, global_move)
-	
-	cmds.xform(global_move, t=[-pos_x, pos_y, pos_z])
-	
-	cmds.xform(global_move, ro=[0, 180, 0])
-	cmds.parent(i, w=True)
-	
-	rot_x, rot_y, rot_z = cmds.xform(i, q=True, ro=True)
-	
-	cmds.xform(i, ro=[-rot_x, -rot_y, rot_z])
-	
-	cmds.delete(global_move)
-
-	#hello
