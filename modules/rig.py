@@ -21,6 +21,7 @@
 #  /|\
 # / ! \  *(-1) translate X on each null joint
 #
+# MIRROR RIG MODULES
 sel = cmds.ls(sl=True, ap=True)
 cmds.select(cl=True)
 
@@ -31,7 +32,7 @@ for node in duplicata:
 	renamed_node = cmds.rename(node, node.replace("_L", "_R").rstrip("1"))
 	renamed_duplicata.append(renamed_node)
 
-for id, node in enumerate(renamed_duplicata[0:len(sel)]):
+for id, module in enumerate(renamed_duplicata[0:len(sel)]):
 
 	# do mirror
 	parents_list = []
@@ -58,6 +59,33 @@ for id, node in enumerate(renamed_duplicata[0:len(sel)]):
 	
 			parents_list.append(parent[0])
 			offsets_list.append(child[0])
-			
+	
+	pos_x, pos_y, pos_z = cmds.xform(module, q=True, t=True)
+	rot_x, rot_y, rot_z = cmds.xform(module, q=True, ro=True)
+	global_move = cmds.createNode("transform", n="temp_mirror")
+	cmds.xform(global_move, t=[pos_x, pos_y, pos_z])
+	cmds.parent(module, global_move)
+	cmds.xform(global_move, t=[-pos_x, pos_y, pos_z])
+	cmds.xform(global_move, ro=[0, 180, 180])
+	cmds.parent(module, w=True)
+	cmds.delete(global_move)
+		
 	for offset, parent in zip(offsets_list, parents_list):
 		cmds.parent(offset, parent)
+
+
+# MIRROR SHAPES
+sel = cmds.ls(sl=True, ap=True)
+
+for transform in sel:
+	shapes_list = cmds.listRelatives(transform, shapes=True, path=True)
+	for shape in shapes_list:
+		if cmds.objectType(shape, isType="nurbsCurve"):
+			cv_number = cmds.getAttr("{}.spans".format(shape))
+			for id in range(cv_number):
+				cv_x = cmds.getAttr("{}.controlPoints[{}].xValue".format(shape, id))
+				cv_y = cmds.getAttr("{}.controlPoints[{}].yValue".format(shape, id))
+				cv_z = cmds.getAttr("{}.controlPoints[{}].zValue".format(shape, id))
+				cmds.setAttr("{}.controlPoints[{}].xValue".format(shape, id), cv_x)
+				cmds.setAttr("{}.controlPoints[{}].yValue".format(shape, id), (-1)*cv_y)
+				cmds.setAttr("{}.controlPoints[{}].zValue".format(shape, id), (-1)*cv_z)
