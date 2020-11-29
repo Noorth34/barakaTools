@@ -74,18 +74,62 @@ for id, module in enumerate(renamed_duplicata[0:len(sel)]):
 		cmds.parent(offset, parent)
 
 
-# MIRROR SHAPES
-sel = cmds.ls(sl=True, ap=True)
+# MIRROR POSITION AND ROTATION
 
-for transform in sel:
-	shapes_list = cmds.listRelatives(transform, shapes=True, path=True)
-	for shape in shapes_list:
-		if cmds.objectType(shape, isType="nurbsCurve"):
-			cv_number = cmds.getAttr("{}.spans".format(shape))
-			for id in range(cv_number):
-				cv_x = cmds.getAttr("{}.controlPoints[{}].xValue".format(shape, id))
-				cv_y = cmds.getAttr("{}.controlPoints[{}].yValue".format(shape, id))
-				cv_z = cmds.getAttr("{}.controlPoints[{}].zValue".format(shape, id))
-				cmds.setAttr("{}.controlPoints[{}].xValue".format(shape, id), cv_x)
-				cmds.setAttr("{}.controlPoints[{}].yValue".format(shape, id), (-1)*cv_y)
-				cmds.setAttr("{}.controlPoints[{}].zValue".format(shape, id), (-1)*cv_z)
+def mirror_object(objects_list=[], axis="x"):
+
+	if not objects_list:
+		cmds.error("Any objects passed for mirror.")
+
+	if objects_list not type(list):
+		objects = list(objects)
+
+	for obj in objects_list:
+		pos_x, pos_y, pos_z = cmds.xform(obj, q=True, t=True)
+		rot_x, rot_y, rot_z = cmds.xform(obj, q=True, ro=True)
+
+		global_move = cmds.createNode("transform", n="temp_mirror")
+		
+		cmds.xform(global_move, t=[pos_x, pos_y, pos_z])
+		cmds.parent(obj, global_move)
+
+		if axis == "x":
+			cmds.xform(global_move, t=[(-1)*pos_x, pos_y, pos_z])
+			cmds.xform(global_move, ro=[0, 180, 180])
+
+		if axis == "y":
+			cmds.xform(global_move, t=[pos_x, (-1)*pos_y, pos_z])
+			cmds.xform(global_move, ro=[180, 0, 180])
+
+		if axis == "z":
+			cmds.xform(global_move, t=[pos_x, pos_y, (-1)*pos_z])
+			cmds.xform(global_move, ro=[180, 180, 0])
+
+		cmds.parent(obj, w=True)
+		cmds.delete(global_move)
+
+# MIRROR SHAPES
+
+def mirror_curve_shape(sel=[])
+	
+	if sel not type(list):
+		cmds.error("{} passed. Must pass selection list".format(type(sel)))
+
+	if not sel:
+		sel = cmds.ls(sl=True, ap=True)
+
+	if not sel:
+		cmds.error("Any selection. Please select curves")
+
+	for transform in sel:
+		shapes_list = cmds.listRelatives(transform, shapes=True, path=True)
+		for shape in shapes_list:
+			if cmds.objectType(shape, isType="nurbsCurve"):
+				cv_number = cmds.getAttr("{}.spans".format(shape))
+				for id in range(cv_number):
+					cv_x = cmds.getAttr("{}.controlPoints[{}].xValue".format(shape, id))
+					cv_y = cmds.getAttr("{}.controlPoints[{}].yValue".format(shape, id))
+					cv_z = cmds.getAttr("{}.controlPoints[{}].zValue".format(shape, id))
+					cmds.setAttr("{}.controlPoints[{}].xValue".format(shape, id), cv_x)
+					cmds.setAttr("{}.controlPoints[{}].yValue".format(shape, id), (-1)*cv_y)
+					cmds.setAttr("{}.controlPoints[{}].zValue".format(shape, id), (-1)*cv_z)
