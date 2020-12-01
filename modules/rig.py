@@ -23,55 +23,57 @@
 #
 # MIRROR RIG MODULES
 sel = cmds.ls(sl=True, ap=True)
-cmds.select(cl=True)
-
+		
 duplicata = cmds.duplicate(sel, returnRootsOnly=False, rc=True, upstreamNodes=True)
 
+# rename ALL nodes ; both DAG and DG nodes
 renamed_duplicata = []
 for node in duplicata:
 	renamed_node = cmds.rename(node, node.replace("_L", "_R").rstrip("1"))
 	renamed_duplicata.append(renamed_node)
 
-for id, module in enumerate(renamed_duplicata[0:len(sel)]):
+# Save constraint structure
 
-	# do mirror
-	parents_list = []
-	offsets_list = []
-	for child in cmds.listRelatives(renamed_duplicata[id], ad=True, path=True):
-		
-		if cmds.objectType(child, isType="joint") and child.startswith("null"):
-			pos_x, pos_y, pos_z = cmds.xform(child, q=True, t=True)
-			cmds.xform(child, t=[-pos_x, pos_y, pos_z])
-			
-		if cmds.objectType(child, isType="transform") and child.endswith("_offset"):
-			parent = cmds.listRelatives(child, parent=True, path=True)
-			child = cmds.parent(child, world=True)
-			
-			pos_x, pos_y, pos_z = cmds.xform(child, q=True, t=True)
-			rot_x, rot_y, rot_z = cmds.xform(child, q=True, ro=True)
-			global_move = cmds.createNode("transform", n="temp_mirror")
-			cmds.xform(global_move, t=[pos_x, pos_y, pos_z])
-			cmds.parent(child, global_move)
-			cmds.xform(global_move, t=[-pos_x, pos_y, pos_z])
-			cmds.xform(global_move, ro=[0, 180, 180])
-			cmds.parent(child, w=True)
-			cmds.delete(global_move)
-	
-			parents_list.append(parent[0])
-			offsets_list.append(child[0])
-	
-	pos_x, pos_y, pos_z = cmds.xform(module, q=True, t=True)
-	rot_x, rot_y, rot_z = cmds.xform(module, q=True, ro=True)
+
+
+
+# Delete constraints
+
+for i in renamed_duplicata:
+	if cmds.objectType(i) in ["parentConstraint", "orientConstraint", "scaleConstraint", "aimConstraint"]:
+		cmds.delete(i)
+
+# Work only with DAG nodes
+cmds.select(renamed_duplicata[0:len(sel)], hierarchy=True)
+dagNodes_list = cmds.ls(sl=True, shapes=False)
+
+# filter shapes because maya sucks
+for id, node in enumerate(dagNodes_list):
+	if cmds.objectType(node, isType="nurbsCurve") == True:
+		dagNodes_list.pop(id)
+
+dagParent = {}
+
+for node in dagNodes_list:
+	parent = cmds.listRelatives(node, parent=True)[0]
+	dagParent[node] = parent
+
+for node in dagNodes_list:
+	cmds.parent(node, world=True)
+
+for node in dagNodes_list:
+	pos_x, pos_y, pos_z = cmds.xform(node, q=True, t=True)
+	rot_x, rot_y, rot_z = cmds.xform(node, q=True, ro=True)
 	global_move = cmds.createNode("transform", n="temp_mirror")
 	cmds.xform(global_move, t=[pos_x, pos_y, pos_z])
-	cmds.parent(module, global_move)
+	cmds.parent(node, global_move)
 	cmds.xform(global_move, t=[-pos_x, pos_y, pos_z])
 	cmds.xform(global_move, ro=[0, 180, 180])
-	cmds.parent(module, w=True)
+	cmds.parent(node, w=True)
 	cmds.delete(global_move)
-		
-	for offset, parent in zip(offsets_list, parents_list):
-		cmds.parent(offset, parent)
+
+for node in dagNodes_list:
+	cmds.parent(node, dagParent[node])
 
 
 # MIRROR POSITION AND ROTATION
@@ -133,3 +135,51 @@ def mirror_curve_shape(sel=[])
 					cmds.setAttr("{}.controlPoints[{}].xValue".format(shape, id), cv_x)
 					cmds.setAttr("{}.controlPoints[{}].yValue".format(shape, id), (-1)*cv_y)
 					cmds.setAttr("{}.controlPoints[{}].zValue".format(shape, id), (-1)*cv_z)
+
+
+
+# CONSTRAINTS MANAGEMENT
+constraints_list = cmds.ls(sl=True, ap=True)
+
+constraint = {}
+for constr in constraints_list:
+	
+	constraint[constr] = {}
+	constraint[constr]["type"] = cmds.objectType(constr)
+	constraint[constr]["source"] = cmds.listConnections(constr+".target[0].targetParentMatrix", s=True, d=False)[0]
+	
+	dest_tx = cmds.listConnections("{}.constraintTranslateX".format(constr), s=False, d=True)[0]
+	dest_ty = cmds.listConnections("{}.constraintTranslateY".format(constr), s=False, d=True)[0]
+	dest_tz = cmds.listConnections("{}.constraintTranslateZ".format(constr), s=False, d=True)[0]
+	
+	dest_rx = cmds.listConnections("{}.constraintRotateX".format(constr), s=False, d=True)[0]
+	dest_ry = cmds.listConnections("{}.constraintRotateY".format(constr), s=False, d=True)[0]
+	dest_rz = cmds.listConnections("{}.constraintRotateZ".format(constr), s=False, d=True)[0]
+
+	if dest_tx == dest_ty and dest_ty == dest_tz:
+		constraint[constr]["destination"] = dest_tx
+	elif dest_rx == dest_ry and dest_ry == dest_rz:
+		constraint[constr]["destination"] = dest_rx
+	
+	offset_tr = cmds.getAttr("{}.target[0].targetOffsetTranslate".format(constr))
+	offset_rot = cmds.getAttr("{}.target[0].targetOffsetRotate".format(constr))
+	
+	if offset_tr != [0,0,0] or offset_rot != [0,0,0]:
+		constraint[constr]["maintain_offset"] = True
+	else:
+		constraint[constr]["maintain_offset"] = False
+
+	cmds.delete(constr)
+
+for i in constraints_list:
+	if constraint[i]["type"] == "parentConstraint":
+		cmds.parentConstraint(constraint[i]["source"], constraint[i]["destination"], mo= constraint[i]["maintain_offset"])
+	
+	elif constraint[i]["type"] == "orientConstraint":
+		cmds.parentConstraint(constraint[i]["source"], constraint[i]["destination"], mo= constraint[i]["maintain_offset"])
+	
+	elif constraint[i]["type"] == "scaleConstraint":
+		cmds.parentConstraint(constraint[i]["source"], constraint[i]["destination"], mo= constraint[i]["maintain_offset"])
+	
+	elif constraint[i]["type"] == "parentConstraint":
+		cmds.parentConstraint(constraint[i]["source"], constraint[i]["destination"], mo= constraint[i]["maintain_offset"])
