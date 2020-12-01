@@ -34,14 +34,49 @@ for node in duplicata:
 
 # Save constraint structure
 
+constraints_list = []
 
+for node in renamed_duplicata:
+	if cmds.objectType(node) in ["parentConstraint", "orientConstraint", "scaleConstraint", "aimConstraint"]:
+		constraints_list.append(node)
 
+constraint = {}
+for constr in constraints_list:
+	
+	constraint[constr] = {}
+	constraint[constr]["type"] = cmds.objectType(constr)
+	
+	id = 0
+	constraint[constr]["source"] = None
+	while not constraint[constr]["source"]:
+		constraint[constr]["source"] = cmds.listConnections(constr+".target[{}].targetParentMatrix".format(id), s=True, d=False)
+		id += 1
+	
+	constraint[constr]["source"] = constraint[constr]["source"][0]
+	
+	dest_tx = cmds.listConnections("{}.constraintTranslateX".format(constr), s=False, d=True)[0]
+	dest_ty = cmds.listConnections("{}.constraintTranslateY".format(constr), s=False, d=True)[0]
+	dest_tz = cmds.listConnections("{}.constraintTranslateZ".format(constr), s=False, d=True)[0]
+	
+	dest_rx = cmds.listConnections("{}.constraintRotateX".format(constr), s=False, d=True)[0]
+	dest_ry = cmds.listConnections("{}.constraintRotateY".format(constr), s=False, d=True)[0]
+	dest_rz = cmds.listConnections("{}.constraintRotateZ".format(constr), s=False, d=True)[0]
 
-# Delete constraints
+	if dest_tx == dest_ty and dest_ty == dest_tz:
+		constraint[constr]["destination"] = dest_tx
+	elif dest_rx == dest_ry and dest_ry == dest_rz:
+		constraint[constr]["destination"] = dest_rx
+	
+	offset_tr = cmds.getAttr("{}.target[0].targetOffsetTranslate".format(constr))[0]
+	offset_rot = cmds.getAttr("{}.target[0].targetOffsetRotate".format(constr))[0]
+	
+	if offset_tr == (0, 0, 0) and offset_rot == (0, 0, 0):
+		constraint[constr]["maintain_offset"] = False
+	else:
+		constraint[constr]["maintain_offset"] = True
 
-for i in renamed_duplicata:
-	if cmds.objectType(i) in ["parentConstraint", "orientConstraint", "scaleConstraint", "aimConstraint"]:
-		cmds.delete(i)
+	cmds.delete(constr)
+
 
 # Work only with DAG nodes
 cmds.select(renamed_duplicata[0:len(sel)], hierarchy=True)
@@ -74,6 +109,20 @@ for node in dagNodes_list:
 
 for node in dagNodes_list:
 	cmds.parent(node, dagParent[node])
+
+# redo constraints
+for i in constraints_list:
+	if constraint[i]["type"] == "parentConstraint":
+		cmds.parentConstraint(constraint[i]["source"], constraint[i]["destination"], mo= constraint[i]["maintain_offset"])
+	
+	elif constraint[i]["type"] == "orientConstraint":
+		cmds.orientConstraint(constraint[i]["source"], constraint[i]["destination"], mo= constraint[i]["maintain_offset"])
+	
+	elif constraint[i]["type"] == "scaleConstraint":
+		cmds.scaleConstraint(constraint[i]["source"], constraint[i]["destination"], mo= constraint[i]["maintain_offset"])
+	
+	# elif constraint[i]["type"] == "aimConstraint":
+	# 	cmds.aimConstraint(constraint[i]["source"], constraint[i]["destination"], mo= constraint[i]["maintain_offset"])
 
 
 # MIRROR POSITION AND ROTATION
@@ -139,47 +188,47 @@ def mirror_curve_shape(sel=[])
 
 
 # CONSTRAINTS MANAGEMENT
-constraints_list = cmds.ls(sl=True, ap=True)
+# constraints_list = cmds.ls(sl=True, ap=True)
 
-constraint = {}
-for constr in constraints_list:
+# constraint = {}
+# for constr in constraints_list:
 	
-	constraint[constr] = {}
-	constraint[constr]["type"] = cmds.objectType(constr)
-	constraint[constr]["source"] = cmds.listConnections(constr+".target[0].targetParentMatrix", s=True, d=False)[0]
+# 	constraint[constr] = {}
+# 	constraint[constr]["type"] = cmds.objectType(constr)
+# 	constraint[constr]["source"] = cmds.listConnections(constr+".target[0].targetParentMatrix", s=True, d=False)[0]
 	
-	dest_tx = cmds.listConnections("{}.constraintTranslateX".format(constr), s=False, d=True)[0]
-	dest_ty = cmds.listConnections("{}.constraintTranslateY".format(constr), s=False, d=True)[0]
-	dest_tz = cmds.listConnections("{}.constraintTranslateZ".format(constr), s=False, d=True)[0]
+# 	dest_tx = cmds.listConnections("{}.constraintTranslateX".format(constr), s=False, d=True)[0]
+# 	dest_ty = cmds.listConnections("{}.constraintTranslateY".format(constr), s=False, d=True)[0]
+# 	dest_tz = cmds.listConnections("{}.constraintTranslateZ".format(constr), s=False, d=True)[0]
 	
-	dest_rx = cmds.listConnections("{}.constraintRotateX".format(constr), s=False, d=True)[0]
-	dest_ry = cmds.listConnections("{}.constraintRotateY".format(constr), s=False, d=True)[0]
-	dest_rz = cmds.listConnections("{}.constraintRotateZ".format(constr), s=False, d=True)[0]
+# 	dest_rx = cmds.listConnections("{}.constraintRotateX".format(constr), s=False, d=True)[0]
+# 	dest_ry = cmds.listConnections("{}.constraintRotateY".format(constr), s=False, d=True)[0]
+# 	dest_rz = cmds.listConnections("{}.constraintRotateZ".format(constr), s=False, d=True)[0]
 
-	if dest_tx == dest_ty and dest_ty == dest_tz:
-		constraint[constr]["destination"] = dest_tx
-	elif dest_rx == dest_ry and dest_ry == dest_rz:
-		constraint[constr]["destination"] = dest_rx
+# 	if dest_tx == dest_ty and dest_ty == dest_tz:
+# 		constraint[constr]["destination"] = dest_tx
+# 	elif dest_rx == dest_ry and dest_ry == dest_rz:
+# 		constraint[constr]["destination"] = dest_rx
 	
-	offset_tr = cmds.getAttr("{}.target[0].targetOffsetTranslate".format(constr))
-	offset_rot = cmds.getAttr("{}.target[0].targetOffsetRotate".format(constr))
+# 	offset_tr = cmds.getAttr("{}.target[0].targetOffsetTranslate".format(constr))
+# 	offset_rot = cmds.getAttr("{}.target[0].targetOffsetRotate".format(constr))
 	
-	if offset_tr != [0,0,0] or offset_rot != [0,0,0]:
-		constraint[constr]["maintain_offset"] = True
-	else:
-		constraint[constr]["maintain_offset"] = False
+# 	if offset_tr != [0,0,0] or offset_rot != [0,0,0]:
+# 		constraint[constr]["maintain_offset"] = True
+# 	else:
+# 		constraint[constr]["maintain_offset"] = False
 
-	cmds.delete(constr)
+# 	cmds.delete(constr)
 
-for i in constraints_list:
-	if constraint[i]["type"] == "parentConstraint":
-		cmds.parentConstraint(constraint[i]["source"], constraint[i]["destination"], mo= constraint[i]["maintain_offset"])
+# for i in constraints_list:
+# 	if constraint[i]["type"] == "parentConstraint":
+# 		cmds.parentConstraint(constraint[i]["source"], constraint[i]["destination"], mo= constraint[i]["maintain_offset"])
 	
-	elif constraint[i]["type"] == "orientConstraint":
-		cmds.parentConstraint(constraint[i]["source"], constraint[i]["destination"], mo= constraint[i]["maintain_offset"])
+# 	elif constraint[i]["type"] == "orientConstraint":
+# 		cmds.parentConstraint(constraint[i]["source"], constraint[i]["destination"], mo= constraint[i]["maintain_offset"])
 	
-	elif constraint[i]["type"] == "scaleConstraint":
-		cmds.parentConstraint(constraint[i]["source"], constraint[i]["destination"], mo= constraint[i]["maintain_offset"])
+# 	elif constraint[i]["type"] == "scaleConstraint":
+# 		cmds.parentConstraint(constraint[i]["source"], constraint[i]["destination"], mo= constraint[i]["maintain_offset"])
 	
-	elif constraint[i]["type"] == "parentConstraint":
-		cmds.parentConstraint(constraint[i]["source"], constraint[i]["destination"], mo= constraint[i]["maintain_offset"])
+# 	elif constraint[i]["type"] == "parentConstraint":
+# 		cmds.parentConstraint(constraint[i]["source"], constraint[i]["destination"], mo= constraint[i]["maintain_offset"])
