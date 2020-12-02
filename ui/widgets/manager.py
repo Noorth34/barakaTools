@@ -320,7 +320,12 @@ class Manager(QWidget):
 				text_selected_item
 				)
 
-			last_item = Directory.get_children(folder_item)[-1]
+			files_list = Directory.get_children(folder_item)
+
+			for file in files_list:
+				if file.endswith(".ma"):
+					last = file
+
 			print("ITEM: " + folder_item + "/" + last_item)
 
 			if 'Import' in action:
@@ -344,13 +349,11 @@ class Manager(QWidget):
 				scene_type.lower()
 				)
 
-			files_and_folders = Directory.get_children(folder)
+			files_list = Directory.get_children(folder)
 
-			last = None
-			for x in files_and_folders:
-				if x in const.FILE_TO_IGNORE_LIST:
-					continue
-				last = x
+			for file in files_list:
+				if file.endswith(".ma"):
+					last = file
 
 			print(folder + "/" + last)
 
