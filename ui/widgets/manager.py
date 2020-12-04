@@ -324,7 +324,7 @@ class Manager(QWidget):
 
 			for file in files_list:
 				if file.endswith(".ma"):
-					last = file
+					last_item = file
 
 			print("ITEM: " + folder_item + "/" + last_item)
 

@@ -187,48 +187,24 @@ def mirror_curve_shape(sel=[])
 
 
 
-# CONSTRAINTS MANAGEMENT
-# constraints_list = cmds.ls(sl=True, ap=True)
+def hook_legacy():
+	sel = cmds.ls(sl=True, ap=True)
 
-# constraint = {}
-# for constr in constraints_list:
-	
-# 	constraint[constr] = {}
-# 	constraint[constr]["type"] = cmds.objectType(constr)
-# 	constraint[constr]["source"] = cmds.listConnections(constr+".target[0].targetParentMatrix", s=True, d=False)[0]
-	
-# 	dest_tx = cmds.listConnections("{}.constraintTranslateX".format(constr), s=False, d=True)[0]
-# 	dest_ty = cmds.listConnections("{}.constraintTranslateY".format(constr), s=False, d=True)[0]
-# 	dest_tz = cmds.listConnections("{}.constraintTranslateZ".format(constr), s=False, d=True)[0]
-	
-# 	dest_rx = cmds.listConnections("{}.constraintRotateX".format(constr), s=False, d=True)[0]
-# 	dest_ry = cmds.listConnections("{}.constraintRotateY".format(constr), s=False, d=True)[0]
-# 	dest_rz = cmds.listConnections("{}.constraintRotateZ".format(constr), s=False, d=True)[0]
+	hook = cmds.createNode("transform", n= "hook_{}_for_{}".format( sel[0], sel[-1] ) )
+	cmds.setAttr("{}.useOutlinerColor".format(hook), 1)
+	cmds.setAttr("{}.outlinerColorR".format(hook), 0)
+	cmds.setAttr("{}.outlinerColorG".format(hook), 1)
+	cmds.setAttr("{}.outlinerColorB".format(hook), 1)
 
-# 	if dest_tx == dest_ty and dest_ty == dest_tz:
-# 		constraint[constr]["destination"] = dest_tx
-# 	elif dest_rx == dest_ry and dest_ry == dest_rz:
-# 		constraint[constr]["destination"] = dest_rx
-	
-# 	offset_tr = cmds.getAttr("{}.target[0].targetOffsetTranslate".format(constr))
-# 	offset_rot = cmds.getAttr("{}.target[0].targetOffsetRotate".format(constr))
-	
-# 	if offset_tr != [0,0,0] or offset_rot != [0,0,0]:
-# 		constraint[constr]["maintain_offset"] = True
-# 	else:
-# 		constraint[constr]["maintain_offset"] = False
+	cmds.parentConstraint(sel[0], hook, mo=False)
+	cmds.scaleConstraint(sel[0], hook, mo=False)
 
-# 	cmds.delete(constr)
+	parent = cmds.listRelatives(sel[-1], parent=True, path=True)
 
-# for i in constraints_list:
-# 	if constraint[i]["type"] == "parentConstraint":
-# 		cmds.parentConstraint(constraint[i]["source"], constraint[i]["destination"], mo= constraint[i]["maintain_offset"])
-	
-# 	elif constraint[i]["type"] == "orientConstraint":
-# 		cmds.parentConstraint(constraint[i]["source"], constraint[i]["destination"], mo= constraint[i]["maintain_offset"])
-	
-# 	elif constraint[i]["type"] == "scaleConstraint":
-# 		cmds.parentConstraint(constraint[i]["source"], constraint[i]["destination"], mo= constraint[i]["maintain_offset"])
-	
-# 	elif constraint[i]["type"] == "parentConstraint":
-# 		cmds.parentConstraint(constraint[i]["source"], constraint[i]["destination"], mo= constraint[i]["maintain_offset"])
+	cmds.parent(sel[-1], hook)
+
+	if parent:
+		parent = parent[0]
+		cmds.parent(hook, parent)
+	else:
+		pass

@@ -110,11 +110,21 @@ class Scene():
         scene_name = File.get_short_name(scene)
         state_changed_scene = scene_name.replace("_E_", "_P_")
         state_changed_scene_no_index = state_changed_scene.replace("_" + index, "")
-        dir_backup = Scene.create_dir_backup()
-        dir_publish = scene.replace("/edit/", "/publish/").replace(scene_name, "")
 
-        full_backup_scene_path = dir_backup + "/" + state_changed_scene
-        full_publish_scene_path = dir_publish + "/" + state_changed_scene_no_index
+        if "/items/" in scene:
+            dir_backup = Scene.create_dir_backup(item=True)
+            dir_publish = scene.replace("/edit/", "/publish/").replace("/{}/".format(asset), "").replace(scene_name, "")
+
+            full_backup_scene_path = dir_backup + "/" + asset + "/" + state_changed_scene
+            full_publish_scene_path = dir_publish + "/" + state_changed_scene_no_index
+
+        else:
+            dir_backup = Scene.create_dir_backup()
+
+            dir_publish = scene.replace("/edit/", "/publish/").replace(scene_name, "")
+
+            full_backup_scene_path = dir_backup + "/" + state_changed_scene
+            full_publish_scene_path = dir_publish + "/" + state_changed_scene_no_index
 
         # Securities
 
@@ -141,12 +151,17 @@ class Scene():
         cmds.inViewMessage(amg='Asset published: \n <hl>' + full_publish_scene_path + '</hl>. \n Publish backup: \n <hl>' + full_backup_scene_path + '</hl>.', pos='topCenter', fade=True)
 
     @staticmethod
-    def create_dir_backup(scene=None):
+    def create_dir_backup(scene=None, item=False):
 
         if scene is None:
             scene = Scene.get_name()
+        
+        asset = Scene.get_asset(scene)
 
-        publish_dir = File.get_parent(scene).replace("/edit/", "/publish/")
+        if item == True:
+            publish_dir = File.get_parent(scene).replace("/edit/", "/publish/").replace("/{}".format(asset), "")
+        else:
+            publish_dir = File.get_parent(scene).replace("/edit/", "/publish/")
 
         if not "backup" in Directory.get_children(publish_dir):
             backup = Directory.create(publish_dir, name="backup")
