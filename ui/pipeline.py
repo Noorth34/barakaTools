@@ -16,10 +16,10 @@ class Pipeline(QMainWindow):
         QMainWindow.__init__(self, parent=mayawin.get_maya_main_window())
 
         self.width_manager = 425
-        self.height_manager = 435
+        self.height_manager = 375
 
         self.width_publisher = 225
-        self.height_publisher = 300
+        self.height_publisher = 280
 
         self.setWindowTitle("Pipeline")
         self.setWindowIcon(QIcon(const.BARAKA_ICONS_PATH + "/coca.png"))
@@ -172,5 +172,3 @@ class PopupSetRootPath(QDialog, Pipeline):
         self.line_root_path.clear()
         self.close()
         
-
-

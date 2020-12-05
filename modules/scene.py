@@ -118,13 +118,6 @@ class Scene():
             full_backup_scene_path = dir_backup + "/" + asset + "/" + state_changed_scene
             full_publish_scene_path = dir_publish + "/" + state_changed_scene_no_index
 
-        if "/modules/" in scene:
-            dir_backup = Scene.create_dir_backup(module=True)
-            dir_publish = scene.replace("/edit/", "/publish/").replace("/{}/".format(asset), "").replace(scene_name, "")
-
-            full_backup_scene_path = dir_backup + "/" + asset + "/" + state_changed_scene
-            full_publish_scene_path = dir_publish + "/" + state_changed_scene_no_index
-
         else:
             dir_backup = Scene.create_dir_backup()
 
@@ -133,6 +126,19 @@ class Scene():
             full_backup_scene_path = dir_backup + "/" + state_changed_scene
             full_publish_scene_path = dir_publish + "/" + state_changed_scene_no_index
 
+        # Securities
+
+        # if not selection:
+        #     selection = Selection.get()
+        #     if not selection:
+        #         cmds.error("Select geo before publish.")
+
+        # if len(selection) != 1:
+        #     cmds.error(
+        #         "Multiple selection. Just select the TOP_GROUP (or simple geo) for publish.")
+
+        # if not "TOP_" in selection[0]:
+        #     cmds.error("Bad selection. Please select the TOP_GROUP (or simple geo) for publish.")
 
         Scene.export_selection(full_backup_scene_path, "mayaAscii")
         print("Asset backup : {}".format(full_backup_scene_path))
@@ -144,9 +150,8 @@ class Scene():
         
         cmds.inViewMessage(amg='Asset published: \n <hl>' + full_publish_scene_path + '</hl>. \n Publish backup: \n <hl>' + full_backup_scene_path + '</hl>.', pos='topCenter', fade=True)
 
-
     @staticmethod
-    def create_dir_backup(scene=None, item=False, module=False):
+    def create_dir_backup(scene=None, item=False):
 
         if scene is None:
             scene = Scene.get_name()
@@ -154,8 +159,6 @@ class Scene():
         asset = Scene.get_asset(scene)
 
         if item == True:
-            publish_dir = File.get_parent(scene).replace("/edit/", "/publish/").replace("/{}".format(asset), "")
-        elif module == True:
             publish_dir = File.get_parent(scene).replace("/edit/", "/publish/").replace("/{}".format(asset), "")
         else:
             publish_dir = File.get_parent(scene).replace("/edit/", "/publish/")
@@ -166,7 +169,6 @@ class Scene():
             return backup
         else:
             return publish_dir + "/backup"
-
 
     @staticmethod
     def increment_index(scene):
@@ -256,28 +258,12 @@ class Scene():
     def create_item(name, set):
 
         parent_set = const.PIPELINE_SETS + "/{}".format(set)
-        items_edit_path = parent_set + "/maya/scenes/edit/geo/items/"
-        items_publish_path = parent_set + "/maya/scenes/publish/geo/items/backup"
-        item_edit_folder = Directory.create(items_edit_path, name=name)
-        item_publish_folder = Directory.create(items_publish_path, name=name)
+        items_path = parent_set + "/maya/scenes/edit/geo/items/"
+        item_folder = Directory.create(items_path, name=name)
         # {}_E_geo_0001.ma".format(name)"
-        File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}_E_geo_0001.ma".format(item_edit_folder, name))
+        File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}_E_geo_0001.ma".format(item_folder, name))
 
-        return item_edit_folder
-
-
-    @staticmethod
-    def create_module(name, set):
-
-        parent_set = const.PIPELINE_SETS + "/{}".format(set)
-        modules_edit_path = parent_set + "/maya/scenes/edit/geo/modules/"
-        modules_publish_path = parent_set + "/maya/scenes/publish/geo/modules/backup"
-        module_edit_folder = Directory.create(modules_edit_path, name="m{}".format(name.title()))
-        module_publish_folder = Directory.create(modules_publish_path, name="m{}".format(name.title()))
-        # {}_E_geo_0001.ma".format(name)"
-        File.copy(const.TEMPLATE_ASSET_SCENE, "{}/m{}_E_geo_0001.ma".format(module_edit_folder, name.title()))
-
-        return module_edit_folder
+        return item_folder
 
 
     @staticmethod

@@ -1,42 +1,29 @@
-# coding:utf-8 
-
 # Script API de connexion de Matrices en Parent avec Offset
 # Connexion entre un Objet nommé Master et un nommé Slave
 
 from maya.api.OpenMaya import *
 
-def matrix_constraint(type="parent", offset=True):
 
-	sel = MGlobal.getActiveSelectionList() # return MSelectionList object
-
-
-	master = MMatrix( cmds.getAttr('{}.worldMatrix[0]'.format(sel.getSelectionStrings()[0]) ) )
-	slave = MMatrix( cmds.getAttr('{}.worldMatrix[0]'.format(sel.getSelectionStrings()[-1]) ) )
+sel = MGlobal.getActiveSelectionList() # return MSelectionList object
 
 
-	offset = MTransformationMatrix(slave * master.inverse()).asMatrix()
+Master = MMatrix( cmds.getAttr('{}.wm[0]'.format(sel.getSelectionStrings()[0]) ) )
+Slave = MMatrix( cmds.getAttr('{}.wm[0]'.format(sel.getSelectionStrings()[-1]) ) )
 
-	# Creation du Mult Matrix avec connexion de l'Offset
 
-	mMatrix = cmds.createNode('multMatrix', name = "mMatrix_{}".format(slave))
+Offset = MTransformationMatrix(Slave * Master.inverse()).asMatrix()
 
-	cmds.setAttr(mMatrix + '.i[0]', offset, type='matrix')
-	cmds.connectAttr('{}.matrix'.format(sel.getSelectionStrings()[0]), mMatrix + '.i[1]')
+# Creation du Mult Matrix avec connexion de l'Offset
 
-	# Creation et Connexion du Decompose Matrix
+MultMatX = cmds.createNode('multMatrix', name = "MultMatX")
 
-	dMatrix = cmds.createNode('decomposeMatrix', name = "dMatrix_{}".format(slave))
-	cmds.connectAttr(mMatrix + '.matrixSum', dMatrix + '.inputMatrix')
+cmds.setAttr(MultMatX + '.i[0]', Offset, type='matrix')
+cmds.connectAttr('{}.matrix'.format(sel.getSelectionStrings()[0]), MultMatX + '.i[1]')
 
-	if type == "parent":
-		cmds.connectAttr(dMatrix + '.outputTranslate', '{}.translate'.format(sel.getSelectionStrings()[-1]))
-		cmds.connectAttr(dMatrix + '.outputRotate', '{}.rotate'.format(sel.getSelectionStrings()[-1]))
+# Creation et Connexion du Decompose Matrix
 
-	if type == "point":
-		cmds.connectAttr(dMatrix + '.outputTranslate', '{}.translate'.format(sel.getSelectionStrings()[-1]))
+DecMatX = cmds.createNode('decomposeMatrix', name = "DecMatX")
 
-	if type == "orient":
-		cmds.connectAttr(dMatrix + '.outputRotate', '{}.rotate'.format(sel.getSelectionStrings()[-1]))
-
-	if type == "scale":
-		cmds.connectAttr(dMatrix + '.outputScale', '{}.scale'.format(sel.getSelectionStrings()[-1]))
+cmds.connectAttr(MultMatX + '.matrixSum', DecMatX + '.inputMatrix')
+cmds.connectAttr(DecMatX + '.outputTranslate', '{}.t'.format(sel.getSelectionStrings()[-1]))
+cmds.connectAttr(DecMatX + '.outputRotate', '{}.r'.format(sel.getSelectionStrings()[-1]))
