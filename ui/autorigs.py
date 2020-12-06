@@ -4,6 +4,7 @@ from PySide2.QtWidgets import *
 from PySide2.QtGui import QIcon
 import constants as const
 import ui.maya_win as mayawin
+from ui.widgets.utils import Utils
 
 
 class Autorigs(QMainWindow):
@@ -22,6 +23,7 @@ class Autorigs(QMainWindow):
 
         self.init_tabs()
         self.init_limb_with_ribbon()
+        self.init_utils()
 
         self.setCentralWidget(self.tab_widget)
 
@@ -36,6 +38,14 @@ class Autorigs(QMainWindow):
         self.tab_widget.addTab(self.tab_limb, "Limb")
         self.tab_widget.addTab(self.tab_eyes, "Eyes")
         self.tab_widget.addTab(self.tab_utils, "Utils")
+
+    def init_utils(self):
+
+        self.utils = Utils()
+
+        self.lay_utils = QVBoxLayout()
+        self.tab_utils.setLayout(self.lay_utils)
+        self.lay_utils.addWidget(self.utils)
 
     def init_limb_with_ribbon(self):
 

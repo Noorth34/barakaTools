@@ -38,6 +38,7 @@ class Publisher(QWidget):
 
         self.line_commit = QLineEdit()
         self.line_commit.setPlaceholderText("Write your commit here...")
+        self.line_commit.setEnabled(False) # temporary
 
         self.label_frame_start = QLabel("Start")
         self.label_frame_end = QLabel("End")

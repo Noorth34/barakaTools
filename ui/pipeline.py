@@ -16,7 +16,7 @@ class Pipeline(QMainWindow):
         QMainWindow.__init__(self, parent=mayawin.get_maya_main_window())
 
         self.width_manager = 425
-        self.height_manager = 375
+        self.height_manager = 450
 
         self.width_publisher = 225
         self.height_publisher = 280

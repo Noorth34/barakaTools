@@ -28,6 +28,7 @@ class Manager(QWidget):
 
 		# Layouts creation
 
+		self.lay = QVBoxLayout()
 		self.lay_main = QHBoxLayout()
 		# self.layTree = QVBoxLayout()
 		self.lay_creations = QVBoxLayout()
@@ -51,6 +52,7 @@ class Manager(QWidget):
 		self.btn_create_prop = QPushButton("Prop")
 		self.btn_create_set = QPushButton("Set")
 		self.btn_create_set_item = QPushButton("Item")
+		self.btn_create_set_module = QPushButton("Module")
 
 			# Shots Group
 		self.group_shot_creation = QGroupBox("Shots Creation")
@@ -61,6 +63,10 @@ class Manager(QWidget):
 		self.btn_create_seq = QPushButton("Sequence")
 		self.btn_create_shot = QPushButton("Shot")
 
+			# status bar
+		self.status_bar = QStatusBar()
+		self.status_bar.showMessage("# [ INIT ] : Maya is a crap.")
+
 		# Connect SIGNAL to SLOT
 
 			# assets
@@ -68,6 +74,7 @@ class Manager(QWidget):
 		self.btn_create_prop.clicked.connect(self.create_prop)
 		self.btn_create_set.clicked.connect(self.create_set)
 		self.btn_create_set_item.clicked.connect(self.create_set_item)
+		self.btn_create_set_module.clicked.connect(self.create_set_module)
 
 			# shots
 		self.btn_create_seq.clicked.connect(self.create_sequence)
@@ -75,7 +82,10 @@ class Manager(QWidget):
 
 		# Layout management
 
-		self.setLayout(self.lay_main)
+		self.setLayout(self.lay)
+
+		self.lay.addLayout(self.lay_main)
+		self.lay.addWidget(self.status_bar)
 
 		self.lay_main.addLayout(self.lay_creations)
 
@@ -89,6 +99,7 @@ class Manager(QWidget):
 		self.lay_asset_creation.addWidget(self.btn_create_prop)
 		self.lay_asset_creation.addWidget(self.btn_create_set)
 		self.lay_asset_creation.addWidget(self.btn_create_set_item)
+		self.lay_asset_creation.addWidget(self.btn_create_set_module)
 
 			# shots
 		self.lay_creations.addWidget(self.group_shot_creation)
@@ -104,7 +115,7 @@ class Manager(QWidget):
 		
 		## Set Properties
 
-		self.group_asset_creation.setMinimumSize(133,185)
+		self.group_asset_creation.setMinimumSize(133,220)
 		self.group_asset_creation.setMaximumSize(133,575)
 
 		self.line_asset_creation.setMaximumHeight(20)
@@ -113,6 +124,7 @@ class Manager(QWidget):
 		self.btn_create_prop.setMaximumHeight(25)
 		self.btn_create_set.setMaximumHeight(25)
 		self.btn_create_set_item.setMaximumHeight(25)
+		self.btn_create_set_module.setMaximumHeight(25)
 
 		self.group_shot_creation.setMinimumSize(133,120)
 		self.group_shot_creation.setMaximumSize(133,550)
@@ -179,33 +191,33 @@ class Manager(QWidget):
 				if categ == "character":
 					item_char = QTreeWidgetItem(self.item_character, [proj])
 
-					# Check for items
-					for folder in Directory.get_children(const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/geo".format(categ, proj) ): 
-						if folder == "items": 
-							item_items = QTreeWidgetItem(item_char, ['items'])
+					# # Check for items
+					# for folder in Directory.get_children(const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/geo".format(categ, proj) ): 
+					# 	if folder == "items": 
+					# 		item_items = QTreeWidgetItem(item_char, ['items'])
 
-							# List all item folders
-							for i in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/geo/items".format(categ, proj) ):
-								item_item_folder = QTreeWidgetItem(item_items, [i])
+					# 		# List all item folders
+					# 		for i in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/geo/items".format(categ, proj) ):
+					# 			item_item_folder = QTreeWidgetItem(item_items, [i])
 
 				# For Props
 				if categ == "prop":
 					item_prop = QTreeWidgetItem(self.item_prop, [proj])
 
-					# Check for items
-					for folder in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/geo".format(categ, proj) ): 
-						if folder == "items": 
-							item_items = QTreeWidgetItem(item_prop, ['items'])
+					# # Check for items
+					# for folder in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/geo".format(categ, proj) ): 
+					# 	if folder == "items": 
+					# 		item_items = QTreeWidgetItem(item_prop, ['items'])
 
-							# List all item folders
-							for i in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/geo/items".format(categ, proj) ):
-								item_item_folder = QTreeWidgetItem(item_items, [i])
+					# 		# List all item folders
+					# 		for i in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/geo/items".format(categ, proj) ):
+					# 			item_item_folder = QTreeWidgetItem(item_items, [i])
 
 				# For Sets
 				if categ == "set":
 					item_set = QTreeWidgetItem(self.item_set, [proj])
 
-					# Check for items folder
+					# Check for items and modules folder
 					for folder in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/geo".format(categ, proj) ): 
 						if folder == "items": 
 							item_items = QTreeWidgetItem(item_set, ['items'])
@@ -213,6 +225,13 @@ class Manager(QWidget):
 							# List all item folders
 							for i in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/geo/items".format(categ, proj) ):
 								item_item_folder = QTreeWidgetItem(item_items, [i])
+
+						if folder == "modules": 
+							item_module = QTreeWidgetItem(item_set, ['modules'])
+
+							# List all module folders
+							for i in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/geo/modules".format(categ, proj) ):
+								item_module_folder = QTreeWidgetItem(item_module, [i])
 
 
 		# SHOTS
@@ -227,6 +246,8 @@ class Manager(QWidget):
 			list_shots = Directory.get_children( const.PIPELINE_SHOT_PATH + "/{}".format(seq) )
 
 			for shot in list_shots:
+				if shot == "master":
+					continue
 				item_shot = QTreeWidgetItem(item_seq, [shot])
 
 
@@ -255,7 +276,7 @@ class Manager(QWidget):
 		context_menu_shot = QMenu(self)
 
 		list_menus_shot = ['Open last', 'Import last', 'Reference last']
-		list_actions_shot = ['Anim', 'Layout', 'Render']
+		list_actions_shot = ['anim', 'layout', 'render']
 
 		for menu in list_menus_shot:
 			menu_shot = context_menu_shot.addMenu(menu)
@@ -267,16 +288,18 @@ class Manager(QWidget):
 
 
 		# master
-		context_menu_master = QMenu(self)
+		context_menu_seq = QMenu(self)
 
-		list_menus_master = ['Open last', 'Import last', 'Reference last']
-		list_actions_master = ['roughLayout', 'technicalLayout', 'finalLayout']
+		list_menus_seq = ['Open last', 'Import last', 'Reference last']
+		list_actions_seq = ['roughLayout', 'technicalLayout', 'finalLayout']
 
-		for menu in list_menus_master:
-			menu_master = context_menu_master.addMenu(menu)
+		for menu in list_menus_seq:
+			menu_seq = context_menu_seq.addMenu(menu)
 
-			for action in list_actions_master:
-				action_master = menu_master.addAction(action)
+			for action in list_actions_seq:
+				action_seq = menu_seq.addAction(action)
+
+				action_seq.triggered.connect( partial(self.do_context_seq_actions, menu, action) )
 
 
 		# Do
@@ -290,19 +313,20 @@ class Manager(QWidget):
 		if selected_item_parent() in ['character', 'prop', 'set', 'items', 'modules']:
 			action = context_menu_asset.exec_( self.mapToGlobal( event.pos() ) )
 
-		if "shot" in self.tree_asset.currentItem().text(0):
+		if self.tree_asset.currentItem().text(0).startswith("shot"):
 			action = context_menu_shot.exec_( self.mapToGlobal( event.pos() ) )
 
-		if "master" in self.tree_asset.currentItem().text(0):
-			action = context_menu_master.exec_( self.mapToGlobal( event.pos() ) )
+		if self.tree_asset.currentItem().text(0).startswith("seq"):
+			action = context_menu_seq.exec_( self.mapToGlobal( event.pos() ) )
 
 
 	def do_context_asset_actions(self, action_type, action, scene_type):
 
 		selected_item = self.tree_asset.currentItem()
 		text_selected_item = selected_item.text(0)
+		parent_selected_item = selected_item.parent().text(0)
 
-		if selected_item.parent().text(0) == "items":
+		if parent_selected_item in ["items", "modules"]:
 			
 			# Asset Proj root
 			proj = selected_item.parent().parent()
@@ -312,30 +336,45 @@ class Manager(QWidget):
 			categ = proj.parent()
 			text_categ = categ.text(0)
 
-			folder_item = const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/{}/{}/items/{}".format(
-				text_categ,
-				text_proj,
-				action_type.lower(),
-				scene_type.lower(),
-				text_selected_item
-				)
+			if action_type == "Edit":
 
-			files_list = Directory.get_children(folder_item)
+				folder = const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/{}/{}/{}/{}".format(
+					text_categ,
+					text_proj,
+					action_type.lower(),
+					scene_type.lower(),
+					parent_selected_item,
+					text_selected_item
+					)
+
+			if action_type == "Publish":
+
+				folder = const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/{}/{}/{}".format(
+					text_categ,
+					text_proj,
+					action_type.lower(),
+					scene_type.lower(),
+					parent_selected_item
+					)
+
+			files_list = Directory.get_children(folder)
 
 			for file in files_list:
 				if file.endswith(".ma"):
-					last_item = file
+					last = file
 
-			print("ITEM: " + folder_item + "/" + last_item)
+			if last:
+				print("ITEM: " + folder + "/" + last)
 
-			if 'Import' in action:
-				Scene.import_scene(folder_item + "/" + last_item)
+				if 'Import' in action:
+					Scene.import_scene(folder + "/" + last)
 
-			if 'Open' in action:
-				Scene.open_scene(folder_item + "/" + last_item)
+				if 'Open' in action:
+					Scene.open_scene(folder + "/" + last)
 
-			if 'Reference' in action:
-				Scene.reference_scene(folder_item + "/" + last_item)
+				if 'Reference' in action:
+					Scene.reference_scene(folder + "/" + last)
+
 
 		else:
 			categ = selected_item.parent()
@@ -367,6 +406,29 @@ class Manager(QWidget):
 			if 'Reference' in action:
 				Scene.reference_scene(folder + "/" + last)
 
+
+	def do_context_seq_actions(self, action, scene_type):
+
+		seq_item = self.tree_asset.currentItem()
+
+		seq = seq_item.text(0)
+
+		if seq_item.parent().text(0) == "SHOT":
+
+			folder = const.PIPELINE_SHOT_PATH + "/{}/master/maya/scenes/{}".format(seq, scene_type)
+			last = Directory.get_children(folder)[-1]
+			scene = folder + "/" + last
+
+			if 'Import' in action:
+				Scene.import_scene(scene)
+
+			if 'Open' in action:
+				Scene.open_scene(scene)
+
+			if 'Reference' in action:
+				Scene.reference_scene(scene)
+
+
 	def do_context_shot_actions(self, action, scene_type):
 
 		shot_item = self.tree_asset.currentItem()
@@ -377,7 +439,7 @@ class Manager(QWidget):
 
 		if sequence_item.parent().text(0) == "SHOT":
 
-			folder = const.PIPELINE_SHOT_PATH + "/{}/{}/maya/scenes/{}".format(sequence, shot, scene_type.lower())
+			folder = const.PIPELINE_SHOT_PATH + "/{}/{}/maya/scenes/{}".format(sequence, shot, scene_type)
 			last = Directory.get_children(folder)[-1]
 			scene = folder + "/" + last
 
@@ -394,7 +456,7 @@ class Manager(QWidget):
 	def add_item_character(self, char):
 
 		if char == "":
-			raise TypeError("Any name in line edit. Please put a name in line edit.")
+			self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Please put a name in line edit.")
 			return
 
 		QTreeWidgetItem(self.item_character, [char])
@@ -403,7 +465,7 @@ class Manager(QWidget):
 	def add_item_prop(self, prop):
 
 		if prop == "":
-			raise TypeError("Any name in line edit. Please put a name in line edit.")
+			self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Please put a name in line edit.")
 			return
 
 		QTreeWidgetItem(self.item_prop, [prop])
@@ -412,7 +474,7 @@ class Manager(QWidget):
 	def add_item_set(self, set):
 
 		if set == "":
-			raise TypeError("Any name in line edit. Please put a name in line edit.")
+			self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Please put a name in line edit.")
 			return
 
 		QTreeWidgetItem(self.item_set, [set])
@@ -422,13 +484,25 @@ class Manager(QWidget):
 	def add_item_set_item(self, set_item):
 
 		if set_item == "":
-			raise TypeError("Any name in line edit. Please put a name in line edit.")
+			self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Please put a name in line edit.")
 			return
 
 		try:
 			QTreeWidgetItem(self.tree_asset.currentItem(), [set_item])
 		except:
-			raise SelectionError("Any set selected. Please select the parent's item set before create item.")
+			self.status_bar.showMessage("# [ ERROR ] : Any set selected. Please select the parent's item set before create item.")
+
+
+	def add_item_set_module(self, set_module):
+
+		if set_module == "":
+			self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Please put a name in line edit.")
+			return
+
+		try:
+			QTreeWidgetItem(self.tree_asset.currentItem(), [set_module])
+		except:
+			self.status_bar.showMessage("# [ ERROR ] : Any set selected. Please select the parent's item set before create item.")
 
 
 	def add_item_seq(self, seq):
@@ -477,11 +551,27 @@ class Manager(QWidget):
 
 	def create_set_item(self):
 
-		set = self.tree_asset.currentItem().parent().text(0)
-		set_item = self.line_asset_creation.text()
-		self.add_item_set_item(set_item)
-		self.line_asset_creation.clear()
-		Scene.create_item(set_item, set)
+		if self.tree_asset.currentItem().text(0) == "items":
+			set = self.tree_asset.currentItem().parent().text(0)
+			set_item = self.line_asset_creation.text()
+			self.add_item_set_item(set_item)
+			self.line_asset_creation.clear()
+			Scene.create_item(set_item, set)
+
+		else:
+			self.status_bar.showMessage("# [ ERROR ] : Select 'items' folder under desired set for create an item.")
+
+
+	def create_set_module(self):
+
+		if self.tree_asset.currentItem().text(0) == "modules":
+			set = self.tree_asset.currentItem().parent().text(0)
+			set_module = self.line_asset_creation.text()
+			self.add_item_set_module(set_module)
+			self.line_asset_creation.clear()
+			Scene.create_module(set_module, set)
+		else:
+			self.status_bar.showMessage("# [ ERROR ] : Select 'modules' folder under desired set for create a module.")
 
 
 	def create_sequence(self):
