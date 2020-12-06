@@ -111,7 +111,7 @@ class Scene():
         state_changed_scene = scene_name.replace("_E_", "_P_")
         state_changed_scene_no_index = state_changed_scene.replace("_" + index, "")
 
-        if not "05_shot" in scene or asset.startswith("seq") or asset.startswith("shot"):
+        if (not "05_shot" in scene) and (not "seq" in asset or not "shot" in asset):
 
             if "/items/" in scene or "/modules/" in scene:
                 dir_backup = Scene.create_dir_backup(in_set=True)
@@ -138,6 +138,9 @@ class Scene():
             # Scene.alembicExport(scene)
             
             cmds.inViewMessage(amg='Asset published: \n <hl>' + full_publish_scene_path + '</hl>. \n Publish backup: \n <hl>' + full_backup_scene_path + '</hl>.', pos='topCenter', fade=True)
+
+        else:
+            raise TypeError("Cannot publish a master or a shot.")
 
     @staticmethod
     def create_dir_backup(scene=None, in_set=False):

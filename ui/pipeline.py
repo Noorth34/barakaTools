@@ -15,7 +15,7 @@ class Pipeline(QMainWindow):
 
         QMainWindow.__init__(self, parent=mayawin.get_maya_main_window())
 
-        self.width_manager = 425
+        self.width_manager = 550
         self.height_manager = 450
 
         self.width_publisher = 225
@@ -147,7 +147,7 @@ class PopupSetRootPath(QDialog, Pipeline):
 
         # UI elements creation and settings
 
-        self.line_root_path = QLineEdit(const.PIPELINE_ASSET_PATH)
+        self.line_root_path = QLineEdit(const.PIPELINE_ROOT_PATH)
         self.line_root_path.setPlaceholderText(placeholder)
 
         self.btn_set = QPushButton(button)
