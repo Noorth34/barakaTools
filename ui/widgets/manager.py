@@ -344,7 +344,7 @@ class Manager(QWidget):
 			files_list = Directory.get_children(folder)
 
 			for file in files_list:
-				if file.endswith(".ma"):
+				if text_selected_item in file and file.endswith(".ma"):
 					last = file
 
 			if last:
@@ -378,7 +378,7 @@ class Manager(QWidget):
 			files_list = Directory.get_children(folder)
 
 			for file in files_list:
-				if file.endswith(".ma"):
+				if text_selected_item in file and file.endswith(".ma"):
 					last = file
 
 			print(folder + "/" + last)
