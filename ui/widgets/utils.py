@@ -19,6 +19,7 @@ class Utils(QWidget):
 		self.btn_mtx_constraint = QPushButton("Matrix Constraint")
 
 		self.radio_parent = QRadioButton("Parent")
+		self.radio_parent.setChecked(True)
 		self.radio_point = QRadioButton("Point")
 		self.radio_orient = QRadioButton("Orient")
 		self.radio_scale = QRadioButton("Scale")
@@ -26,7 +27,7 @@ class Utils(QWidget):
 		self.check_offset = QCheckBox("Maintain Offset")
 
 
-		# self.btn_mtx_constraint.clicked.connect()
+		self.btn_mtx_constraint.clicked.connect(self.constraint)
 
 		self.lay_main.addWidget(self.group_mtx_constraint)
 
@@ -39,7 +40,20 @@ class Utils(QWidget):
 
 	# method for matrix constraint
 
+	def constraint(self):
 
+		if self.radio_parent.isChecked():
+			type = "parent"
+		elif self.radio_point.isChecked():
+			type = "point"
+		elif self.radio_orient.isChecked():
+			type = "orient"
+		elif self.radio_scale.isChecked():
+			type = "scale"
+
+		offset = self.check_offset.isChecked()
+
+		mtx.constraint(type=type, offset=offset)
 
 
 

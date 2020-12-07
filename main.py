@@ -8,12 +8,14 @@ import ui.autorigs as autorigs
 import ui.pipeline as pipeline
 import ui.widgets.manager as manager
 import ui.widgets.publisher as publisher
+import ui.widgets.utils as utils
 import ui.maya_win as mayawin
 import modules.path
 import modules.directory
 import modules.file
 import modules.selection
 import modules.scene
+import modules.matrix_api
 import constants
 from PySide2.QtWidgets import QApplication
 
@@ -30,6 +32,7 @@ def load_modules():
     reload(modules.file)
     reload(modules.path)
     reload(modules.scene)
+    reload(modules.matrix_api)
 
 if __name__ == "__main__":
 

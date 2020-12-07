@@ -222,7 +222,7 @@ class Manager(QWidget):
 		list_sequences = Directory.get_children( const.PIPELINE_SHOT_PATH )
 
 		for seq in list_sequences:
-			if seq in const.FILE_TO_IGNORE_LIST:
+			if (not seq.startswith("seq")) or (seq in const.FILE_TO_IGNORE_LIST):
 				continue
 
 			item_seq = QTreeWidgetItem(self.main_item_shot, [seq])
