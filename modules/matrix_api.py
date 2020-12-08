@@ -23,15 +23,13 @@ def constraint(type="parent", offset=True):
 		# connexion de l'Offset
 
 		cmds.setAttr(mMatrix + '.i[0]', offset, type='matrix')
-	cmds.connectAttr('{}.matrix'.format(sel.getSelectionStrings()[0]), mMatrix + '.i[1]')
+	cmds.connectAttr('{}.worldMatrix[0]'.format(sel.getSelectionStrings()[0]), mMatrix + '.i[1]')
+	cmds.connectAttr('{}.parentInverseMatrix[0]'.format(sel.getSelectionStrings()[-1]), mMatrix + '.i[2]')
 
 	# Creation et Connexion du Decompose Matrix
 
 	dMatrix = cmds.createNode('decomposeMatrix', name = "dMatrix_{}_{}".format(sel.getSelectionStrings()[-1], type))
 	cmds.connectAttr(mMatrix + '.matrixSum', dMatrix + '.inputMatrix')
-
-	# null_indicator = cmds.createNode('transform', n="{}_{}".format(sel.getSelectionStrings()[-1], type))
-	# cmds.parent(null_indicator, sel.getSelectionStrings()[-1])
 
 	if type == "parent":
 		cmds.connectAttr(dMatrix + '.outputTranslate', '{}.translate'.format(sel.getSelectionStrings()[-1]))

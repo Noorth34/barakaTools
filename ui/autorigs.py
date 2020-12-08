@@ -18,7 +18,7 @@ class Autorigs(QMainWindow):
 
         self.setWindowTitle("Autorigs")
         self.setWindowIcon(QIcon(const.BARAKA_ICONS_PATH + "/burger.png"))
-        self.setGeometry(800, 500, 0, 0)
+        self.setGeometry(1800, 250, 0, 0)
         self.setFixedSize(self.width, self.height)
 
         self.init_tabs()
@@ -35,9 +35,9 @@ class Autorigs(QMainWindow):
         self.tab_eyes = QWidget()
         self.tab_utils = QWidget()
 
+        self.tab_widget.addTab(self.tab_utils, "Utils")
         self.tab_widget.addTab(self.tab_limb, "Limb")
         self.tab_widget.addTab(self.tab_eyes, "Eyes")
-        self.tab_widget.addTab(self.tab_utils, "Utils")
 
     def init_utils(self):
 
