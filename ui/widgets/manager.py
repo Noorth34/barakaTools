@@ -256,6 +256,24 @@ class Manager(QWidget):
 					action_asset.triggered.connect( partial(self.do_context_asset_actions, x, y, z) )
 
 
+		context_menu_items = QMenu(self)
+
+		list_menus_items = ['Edit', 'Publish']
+		list_submenus_items = ['Open last', 'Import last', 'Reference last']
+		list_actions_items = ['geo', 'lookdev']
+
+		for x in list_menus_items:
+			main_menu_items = context_menu_items.addMenu(x)
+
+			for y in list_submenus_asset:
+				action_menu_items = main_menu_items.addMenu(y)
+
+				for z in list_actions_items:
+					action_items = action_menu_items.addAction(z)
+
+					action_items.triggered.connect( partial(self.do_context_asset_actions, x, y, z) )
+
+
 		# SHOT
 		context_menu_shot = QMenu(self)
 
@@ -294,8 +312,11 @@ class Manager(QWidget):
 		except:
 			return
 
-		if selected_item_parent() in ['character', 'prop', 'set', 'items', 'modules']:
+		if selected_item_parent() in ['character', 'prop', 'set']:
 			action = context_menu_asset.exec_( self.mapToGlobal( event.pos() ) )
+
+		if selected_item_parent() in ['items', 'modules']:
+			action = context_menu_items.exec_( self.mapToGlobal( event.pos() ) )
 
 		if self.tree_asset.currentItem().text(0).startswith("shot"):
 			action = context_menu_shot.exec_( self.mapToGlobal( event.pos() ) )
