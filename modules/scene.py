@@ -251,12 +251,17 @@ class Scene():
     def create_item(name, set):
 
         parent_set = const.PIPELINE_SETS + "/{}".format(set)
-        items_edit_path = parent_set + "/maya/scenes/edit/geo/items/"
-        items_publish_path = parent_set + "/maya/scenes/publish/geo/items/backup"
-        item_edit_folder = Directory.create(items_edit_path, name=name)
-        item_publish_folder = Directory.create(items_publish_path, name=name)
-        # {}_E_geo_0001.ma".format(name)"
-        File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}_E_geo_0001.ma".format(item_edit_folder, name))
+
+        scene_type = ["geo", "lookdev"]
+
+        for type in scene_type:
+            items_edit_path = parent_set + "/maya/scenes/edit/{}/items".format(type)
+            items_publish_path = parent_set + "/maya/scenes/publish/{}/items/backup".format(type)
+
+            item_edit_folder = Directory.create(items_edit_path, name=name)
+            item_publish_folder = Directory.create(items_publish_path, name=name)
+            # {}_E_geo_0001.ma".format(name)"
+            File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}_E_{}_0001.ma".format(item_edit_folder, name, type))
 
         return item_edit_folder
 
@@ -265,12 +270,16 @@ class Scene():
     def create_module(name, set):
 
         parent_set = const.PIPELINE_SETS + "/{}".format(set)
-        modules_edit_path = parent_set + "/maya/scenes/edit/geo/modules/"
-        modules_publish_path = parent_set + "/maya/scenes/publish/geo/modules/backup"
-        module_edit_folder = Directory.create(modules_edit_path, name=name)
-        module_publish_folder = Directory.create(modules_publish_path, name=name)
-        # {}_E_geo_0001.ma".format(name)"
-        File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}_E_geo_0001.ma".format(module_edit_folder, name))
+
+        scene_type = ["geo, lookdev"]
+
+        for type in scene_type:
+            modules_edit_path = parent_set + "/maya/scenes/edit/{}/modules".format(type)
+            modules_publish_path = parent_set + "/maya/scenes/publish/{}/modules/backup".format(type)
+            module_edit_folder = Directory.create(modules_edit_path, name=name)
+            module_publish_folder = Directory.create(modules_publish_path, name=name)
+            # {}_E_geo_0001.ma".format(name)"
+            File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}_E_{}_0001.ma".format(module_edit_folder, name, type))
 
         return module_edit_folder
 
