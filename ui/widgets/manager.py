@@ -193,7 +193,7 @@ class Manager(QWidget):
 				if categ == "set":
 					item_set = QTreeWidgetItem(self.item_set, [proj])
 
-					# Check for items and modules folder
+					# Check for items folder
 					for folder in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/geo".format(categ, proj) ): 
 						if folder == "items": 
 							item_items = QTreeWidgetItem(item_set, ['items'])
@@ -202,6 +202,8 @@ class Manager(QWidget):
 							for i in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/geo/items".format(categ, proj) ):
 								item_item_folder = QTreeWidgetItem(item_items, [i])
 
+					# Check for modules folder
+					for folder in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/lookdev".format(categ, proj) ):
 						if folder == "modules": 
 							item_module = QTreeWidgetItem(item_set, ['modules'])
 
