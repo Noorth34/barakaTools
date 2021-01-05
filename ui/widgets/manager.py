@@ -39,9 +39,6 @@ class Manager(QWidget):
 
 		self.tree_asset = QTreeWidget()
 
-		self.main_item_asset = QTreeWidgetItem(self.tree_asset, ['ASSET'])
-		self.main_item_shot = QTreeWidgetItem(self.tree_asset, ['SHOT'])
-
 			# Assets Group
 		self.group_asset_creation = QGroupBox("Assets Creation")
 
@@ -139,9 +136,6 @@ class Manager(QWidget):
 		self.tree_asset.setAnimated(True)
 		self.tree_asset.setHeaderHidden(True)
 
-		self.main_item_asset.setFlags(Qt.ItemIsEnabled)
-		self.main_item_shot.setFlags(Qt.ItemIsEnabled)
-
 		self.lay_main.setSpacing(8)
 
 		self.lay_creations.setSpacing(8)
@@ -156,12 +150,10 @@ class Manager(QWidget):
 	def populate_tree(self):
 
 		# ASSET
-		try:
-			self.main_item_asset.removeChild(self.item_character)
-			self.main_item_asset.removeChild(self.item_prop)
-			self.main_item_asset.removeChild(self.item_set)
-		except:
-			pass
+		self.tree_asset.clear()
+
+		self.main_item_asset = QTreeWidgetItem(self.tree_asset, ['ASSET'])
+		self.main_item_asset.setFlags(Qt.ItemIsEnabled)
 
 		self.item_character = QTreeWidgetItem(self.main_item_asset, ['character'])
 		self.item_prop = QTreeWidgetItem(self.main_item_asset, ['prop'])
@@ -214,25 +206,28 @@ class Manager(QWidget):
 							item_module = QTreeWidgetItem(item_set, ['modules'])
 
 							# List all module folders
-							for i in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/geo/modules".format(categ, proj) ):
+							for i in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/lookdev/modules".format(categ, proj) ):
 								item_module_folder = QTreeWidgetItem(item_module, [i])
-
+		
 
 		# SHOTS
+		self.main_item_shot = QTreeWidgetItem(self.tree_asset, ['SHOT'])
+		self.main_item_shot.setFlags(Qt.ItemIsEnabled)
+
 		list_sequences = Directory.get_children( const.PIPELINE_SHOT_PATH )
 
 		for seq in list_sequences:
-			if (not seq.startswith("seq")) or (seq in const.FILE_TO_IGNORE_LIST):
+			if not seq.startswith("seq"):
 				continue
+			else:
+				item_seq = QTreeWidgetItem(self.main_item_shot, [seq])
 
-			item_seq = QTreeWidgetItem(self.main_item_shot, [seq])
+				list_shots = Directory.get_children( const.PIPELINE_SHOT_PATH + "/{}".format(seq) )
 
-			list_shots = Directory.get_children( const.PIPELINE_SHOT_PATH + "/{}".format(seq) )
-
-			for shot in list_shots:
-				if shot == "master":
-					continue
-				item_shot = QTreeWidgetItem(item_seq, [shot])
+				for shot in list_shots:
+					if not shot.startswith("shot"):
+						continue
+					item_shot = QTreeWidgetItem(item_seq, [shot])
 
 
 	def contextMenuEvent(self, event):
@@ -265,13 +260,27 @@ class Manager(QWidget):
 		for x in list_menus_items:
 			main_menu_items = context_menu_items.addMenu(x)
 
-			for y in list_submenus_asset:
+			for y in list_submenus_items:
 				action_menu_items = main_menu_items.addMenu(y)
 
 				for z in list_actions_items:
 					action_items = action_menu_items.addAction(z)
 
 					action_items.triggered.connect( partial(self.do_context_asset_actions, x, y, z) )
+
+
+		context_menu_modules = QMenu(self)
+
+		list_menus_modules = ['Edit', 'Publish']
+		list_submenus_modules = ['Open last lookdev', 'Import last lookdev', 'Reference last lookdev']
+
+		for x in list_menus_modules:
+			main_menu_modules = context_menu_modules.addMenu(x)
+
+			for y in list_submenus_modules:
+				action_menu_modules = main_menu_modules.addAction(y)
+
+				action_menu_modules.triggered.connect( partial(self.do_context_asset_actions, x, y, z) )
 
 
 		# SHOT
@@ -315,8 +324,11 @@ class Manager(QWidget):
 		if selected_item_parent() in ['character', 'prop', 'set']:
 			action = context_menu_asset.exec_( self.mapToGlobal( event.pos() ) )
 
-		if selected_item_parent() in ['items', 'modules']:
+		if selected_item_parent() == "items":
 			action = context_menu_items.exec_( self.mapToGlobal( event.pos() ) )
+
+		if selected_item_parent() == "modules":
+			action = context_menu_modules.exec_( self.mapToGlobal( event.pos() ) )
 
 		if self.tree_asset.currentItem().text(0).startswith("shot"):
 			action = context_menu_shot.exec_( self.mapToGlobal( event.pos() ) )
@@ -553,7 +565,8 @@ class Manager(QWidget):
 
 		else:
 			self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Must put a name in 'asset' line edit.")
-		
+
+
 	def create_prop(self):
 
 		prop = self.line_asset_creation.text()
