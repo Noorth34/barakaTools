@@ -76,6 +76,7 @@ class Manager(QWidget):
 		self.btn_create_set.clicked.connect(self.create_set)
 		self.btn_create_set_item.clicked.connect(self.create_set_item)
 		self.btn_create_set_module.clicked.connect(self.create_set_module)
+		self.btn_create_set_dressing.clicked.connect(self.create_set_dressing)
 
 			# shots
 		self.btn_create_seq.clicked.connect(self.create_sequence)
@@ -617,6 +618,18 @@ class Manager(QWidget):
 			self.status_bar.showMessage("# [ ERROR ] : Any set selected. Must select the parent's item set before create item.")
 
 
+	def add_item_set_dressing(self, set_dressing):
+
+		if set_dressing == "":
+			self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Must put a name in 'asset' line edit.")
+			return
+
+		try:
+			QTreeWidgetItem(self.tree_asset.currentItem(), [set_dressing])
+		except:
+			self.status_bar.showMessage("# [ ERROR ] : Any set selected. Must select the parent's item set before create item.")
+
+
 	def add_item_seq(self, seq):
 
 		if seq == "":
@@ -723,6 +736,30 @@ class Manager(QWidget):
 
 		else:
 			self.status_bar.showMessage("# [ ERROR ] : Select 'modules' folder under the desired set in order to create a module.")
+
+
+	def create_set_dressing(self):
+
+		if self.tree_asset.currentItem() is not None:
+			if self.tree_asset.currentItem().text(0) == "dressing":
+				set = self.tree_asset.currentItem().parent().text(0)
+				set_dressing = self.line_asset_creation.text()
+
+				if set_dressing:
+
+					self.add_item_set_module(set_dressing)
+					self.line_asset_creation.clear()
+					Scene.create_dressing(set_dressing, set)
+					self.status_bar.showMessage("# [ EVENT ] : item '{}' created in set '{}'.".format(set_dressing, set))
+
+				else:
+					self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Must put a name in 'asset' line edit.")
+
+			else:
+				self.status_bar.showMessage("# [ ERROR ] : Select 'dressing' folder under the desired set in order to create a dressing.")
+
+		else:
+			self.status_bar.showMessage("# [ ERROR ] : Select 'dressing' folder under the desired set in order to create a dressing.")
 
 
 	def create_sequence(self):

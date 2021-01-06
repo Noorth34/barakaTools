@@ -30,11 +30,7 @@ class Scene():
                 cmds.error(msg)
             return func(*args, **kwargs)
         return wrapper
-        
-    # @staticmethod
-    # @partial(checkSelection, obj="TOP")
-    # def _printStuff():
-    #     print("GOOD !")
+
 
     @staticmethod
     def import_scene(scene):
@@ -113,7 +109,7 @@ class Scene():
 
         if (not "05_shot" in scene) and (not "seq" in asset or not "shot" in asset):
 
-            if "/items/" in scene or "/modules/" in scene:
+            if "/items/" in scene or "/modules/" in scene or "/dressing/" in scene:
                 dir_backup = Scene.create_dir_backup(in_set=True)
                 dir_publish = scene.replace("/edit/", "/publish/").replace("/{}/".format(asset), "").replace(scene_name, "")
 
@@ -282,6 +278,21 @@ class Scene():
             File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}_E_{}_0001.ma".format(module_edit_folder, name, type))
 
         return module_edit_folder
+
+
+    @staticmethod
+    def create_dressing(name, set):
+
+        parent_set = const.PIPELINE_SETS + "/{}".format(set)
+
+        dressing_edit_path = parent_set + "/maya/scenes/edit/dressing"
+        dressing_publish_path = parent_set + "/maya/scenes/publish/dressing/backup"
+        dressing_edit_folder = Directory.create(dressing_edit_path, name=name)
+        dressing_publish_folder = Directory.create(dressing_publish_path, name=name)
+        # {}_E_geo_0001.ma".format(name)"
+        File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}_E_dressing_0001.ma".format(dressing_edit_folder, name))
+
+        return dressing_edit_folder
 
 
     @staticmethod
