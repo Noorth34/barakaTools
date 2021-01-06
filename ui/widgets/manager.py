@@ -48,8 +48,12 @@ class Manager(QWidget):
 		self.btn_create_character = QPushButton("Character")
 		self.btn_create_prop = QPushButton("Prop")
 		self.btn_create_set = QPushButton("Set")
+		self.separator_set = QFrame()
+		self.separator_set.setObjectName("separator_set")
+		self.separator_set.setFrameShape(QFrame.HLine)
 		self.btn_create_set_item = QPushButton("Item")
 		self.btn_create_set_module = QPushButton("Module")
+		self.btn_create_set_dressing = QPushButton("Dressing")
 
 			# Shots Group
 		self.group_shot_creation = QGroupBox("Shots Creation")
@@ -95,8 +99,10 @@ class Manager(QWidget):
 		self.lay_asset_creation.addWidget(self.btn_create_character)
 		self.lay_asset_creation.addWidget(self.btn_create_prop)
 		self.lay_asset_creation.addWidget(self.btn_create_set)
+		self.lay_asset_creation.addWidget(self.separator_set)
 		self.lay_asset_creation.addWidget(self.btn_create_set_item)
 		self.lay_asset_creation.addWidget(self.btn_create_set_module)
+		self.lay_asset_creation.addWidget(self.btn_create_set_dressing)
 
 			# shots
 		self.lay_creations.addWidget(self.group_shot_creation)
@@ -112,7 +118,7 @@ class Manager(QWidget):
 		
 		## Set Properties
 
-		self.group_asset_creation.setMinimumSize(133,220)
+		self.group_asset_creation.setMinimumSize(133,260)
 		self.group_asset_creation.setMaximumSize(133,575)
 
 		self.line_asset_creation.setMaximumHeight(20)
@@ -122,6 +128,7 @@ class Manager(QWidget):
 		self.btn_create_set.setMaximumHeight(25)
 		self.btn_create_set_item.setMaximumHeight(25)
 		self.btn_create_set_module.setMaximumHeight(25)
+		self.btn_create_set_dressing.setMaximumHeight(25)
 
 		self.group_shot_creation.setMinimumSize(133,120)
 		self.group_shot_creation.setMaximumSize(133,550)
