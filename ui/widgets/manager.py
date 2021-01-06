@@ -210,6 +210,16 @@ class Manager(QWidget):
 							# List all module folders
 							for i in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/lookdev/modules".format(categ, proj) ):
 								item_module_folder = QTreeWidgetItem(item_module, [i])
+
+
+					# Check for dressing folder
+					for folder in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit".format(categ, proj) ):
+						if folder == "dressing": 
+							item_dressing = QTreeWidgetItem(item_set, ['dressing'])
+
+							# List all dressing folders
+							for i in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/dressing".format(categ, proj) ):
+								item_dressing_folder = QTreeWidgetItem(item_dressing, [i])
 		
 
 		# SHOTS
@@ -239,7 +249,7 @@ class Manager(QWidget):
 
 		list_menus_asset = ['Edit', 'Publish']
 		list_submenus_asset = ['Open last', 'Import last', 'Reference last']
-		list_actions_asset = ['geo', 'rig', 'lookdev', 'dressing']
+		list_actions_asset = ['geo', 'rig', 'lookdev']
 
 		for x in list_menus_asset:
 			main_menu_asset = context_menu_asset.addMenu(x)
@@ -274,15 +284,37 @@ class Manager(QWidget):
 		context_menu_modules = QMenu(self)
 
 		list_menus_modules = ['Edit', 'Publish']
-		list_submenus_modules = ['Open last lookdev', 'Import last lookdev', 'Reference last lookdev']
+		list_submenus_modules = ['Open last', 'Import last', 'Reference last']
+		list_actions_modules = ['lookdev']
 
 		for x in list_menus_modules:
 			main_menu_modules = context_menu_modules.addMenu(x)
 
 			for y in list_submenus_modules:
-				action_menu_modules = main_menu_modules.addAction(y)
+				action_menu_modules = main_menu_modules.addMenu(y)
 
-				action_menu_modules.triggered.connect( partial(self.do_context_asset_actions, x, y, z) )
+				for z in list_actions_modules:
+					action_modules = action_menu_modules.addAction(z)				
+
+					action_modules.triggered.connect( partial(self.do_context_asset_actions, x, y, z) )
+
+
+		context_menu_dressing = QMenu(self)
+
+		list_menus_dressing = ['Edit', 'Publish']
+		list_submenus_dressing = ['Open last', 'Import last', 'Reference last']
+		list_actions_dressing = ['dressing']
+
+		for x in list_menus_dressing:
+			main_menu_dressing = context_menu_dressing.addMenu(x)
+
+			for y in list_submenus_dressing:
+				action_menu_dressing = main_menu_dressing.addMenu(y)
+
+				for z in list_actions_dressing:
+					action_dressing = action_menu_dressing.addAction(z)				
+
+					action_dressing.triggered.connect( partial(self.do_context_asset_actions, x, y, z) )
 
 
 		# SHOT
@@ -331,6 +363,9 @@ class Manager(QWidget):
 
 		if selected_item_parent() == "modules":
 			action = context_menu_modules.exec_( self.mapToGlobal( event.pos() ) )
+
+		if selected_item_parent() == "dressing":
+			action = context_menu_dressing.exec_( self.mapToGlobal( event.pos() ) )
 
 		if self.tree_asset.currentItem().text(0).startswith("shot"):
 			action = context_menu_shot.exec_( self.mapToGlobal( event.pos() ) )
@@ -397,6 +432,45 @@ class Manager(QWidget):
 					Scene.reference_scene(folder + "/" + last)
 					self.status_bar.showMessage("# [ EVENT ] : '{}' referenced.".format(last))
 
+
+		if parent_selected_item == "dressing":
+			
+			# Asset Proj root
+			proj = selected_item.parent().parent() # proj
+			text_proj = proj.text(0) # proj
+
+			# Categ asset
+			categ = proj.parent() # set
+			text_categ = categ.text(0) #set
+
+			folder = const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/{}/{}/{}".format(
+				text_categ,
+				text_proj,
+				action_type.lower(),
+				scene_type.lower(),
+				text_selected_item
+				)
+
+			files_list = Directory.get_children(folder)
+
+			for file in files_list:
+				if text_selected_item in file and file.endswith(".ma"):
+					last = file
+
+			if last:
+				print("ITEM: " + folder + "/" + last)
+
+				if 'Import' in action:
+					Scene.import_scene(folder + "/" + last)
+					self.status_bar.showMessage("# [ EVENT ] : '{}' imported.".format(last))
+
+				if 'Open' in action:
+					Scene.open_scene(folder + "/" + last)
+					self.status_bar.showMessage("# [ EVENT ] : '{}' opened.".format(last))
+
+				if 'Reference' in action:
+					Scene.reference_scene(folder + "/" + last)
+					self.status_bar.showMessage("# [ EVENT ] : '{}' referenced.".format(last))
 
 		else:
 			categ = selected_item.parent()
