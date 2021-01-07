@@ -480,7 +480,9 @@ class Manager(QWidget):
 					Scene.reference_scene(folder + "/" + last)
 					self.status_bar.showMessage("# [ EVENT ] : '{}' referenced.".format(last))
 
-		else:
+
+		if parent_selected_item not in ["items", "modules", "dressing"]:
+			
 			categ = selected_item.parent()
 			text_categ = categ.text(0)
 
