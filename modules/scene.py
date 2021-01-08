@@ -210,8 +210,9 @@ class Scene():
         dir_edit = "{}/maya/scenes/edit".format(char)
 
         for dir in Directory.get_children(dir_edit):
-            init_scene = "{}_E_{}_0001.ma".format(name, dir)
-            File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}/{}".format(dir_edit, dir, init_scene))
+            if dir not in const.FILE_TO_IGNORE_LIST:
+                init_scene = "{}_E_{}_0001.ma".format(name, dir)
+                File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}/{}".format(dir_edit, dir, init_scene))
 
         return char
 
@@ -224,8 +225,9 @@ class Scene():
         dir_edit = "{}/maya/scenes/edit".format(set)
 
         for dir in Directory.get_children(dir_edit):
-            init_scene = "{}_E_{}_0001.ma".format(name, dir)
-            File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}/{}".format(dir_edit, dir, init_scene))
+            if dir not in const.FILE_TO_IGNORE_LIST:
+                init_scene = "{}_E_{}_0001.ma".format(name, dir)
+                File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}/{}".format(dir_edit, dir, init_scene))
 
         return set
 
@@ -238,8 +240,9 @@ class Scene():
         dir_edit = "{}/maya/scenes/edit".format(prop)
 
         for dir in Directory.get_children(dir_edit):
-            init_scene = "{}_E_{}_0001.ma".format(name, dir)
-            File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}/{}".format(dir_edit, dir, init_scene))
+            if dir not in const.FILE_TO_IGNORE_LIST:
+                init_scene = "{}_E_{}_0001.ma".format(name, dir)
+                File.copy(const.TEMPLATE_ASSET_SCENE, "{}/{}/{}".format(dir_edit, dir, init_scene))
 
         return prop
 
