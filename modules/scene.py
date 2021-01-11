@@ -305,7 +305,8 @@ class Scene():
         Directory.copy(const.TEMPLATE_SEQUENCE_DIRS, seq_path)
 
         for folder in Directory.get_children("{}/master/maya/scenes".format(seq_path)):
-            File.copy(const.TEMPLATE_ASSET_SCENE, "{}/master/maya/scenes/{}/{}_{}_0001.ma".format(seq_path, folder, name, folder))
+            if folder not in const.FILE_TO_IGNORE_LIST:
+                File.copy(const.TEMPLATE_ASSET_SCENE, "{}/master/maya/scenes/{}/{}_{}_0001.ma".format(seq_path, folder, name, folder))
 
         return seq_path
 
@@ -319,7 +320,8 @@ class Scene():
         scenes_folder = "{}/maya/scenes/".format(shot_path)
 
         for folder in Directory.get_children(scenes_folder):
-            init_scene = "{}_{}_0001.ma".format(name, folder)
-            File.copy( const.TEMPLATE_ASSET_SCENE, "{}/{}/{}".format(scenes_folder, folder, init_scene) )
+            if folder not in const.FILE_TO_IGNORE_LIST:
+                init_scene = "{}_{}_0001.ma".format(name, folder)
+                File.copy( const.TEMPLATE_ASSET_SCENE, "{}/{}/{}".format(scenes_folder, folder, init_scene) )
 
         return shot_path
