@@ -270,7 +270,7 @@ class Scene():
 
         parent_set = const.PIPELINE_SETS + "/{}".format(set)
 
-        scene_type = ["geo, lookdev"]
+        scene_type = ["lookdev"]
 
         for type in scene_type:
             modules_edit_path = parent_set + "/maya/scenes/edit/{}/modules".format(type)
