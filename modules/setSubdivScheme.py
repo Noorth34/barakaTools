@@ -13,7 +13,7 @@ sel = cmds.ls(sl=True, ap=True)
 
 for i in sel:
 	shape = cmds.listRelatives(i, shapes=True, path=True)[0]
-	if cmds.objectType( , isType="mesh"):
+	if cmds.objectType(shape, isType="mesh"):
 		try:
 			cmds.setAttr("{}.rman_subdivScheme".format(shape), 1)
 		except:
