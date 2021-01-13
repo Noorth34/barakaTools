@@ -12,7 +12,7 @@ import maya.cmds as cmds
 sel = cmds.ls(sl=True, ap=True)
 
 for i in sel:
-	if cmds.objectType(i, isType="mesh"):
+	if cmds.objectType( cmds.listRelatives(i, shapes=True, path=True), isType="mesh"):
 		try:
 			cmds.setAttr("{}.rman_subdivScheme", 1)
 		except:
