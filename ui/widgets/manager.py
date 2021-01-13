@@ -451,13 +451,31 @@ class Manager(QWidget):
 			categ = proj.parent() # set
 			text_categ = categ.text(0) #set
 
-			folder = const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/{}/{}/{}".format(
-				text_categ,
-				text_proj,
-				action_type.lower(),
-				scene_type.lower(),
-				text_selected_item
-				)
+			# folder = const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/{}/{}/{}".format(
+			# 	text_categ,
+			# 	text_proj,
+			# 	action_type.lower(),
+			# 	scene_type.lower(),
+			# 	text_selected_item
+			# 	)
+			if action_type == "Edit":
+
+				folder = const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/{}/{}/{}".format(
+					text_categ,
+					text_proj,
+					action_type.lower(),
+					scene_type.lower(),
+					text_selected_item
+					)
+
+			if action_type == "Publish":
+
+				folder = const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/{}/{}".format(
+					text_categ,
+					text_proj,
+					action_type.lower(),
+					scene_type.lower()
+					)
 
 			files_list = Directory.get_children(folder)
 
