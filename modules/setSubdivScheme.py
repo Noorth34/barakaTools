@@ -12,8 +12,9 @@ import maya.cmds as cmds
 sel = cmds.ls(sl=True, ap=True)
 
 for i in sel:
-	if cmds.objectType( cmds.listRelatives(i, shapes=True, path=True), isType="mesh"):
+	shape = cmds.listRelatives(i, shapes=True, path=True)
+	if cmds.objectType( , isType="mesh"):
 		try:
-			cmds.setAttr("{}.rman_subdivScheme", 1)
+			cmds.setAttr("{}.rman_subdivScheme".format(shape), 1)
 		except:
 			sys.stderr("No RMAN attributes found. Please load RMAN plugin and assign a shader on object.")
