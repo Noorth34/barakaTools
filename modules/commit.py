@@ -16,15 +16,16 @@ def write_json(data, filename=""):
 def commit(message, filename):
 
 	if not exists(filename):
-		filename = File.copy(const.TEMPLATE_LOG, filename)
+		File.copy(const.TEMPLATE_LOG, filename)
 
-	with open(filename) as f:
-		
-		data = json.load(f)
-		temp = data["logs"]
-		temp.append({"0_Date": str(date.today().strftime("%d/%m/%Y")),
-					 "1_Time" : str(datetime.now().time().strftime("%H:%M:%S")),
-					 "2_Version" : Scene.get_name().split("/")[-1],
-					 "3_Commit" : message})
+	if exists(filename):
+		with open(filename) as f:
+			
+			data = json.load(f)
+			temp = data["logs"]
+			temp.append({"0_Date": str(date.today().strftime("%d/%m/%Y")),
+						 "1_Time" : str(datetime.now().time().strftime("%H:%M:%S")),
+						 "2_Version" : Scene.get_name().split("/")[-1],
+						 "3_Commit" : message})
 
-	write_json(data, filename)
+		write_json(data, filename)
