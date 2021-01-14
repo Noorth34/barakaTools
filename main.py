@@ -16,6 +16,7 @@ import modules.file
 import modules.selection
 import modules.scene
 import modules.matrix_api
+import modules.commit
 import constants
 from PySide2.QtWidgets import QApplication
 
@@ -33,6 +34,7 @@ def load_modules():
     reload(modules.path)
     reload(modules.scene)
     reload(modules.matrix_api)
+    reload(modules.commit)
 
 if __name__ == "__main__":
 

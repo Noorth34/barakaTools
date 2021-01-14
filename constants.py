@@ -20,6 +20,7 @@ TEMPLATE_SET_DIRS = BARAKA_RESSOURCES_PATH + "/_template_workspace_set"
 TEMPLATE_SEQUENCE_DIRS = BARAKA_RESSOURCES_PATH + "/_template_workspace_sequence"
 TEMPLATE_SHOT_DIRS = BARAKA_RESSOURCES_PATH + "/_template_workspace_shot"
 TEMPLATE_ASSET_SCENE = BARAKA_RESSOURCES_PATH + "/asset_state_type_index.ma"
+TEMPLATE_LOG = BARAKA_RESSOURCES_PATH + "/_template_log.json"
 ASSET_TYPES = {
     "Modeling": "mod",
     "Rigging": "rig",

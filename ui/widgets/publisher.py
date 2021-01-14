@@ -4,6 +4,8 @@ from PySide2.QtWidgets import *
 from PySide2.QtGui import Qt
 from modules.scene import Scene
 import constants as const
+import modules.commit as commit
+
 
 class Publisher(QWidget):
 
@@ -38,7 +40,7 @@ class Publisher(QWidget):
 
         self.line_commit = QLineEdit()
         self.line_commit.setPlaceholderText("Write your commit here...")
-        self.line_commit.setEnabled(False) # temporary
+        # self.line_commit.setEnabled(False) # temporary
 
         self.label_frame_start = QLabel("Start")
         self.label_frame_end = QLabel("End")
@@ -52,7 +54,7 @@ class Publisher(QWidget):
 
         # Connect SIGNAL to SLOT
 
-        self.btn_edit.clicked.connect(Scene.edit)
+        self.btn_edit.clicked.connect(self.edit_scene)
         self.btn_publish.clicked.connect(self.publish_scene)
 
         # Layout Management
@@ -85,6 +87,17 @@ class Publisher(QWidget):
         self.btn_publish.setMinimumHeight(30)   
 
         self.lay_start_end_frame.setContentsMargins(9, 25, 9, 9)
+
+
+    def edit_scene(self):
+
+        Scene.edit()
+
+        filename = "{}/logs.json".format( "/".join(Scene.get_name().split("/")[0:-1]))
+        commit.commit(self.line_commit.text(), filename)
+
+        self.line_commit.clear()
+
 
     def publish_scene(self):
 
