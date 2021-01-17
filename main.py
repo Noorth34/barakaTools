@@ -2,21 +2,20 @@
 
 """
 """
-import sys
 import launcher
 import ui.autorigs as autorigs
 import ui.pipeline as pipeline
 import ui.widgets.manager as manager
 import ui.widgets.publisher as publisher
 import ui.widgets.utils as utils
-import ui.maya_win as mayawin
-import modules.path
-import modules.directory
-import modules.file
-import modules.selection
-import modules.scene
-import modules.matrix_api
-import modules.commit
+import ui.mayaWin as mayaWin
+import modules.path as path
+import modules.directory as directory
+import modules.file as file
+import modules.selection as selection
+import modules.scene as scene
+import modules.matrix_api as matrix_api
+import modules.commit as commit
 import constants
 from PySide2.QtWidgets import QApplication
 
@@ -27,32 +26,33 @@ def load_modules():
     reload(pipeline)
     reload(manager)
     reload(publisher)
-    reload(mayawin)
-    reload(modules.path)
-    reload(modules.directory)
-    reload(modules.file)
-    reload(modules.path)
-    reload(modules.scene)
-    reload(modules.matrix_api)
-    reload(modules.commit)
+    reload(mayaWin)
+    reload(path)
+    reload(directory)
+    reload(file)
+    reload(path)
+    reload(scene)
+    reload(matrix_api)
+    reload(commit)
 
-if __name__ == "__main__":
 
+def start():
     load_modules()
 
     global main_widget
 
     try:
-        main_widget.close()
+        main_widget.close()                 # if widget already exists, then close and delete it
     except:
         pass
 
-    try:
-        app = QApplication([])
+    try:                                    # if QApplication singleton already exists,
+        app = QApplication([])              # then create one instance of it                      
     except:
         app = QApplication.instance()
 
     main_widget = launcher.Launcher()
     main_widget.show(dockable=True, area="right")
     app.exec_()
+
 
