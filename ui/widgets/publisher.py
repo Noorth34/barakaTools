@@ -1,9 +1,8 @@
 # coding:utf-8
 
-from PySide2.QtWidgets import *
+from PySide2.QtWidgets import QVBoxLayout, QFrame, QPushButton, QGroupBox, QLineEdit, QLabel, QSpinBox
 from PySide2.QtGui import Qt
 from modules.scene import Scene
-import constants as const
 import modules.commit as commit
 
 
