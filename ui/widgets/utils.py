@@ -1,6 +1,6 @@
 # coding:utf-8
 
-from PySide2.QtWidgets import QVBoxLayout, QGroupBox, QPushButton, QRadioButton
+from PySide2.QtWidgets import QVBoxLayout, QGroupBox, QPushButton, QRadioButton, QCheckBox
 from PySide2.QtCore import Qt
 import modules.matrix_api as mtx
 
