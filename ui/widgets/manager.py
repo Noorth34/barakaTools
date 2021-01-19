@@ -1,13 +1,15 @@
 # coding:utf-8
 
-from PySide2.QtWidgets import *
+from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout
+from PySide2.QtWidgets import QTreeWidget, QTreeWidgetItem, QPushButton, QGroupBox, QLineEdit, QStatusBar, QFrame, QMenu
 from PySide2.QtCore import Qt
 from modules.scene import Scene
 from modules.directory import Directory
 from modules.path import Path
 from functools import partial
-import constants as const
-import sys
+from constants import FILE_TO_IGNORE_LIST
+from constants import PIPELINE_ASSET_PATH, PIPELINE_SHOT_PATH
+
 
 class Manager(QWidget):
 
@@ -451,13 +453,7 @@ class Manager(QWidget):
 			categ = proj.parent() # set
 			text_categ = categ.text(0) #set
 
-			# folder = const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/{}/{}/{}".format(
-			# 	text_categ,
-			# 	text_proj,
-			# 	action_type.lower(),
-			# 	scene_type.lower(),
-			# 	text_selected_item
-			# 	)
+
 			if action_type == "Edit":
 
 				folder = const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/{}/{}/{}".format(
