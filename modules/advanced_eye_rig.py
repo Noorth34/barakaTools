@@ -10,6 +10,7 @@ class AdvancedEyeRig():
 		self.SIDE = name.split("_")[-1]
 
 		sel = cmds.ls(sl=True, ap=True)
+		
 		self.curve = sel[0]
 		self.crv_shape = AdvancedEyeRig.get_curve_shape(self.curve)
 		self.spans = AdvancedEyeRig.get_curve_spans(self.crv_shape)
@@ -49,13 +50,16 @@ class AdvancedEyeRig():
 
 
 	def _connect_loc_to_curve(self, loc, pt_crv_info):
-		cmds.connectAttr( "{}.worldSpace[0]".format(self.crv_shape), "{}.inputCurve".format(pt_crv_info) )
-		cmds.connectAttr( "{}.position".format(pt_crv_info), "{}.translate".format(loc) )
+		cmds.connectAttr( "{}.worldSpace[0]".format(self.crv_shape),
+						  "{}.inputCurve".format(pt_crv_info) )
+
+		cmds.connectAttr( "{}.position".format(pt_crv_info),
+						  "{}.translate".format(loc) )
 
 
 	def _set_loc_position_on_curve(self, pt_crv_info, id):
 		cmds.setAttr("{}.turnOnPercentage".format(pt_crv_info), 1)
-		cmds.setAttr("{}.parameter".format(pt_crv_info), 0.1*(id+1))
+		cmds.setAttr( "{}.parameter".format(pt_crv_info), 0.1*(id+1) )
 
 
 	def _create_bone(self, name):
