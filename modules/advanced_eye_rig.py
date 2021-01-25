@@ -1,28 +1,29 @@
 # coding:utf-8
 
 from maya import cmds
+from maya import mel
 
 
 class AdvancedEyeRig():
 
+
 	def __init__(self, name, numControls=5):
 		self.NAME = "_".join( name.split("_")[0:-1] ).rstrip("_")
 		self.SIDE = name.split("_")[-1]
-
-		sel = cmds.ls(sl=True, ap=True)
 		
-		self.curve = sel[0]
+		self.sel = cmds.ls(sl=True, ap=True)
+
+		self.curve = self.sel[0]
 		self.crv_shape = AdvancedEyeRig.get_curve_shape(self.curve)
 		self.spans = AdvancedEyeRig.get_curve_spans(self.crv_shape)
 		
-		self.eye = cmds.ls(sl=True, ap=True)[-1]
+		self.eye = self.sel[-1]
 		self.eye_center = AdvancedEyeRig.create_loc_obj_center(self.eye)
-
-		self.wire = cmds.duplicate( self.curve, n="crvWire_{}_{}".format(self.NAME, self.SIDE) )
-		cmds.rebuildCurve(self.wire, spans=numControls)
 
 
 	def compute(self):
+		self._delete_curve_history()
+
 		for id in range(self.spans):
 			name = "{}_{}_{}".format(self.NAME, str(id+1).zfill(2), self.SIDE)
 
@@ -30,10 +31,26 @@ class AdvancedEyeRig():
 			loc = self._create_loc(name)
 			bone = self._create_bone(name)
 
-			self._delete_curve_history()
 			self._connect_loc_to_curve(loc, pt_crv_info)
 			self._set_loc_position_on_curve(pt_crv_info, id)
 			self._set_bone_position(bone, loc)
+
+
+	def _create_driver_joints_on_curve(self, name, numControls):
+		for id in numControls:
+			driv_jnt = cmds.createNode( "joint",
+								   n"drivJnt_{}".format(name) )
+
+			temp_pt_crv_info = self._create_point_on_curve_info(name)
+			cmds.setAttr("{}.turnOnPercentage".format(temp_pt_crv_info), 1)
+			cmds.setAttr( "{}.parameter".format(temp_pt_crv_info), 0.1*id )
+
+			cmds.connectAttr( "{}.worldSpace[0]".format(self.curve),
+							  "{}.inputCurve".format(temp_pt_crv_info) )
+
+			cmds.connectAttr( "{}.position".format(temp_pt_crv_info), "{}.translate".format(driv_jnt) )
+
+			cmds.delete(temp_pt_crv_info)
 
 
 	def _delete_curve_history(self):
@@ -59,7 +76,7 @@ class AdvancedEyeRig():
 
 	def _set_loc_position_on_curve(self, pt_crv_info, id):
 		cmds.setAttr("{}.turnOnPercentage".format(pt_crv_info), 1)
-		cmds.setAttr( "{}.parameter".format(pt_crv_info), 0.1*(id+1) )
+		cmds.setAttr( "{}.parameter".format(pt_crv_info), 0.1*id )
 
 
 	def _create_bone(self, name):
@@ -91,7 +108,8 @@ class AdvancedEyeRig():
 	@staticmethod
 	def get_curve_spans(curveShape):
 		if cmds.objectType(curveShape, isType="nurbsCurve"):
-			return cmds.getAttr( "{}.spans".format(curveShape) )
+			spans = int( cmds.getAttr( "{}.spans".format(curveShape) ) ) + 1
+			return spans
 
 
 	@staticmethod
