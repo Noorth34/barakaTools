@@ -1,13 +1,13 @@
 # coding:utf-8
 
 from maya import cmds
-from maya import mel
+from modules.matrix_api import constraint
 
 
 class AdvancedEyeRig():
 
 
-	def __init__(self, name, numControls=5):
+	def __init__(self, name):
 		self.NAME = "_".join( name.split("_")[0:-1] ).rstrip("_")
 		self.SIDE = name.split("_")[-1]
 		
@@ -24,9 +24,15 @@ class AdvancedEyeRig():
 		self.point_on_curve_infos = []
 		self.locators = []
 		self.bones = []
+
+		self.sub_controls = None
+		self.controls = None
+
 		self.grp_locators = None
 		self.grp_bones = None
 		self.grp_driver_joints = None
+		self.grp_sub_controls = None
+		self.grp_controls = None
 
 
 	def compute(self, numControls=3):
@@ -34,9 +40,10 @@ class AdvancedEyeRig():
 		self._delete_locators()
 		self._delete_bones()
 		self._delete_driver_joints()
+		self._delete_sub_controls()
 
 		for id in range(self.spans):
-			name = self._generate_name_with_index( (id+1) )
+			name = self._gen_name_with_index( (id+1) )
 
 			pt_crv_info = self._create_point_on_curve_info(name)
 			loc = self._create_loc(name)
@@ -51,17 +58,23 @@ class AdvancedEyeRig():
 			self.bones.append(bone)
 		
 		self.driver_joints = self._create_driver_joints(numControls)
-		self._set_driver_joint_position_on_curve()
+		self._set_driver_joints_position_on_curve()
 		self.sk_clus_curve = cmds.skinCluster(self.driver_joints, self.curve, tsb=True)
+
+		self.sub_controls = self._create_sub_controls()
+		self._set_sub_controls_position()
+		self._connect_sub_controls_to_driver_joints()
 
 		self.grp_locators = self._organize_locators()
 		self.grp_bones = self._organize_bones()
 		self.grp_driver_joints = self._organize_driver_joints()
+		self.grp_sub_controls = self._organize_sub_controls()
 
 
 	def _organize_locators(self):
 		if not self.grp_locators:
-			grp = cmds.createNode( "transform", n="locs_{}_{}".format(self.NAME, self.SIDE) )
+			grp = cmds.createNode( "transform",
+						n="locs_{}_{}".format(self.NAME, self.SIDE) )
 			cmds.parent(self.locators, grp)
 			return grp
 		else:
@@ -71,7 +84,8 @@ class AdvancedEyeRig():
 
 	def _organize_bones(self):
 		if not self.grp_bones:
-			grp = cmds.createNode( "transform", n="binds_{}_{}".format(self.NAME, self.SIDE) )
+			grp = cmds.createNode( "transform",
+						n="binds_{}_{}".format(self.NAME, self.SIDE) )
 
 			for bone in self.bones:
 				cmds.parent(bone["base"], grp)
@@ -84,7 +98,9 @@ class AdvancedEyeRig():
 
 	def _organize_driver_joints(self):
 		if not self.grp_driver_joints:
-			grp = cmds.createNode( "transform", n="drivJnts_{}_{}".format(self.NAME, self.SIDE) )
+			grp = cmds.createNode( "transform",
+						n="drivJnts_{}_{}".format(self.NAME, self.SIDE) )
+
 			cmds.parent(self.driver_joints, grp)
 			return grp
 		else:
@@ -92,7 +108,19 @@ class AdvancedEyeRig():
 			return self.grp_driver_joints
 
 
-	def _generate_name_with_index(self, id, depth=2):
+	def _organize_sub_controls(self):
+		if not self.grp_sub_controls:
+			grp = cmds.createNode( "transform",
+						n="subs_{}_{}".format(self.NAME, self.SIDE) )
+
+			cmds.parent(self.sub_controls, grp)
+			return grp
+		else:
+			cmds.parent(self.sub_controls, self.grp_sub_controls)
+			return self.grp_sub_controls
+
+
+	def _gen_name_with_index(self, id, depth=2):
 		return "{}_{}_{}".format(self.NAME, str(id).zfill(depth), self.SIDE)
 
 
@@ -112,12 +140,18 @@ class AdvancedEyeRig():
 
 
 	def _create_driver_joints(self, numControls):
-		driver_joints = []
-		for id in range(numControls):
-			jnt = cmds.createNode( "joint",
-									n="drivJnt_{}".format(self._generate_name_with_index(id+1) ) )
-			driver_joints.append(jnt)
+		driver_joints = [ cmds.createNode( "joint",
+						  n="drivJnt_{}".format(self._gen_name_with_index(id+1) ) )
+						  for id in range(numControls) ]
 		return driver_joints
+
+
+	def _create_sub_controls(self):
+		sub_controls = [ cmds.circle(nr=(0,0,1),
+						 ch=False,
+						 n="sub_{}".format(self._gen_name_with_index(id+1) ) )[0] 
+						 for id, jnt in enumerate(self.driver_joints) ]
+		return sub_controls
 
 
 	def _connect_loc_to_curve(self, loc, pt_crv_info):
@@ -128,19 +162,33 @@ class AdvancedEyeRig():
 						  "{}.translate".format(loc) )
 
 
-	def _set_driver_joint_position_on_curve(self):
+	def _connect_sub_controls_to_driver_joints(self):
+		for id, jnt in enumerate(self.driver_joints):
+			cmds.select(clear=True)
+			cmds.select(self.sub_controls[id], add=True)
+			cmds.select(self.driver_joints[id], add=True)
+			constraint(offset=False)
+
+
+	def _set_sub_controls_position(self):
+		for id, sub in enumerate(self.sub_controls):
+			cmds.matchTransform(sub, self.driver_joints[id], pos=True)
+
+
+	def _set_driver_joints_position_on_curve(self):
 		for id, jnt in enumerate(self.driver_joints):
 			temp_pci = self._create_point_on_curve_info("temp_ptCrvInfo")
+
 			cmds.setAttr("{}.turnOnPercentage".format(temp_pci), 1)
-			cmds.setAttr( "{}.parameter".format(temp_pci), (1.0 / (len(self.driver_joints)-1) )*id )
+
+			cmds.setAttr( "{}.parameter".format(temp_pci),
+						  (1.0 / (len(self.driver_joints)-1) )*id )
 
 			cmds.connectAttr( "{}.worldSpace[0]".format(self.curve),
 							  "{}.inputCurve".format(temp_pci) )
 
 			pos = cmds.getAttr("{}.position".format(temp_pci))[0]
-			print(pos)
 			cmds.xform(jnt, t=pos, a=True)
-
 			cmds.delete(temp_pci)
 
 
@@ -161,27 +209,38 @@ class AdvancedEyeRig():
 
 	def _delete_point_on_curve_infos(self):
 		if hasattr(self, "point_on_curve_infos"):
-			cmds.delete(self.point_on_curve_infos)
+			if self.point_on_curve_infos:
+				cmds.delete(self.point_on_curve_infos)
 		self.point_on_curve_infos = []
 
 
 	def _delete_locators(self):
 		if hasattr(self, "locators"):
-			cmds.delete(self.locators)
+			if self.locators:
+				cmds.delete(self.locators)
 		self.locators = []
 
 
 	def _delete_bones(self):
 		if hasattr(self, "bones"):
-			for bone in self.bones:
-				cmds.delete(bone["base"])
+			if self.bones:
+				for bone in self.bones:
+					cmds.delete(bone["base"])
 		self.bones = []
 
 
 	def _delete_driver_joints(self):
 		if hasattr(self, "driver_joints"):
-			cmds.delete(self.driver_joints)
-		self.driver_joints = []
+			if self.driver_joints:
+				cmds.delete(self.driver_joints)
+		self.driver_joints = None
+
+
+	def _delete_sub_controls(self):
+		if hasattr(self, "sub_controls"):
+			if self.sub_controls:
+				cmds.delete(self.sub_controls)
+		self.sub_controls = None
 
 
 	@staticmethod
@@ -209,5 +268,8 @@ class AdvancedEyeRig():
 	def create_bone(name):
 		base_joint = cmds.joint( n="baseJnt_{}".format(name) )
 		bind_joint = cmds.joint( n="bind_{}".format(name), position=(1,0,0) )
-		bone = {"base" : base_joint, "bind" : bind_joint}
+		bone = {
+				"base" : base_joint,
+				"bind" : bind_joint
+				}
 		return bone
