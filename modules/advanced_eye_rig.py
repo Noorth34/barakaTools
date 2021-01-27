@@ -31,8 +31,6 @@ class AdvancedEyeRig():
 		self.grp_locators = None
 		self.grp_bones = None
 		self.grp_driver_joints = None
-		self.grp_sub_controls = None
-		self.grp_controls = None
 
 
 	def compute(self, numControls=3):
@@ -40,7 +38,6 @@ class AdvancedEyeRig():
 		self._delete_locators()
 		self._delete_bones()
 		self._delete_driver_joints()
-		self._delete_sub_controls()
 
 		for id in range(self.spans):
 			name = self._gen_name_with_index( (id+1) )
@@ -61,14 +58,11 @@ class AdvancedEyeRig():
 		self._set_driver_joints_position_on_curve()
 		self.sk_clus_curve = cmds.skinCluster(self.driver_joints, self.curve, tsb=True)
 
-		self.sub_controls = self._create_sub_controls()
-		self._set_sub_controls_position()
-		self._connect_sub_controls_to_driver_joints()
-
 		self.grp_locators = self._organize_locators()
 		self.grp_bones = self._organize_bones()
 		self.grp_driver_joints = self._organize_driver_joints()
-		self.grp_sub_controls = self._organize_sub_controls()
+
+		self._offset_driver_joints()
 
 
 	def _organize_locators(self):
@@ -108,16 +102,17 @@ class AdvancedEyeRig():
 			return self.grp_driver_joints
 
 
-	def _organize_sub_controls(self):
-		if not self.grp_sub_controls:
-			grp = cmds.createNode( "transform",
-						n="subs_{}_{}".format(self.NAME, self.SIDE) )
+	def _offset_driver_joints(self):
+		off_driv_jnts = [ cmds.createNode("transform",
+						  n="{}_offset".format(jnt) )
+						  for jnt in self.driver_joints ]
 
-			cmds.parent(self.sub_controls, grp)
-			return grp
-		else:
-			cmds.parent(self.sub_controls, self.grp_sub_controls)
-			return self.grp_sub_controls
+		for id, offset in enumerate(off_driv_jnts):
+			cmds.matchTransform(offset, self.driver_joints[id])
+			cmds.parent(self.driver_joints[id], offset)
+			cmds.parent(offset, self.grp_driver_joints)
+
+		return off_driv_jnts
 
 
 	def _gen_name_with_index(self, id, depth=2):
@@ -146,33 +141,12 @@ class AdvancedEyeRig():
 		return driver_joints
 
 
-	def _create_sub_controls(self):
-		sub_controls = [ cmds.circle(nr=(0,0,1),
-						 ch=False,
-						 n="sub_{}".format(self._gen_name_with_index(id+1) ) )[0] 
-						 for id, jnt in enumerate(self.driver_joints) ]
-		return sub_controls
-
-
 	def _connect_loc_to_curve(self, loc, pt_crv_info):
 		cmds.connectAttr( "{}.worldSpace[0]".format(self.crv_shape),
 						  "{}.inputCurve".format(pt_crv_info) )
 
 		cmds.connectAttr( "{}.position".format(pt_crv_info),
 						  "{}.translate".format(loc) )
-
-
-	def _connect_sub_controls_to_driver_joints(self):
-		for id, jnt in enumerate(self.driver_joints):
-			cmds.select(clear=True)
-			cmds.select(self.sub_controls[id], add=True)
-			cmds.select(self.driver_joints[id], add=True)
-			constraint(offset=False)
-
-
-	def _set_sub_controls_position(self):
-		for id, sub in enumerate(self.sub_controls):
-			cmds.matchTransform(sub, self.driver_joints[id], pos=True)
 
 
 	def _set_driver_joints_position_on_curve(self):
@@ -234,13 +208,6 @@ class AdvancedEyeRig():
 			if self.driver_joints:
 				cmds.delete(self.driver_joints)
 		self.driver_joints = None
-
-
-	def _delete_sub_controls(self):
-		if hasattr(self, "sub_controls"):
-			if self.sub_controls:
-				cmds.delete(self.sub_controls)
-		self.sub_controls = None
 
 
 	@staticmethod
