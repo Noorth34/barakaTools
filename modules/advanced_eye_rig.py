@@ -136,7 +136,7 @@ class AdvancedEyeRig():
 
 	def _create_driver_joints(self, numControls):
 		driver_joints = [ cmds.createNode( "joint",
-						  n="drivJnt_{}".format(self._gen_name_with_index(id+1) ) )
+						  n="drivJnt_{}".format(self._gen_name_with_index(id+1), ) )
 						  for id in range(numControls) ]
 		return driver_joints
 
@@ -167,8 +167,8 @@ class AdvancedEyeRig():
 
 
 	def _set_loc_position_on_curve(self, pt_crv_info, id):
-		cmds.setAttr("{}.turnOnPercentage".format(pt_crv_info), 1)
-		cmds.setAttr( "{}.parameter".format(pt_crv_info), 0.1*id )
+		cmds.setAttr("{}.turnOnPercentage".format(pt_crv_info), 0)
+		cmds.setAttr( "{}.parameter".format(pt_crv_info), id)
 
 
 	def _set_bone_position(self, bone, loc):
