@@ -167,7 +167,6 @@ class AdvancedEyeRig():
 
 
 	def _set_loc_position_on_curve(self, pt_crv_info, id):
-		cmds.setAttr("{}.turnOnPercentage".format(pt_crv_info), 0)
 		cmds.setAttr( "{}.parameter".format(pt_crv_info), id)
 
 
