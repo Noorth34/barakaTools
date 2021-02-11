@@ -543,8 +543,12 @@ class Manager(QWidget):
 		if seq_item.parent().text(0) == "SHOT":
 
 			folder = const.PIPELINE_SHOT_PATH + "/{}/master/maya/scenes/{}".format(seq, scene_type)
-			last = Directory.get_children(folder)[-1]
-			scene = folder + "/" + last
+
+			files_list = Directory.get_children(folder)
+
+			for file in files_list:
+				if text_selected_item in file and file.endswith(".ma"):
+					last = file
 
 			if 'Import' in action:
 				Scene.import_scene(scene)
@@ -570,8 +574,12 @@ class Manager(QWidget):
 		if sequence_item.parent().text(0) == "SHOT":
 
 			folder = const.PIPELINE_SHOT_PATH + "/{}/{}/maya/scenes/{}".format(sequence, shot, scene_type)
-			last = Directory.get_children(folder)[-1]
-			scene = folder + "/" + last
+
+			files_list = Directory.get_children(folder)
+
+			for file in files_list:
+				if text_selected_item in file and file.endswith(".ma"):
+					last = file
 
 			if 'Import' in action:
 				Scene.import_scene(scene)
