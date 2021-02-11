@@ -4,24 +4,59 @@
 import maya.cmds as cmds
 
 
-asset = input("name")
+class RigHierarchy():
 
-main_group = cmds.createNode("transform", name="rig_{}".format(asset))
+	def __init__(self, name):
+		self.NAME = name
+		self.rig_group = cmds.createNode( "transform",
+										name="rig_{}".format(self.NAME) )
 
-elements_list = ["globalMove", "blendShape", "extraNodes"]
-gl_move_list = ["ctrls", "joints", "iks"]
-xtra_list = ["to_show", "to_hide"]
+		self.main_groups_list = [ "globalMove", 
+								  "blendShapes", 
+								  "extraNodes" ]
 
-for element in elements_list:
-	el = cmds.createNode("transform", name="{}_{}".format(element, asset))
-	cmds.parent(el, main_group)
+		self.global_move_groups_list = [ "ctrls",
+										 "joints",
+										 "iks" ]
 
-	if element == "globalMove":
-		for i in gl_move_list:
-			sub = cmds.createNode("transform", name="{}_{}".format(i, asset))
-			cmds.parent(sub, el)
+		self.extra_nodes_groups_list = [ "to_show",
+										 "to_hide" ]
 
-	if element == "extraNodes":
-		for i in xtra_list:
-			sub = cmds.createNode("transform", name="{}_{}_{}".format(element, asset, i))
-			cmds.parent(sub, el)
+
+	def compute(self):
+		self.main_groups = self._create_main_groups()
+		self.global_move_groups = self._create_global_move_groups()
+		self.extra_nodes_groups = self._create_extra_nodes_groups()
+
+		cmds.parent(self.main_groups.values(), self.rig_group)
+		cmds.parent(self.global_move_groups.values(), self.main_groups["globalMove"])
+		cmds.parent(self.extra_nodes_groups.values(), self.main_groups["extraNodes"])
+
+
+	def _create_main_groups(self):
+		main_groups = [ cmds.createNode("transform",
+						name="{}_{}".format(grp, self.NAME) )
+						for grp in self.main_groups_list ]
+
+		return { "globalMove" : main_groups[0],
+				 "blendShapes" : main_groups[1],
+				 "extraNodes" : main_groups[2] }
+
+
+	def _create_global_move_groups(self):
+		global_move_groups = [ cmds.createNode("transform",
+							   name="{}_{}".format(grp, self.NAME) )
+							   for grp in self.global_move_groups_list ]
+
+		return { "ctrls" : global_move_groups[0],
+				 "joints" : global_move_groups[1],
+				 "iks" : global_move_groups[2] }
+
+
+	def _create_extra_nodes_groups(self):
+		extra_nodes_groups = [ cmds.createNode("transform",
+							   name="extraNodes_{}_{}".format(self.NAME, grp) )
+							   for grp in self.extra_nodes_groups_list ]
+
+		return { "toShow" : extra_nodes_groups[0],
+				 "toHide" : extra_nodes_groups[-1] }
