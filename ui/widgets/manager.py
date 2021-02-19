@@ -66,7 +66,7 @@ class Manager(QWidget):
 
 			# status bar
 		self.status_bar = QStatusBar()
-		self.status_bar.showMessage("# [ INIT ] : Hi sweeties ! 😀")
+		self.status_bar.showMessage("# Hi sweeties ! 😀")
 
 		# Connect SIGNAL to SLOT
 
@@ -430,15 +430,15 @@ class Manager(QWidget):
 
 				if 'Import' in action:
 					Scene.import_scene(folder + "/" + last)
-					self.status_bar.showMessage("# [ EVENT ] : '{}' imported.".format(last))
+					self.status_bar.showMessage("# ✅ '{}' imported.".format(last))
 
 				if 'Open' in action:
 					Scene.open_scene(folder + "/" + last)
-					self.status_bar.showMessage("# [ EVENT ] : '{}' opened.".format(last))
+					self.status_bar.showMessage("# ✅ '{}' opened.".format(last))
 
 				if 'Reference' in action:
 					Scene.reference_scene(folder + "/" + last)
-					self.status_bar.showMessage("# [ EVENT ] : '{}' referenced.".format(last))
+					self.status_bar.showMessage("# ✅ '{}' referenced.".format(last))
 
 
 		if parent_selected_item == "dressing":
@@ -488,15 +488,15 @@ class Manager(QWidget):
 
 				if 'Import' in action:
 					Scene.import_scene(folder + "/" + last)
-					self.status_bar.showMessage("# [ EVENT ] : '{}' imported.".format(last))
+					self.status_bar.showMessage("# ✅ '{}' imported.".format(last))
 
 				if 'Open' in action:
 					Scene.open_scene(folder + "/" + last)
-					self.status_bar.showMessage("# [ EVENT ] : '{}' opened.".format(last))
+					self.status_bar.showMessage("# ✅ '{}' opened.".format(last))
 
 				if 'Reference' in action:
 					Scene.reference_scene(folder + "/" + last)
-					self.status_bar.showMessage("# [ EVENT ] : '{}' referenced.".format(last))
+					self.status_bar.showMessage("# ✅ '{}' referenced.".format(last))
 
 
 		if parent_selected_item not in ["items", "modules", "dressing"]:
@@ -523,15 +523,15 @@ class Manager(QWidget):
 			# Edit > Open last
 			if 'Import' in action:
 				Scene.import_scene(folder + "/" + last)
-				self.status_bar.showMessage("# [ EVENT ] : '{}' imported.".format(last))
+				self.status_bar.showMessage("# ✅ '{}' imported.".format(last))
 
 			if 'Open' in action:
 				Scene.open_scene(folder + "/" + last)
-				self.status_bar.showMessage("# [ EVENT ] : '{}' opened.".format(last))
+				self.status_bar.showMessage("# ✅ '{}' opened.".format(last))
 
 			if 'Reference' in action:
 				Scene.reference_scene(folder + "/" + last)
-				self.status_bar.showMessage("# [ EVENT ] : '{}' referenced.".format(last))
+				self.status_bar.showMessage("# ✅ '{}' referenced.".format(last))
 
 
 	def do_context_seq_actions(self, action, scene_type):
@@ -552,15 +552,15 @@ class Manager(QWidget):
 
 			if 'Import' in action:
 				Scene.import_scene(folder + "/" + last)
-				self.status_bar.showMessage("# [ EVENT ] : '{}' imported.".format(last))
+				self.status_bar.showMessage("# ✅ '{}' imported.".format(last))
 
 			if 'Open' in action:
 				Scene.open_scene(folder + "/" + last)
-				self.status_bar.showMessage("# [ EVENT ] : '{}' opened.".format(last))
+				self.status_bar.showMessage("# ✅ '{}' opened.".format(last))
 
 			if 'Reference' in action:
 				Scene.reference_scene(folder + "/" + last)
-				self.status_bar.showMessage("# [ EVENT ] : '{}' referenced.".format(last))
+				self.status_bar.showMessage("# ✅ '{}' referenced.".format(last))
 
 
 	def do_context_shot_actions(self, action, scene_type):
@@ -583,21 +583,21 @@ class Manager(QWidget):
 
 			if 'Import' in action:
 				Scene.import_scene(folder + "/" + last)
-				self.status_bar.showMessage("# [ EVENT ] : '{}' imported.".format(last))
+				self.status_bar.showMessage("# ✅ '{}' imported.".format(last))
 
 			if 'Open' in action:
 				Scene.open_scene(folder + "/" + last)
-				self.status_bar.showMessage("# [ EVENT ] : '{}' opened.".format(last))
+				self.status_bar.showMessage("# ✅ '{}' opened.".format(last))
 
 			if 'Reference' in action:
 				Scene.reference_scene(folder + "/" + last)
-				self.status_bar.showMessage("# [ EVENT ] : '{}' referenced.".format(last))
+				self.status_bar.showMessage("# ✅ '{}' referenced.".format(last))
 
 
 	def add_item_character(self, char):
 
 		if char == "":
-			self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Must put a name in 'asset' line edit.")
+			self.status_bar.showMessage("# ❌ Any name in line edit. Must put a name in 'asset' line edit.")
 			return
 
 		QTreeWidgetItem(self.item_character, [char])
@@ -606,7 +606,7 @@ class Manager(QWidget):
 	def add_item_prop(self, prop):
 
 		if prop == "":
-			self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Must put a name in 'asset' line edit.")
+			self.status_bar.showMessage("# ❌ Any name in line edit. Must put a name in 'asset' line edit.")
 			return
 
 		QTreeWidgetItem(self.item_prop, [prop])
@@ -615,7 +615,7 @@ class Manager(QWidget):
 	def add_item_set(self, set):
 
 		if set == "":
-			self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Must put a name in 'asset' line edit.")
+			self.status_bar.showMessage("# ❌ Any name in line edit. Must put a name in 'asset' line edit.")
 			return
 
 		QTreeWidgetItem(self.item_set, [set])
@@ -625,43 +625,43 @@ class Manager(QWidget):
 	def add_item_set_item(self, set_item):
 
 		if set_item == "":
-			self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Must put a name in 'asset' line edit.")
+			self.status_bar.showMessage("# ❌ Any name in line edit. Must put a name in 'asset' line edit.")
 			return
 
 		try:
 			QTreeWidgetItem(self.tree_asset.currentItem(), [set_item])
 		except:
-			self.status_bar.showMessage("# [ ERROR ] : Any set selected. Must select the parent's item set before create item.")
+			self.status_bar.showMessage("# ❌ Any set selected. Must select the parent's item set before create item.")
 
 
 	def add_item_set_module(self, set_module):
 
 		if set_module == "":
-			self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Must put a name in 'asset' line edit.")
+			self.status_bar.showMessage("# ❌ Any name in line edit. Must put a name in 'asset' line edit.")
 			return
 
 		try:
 			QTreeWidgetItem(self.tree_asset.currentItem(), [set_module])
 		except:
-			self.status_bar.showMessage("# [ ERROR ] : Any set selected. Must select the parent's item set before create item.")
+			self.status_bar.showMessage("# ❌ Any set selected. Must select the parent's item set before create item.")
 
 
 	def add_item_set_dressing(self, set_dressing):
 
 		if set_dressing == "":
-			self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Must put a name in 'asset' line edit.")
+			self.status_bar.showMessage("# ❌ Any name in line edit. Must put a name in 'asset' line edit.")
 			return
 
 		try:
 			QTreeWidgetItem(self.tree_asset.currentItem(), [set_dressing])
 		except:
-			self.status_bar.showMessage("# [ ERROR ] : Any set selected. Must select the parent's item set before create item.")
+			self.status_bar.showMessage("# ❌ Any set selected. Must select the parent's item set before create item.")
 
 
 	def add_item_seq(self, seq):
 
 		if seq == "":
-			self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Must put a name in 'shot' line edit.")
+			self.status_bar.showMessage("# ❌ Any name in line edit. Must put a name in 'shot' line edit.")
 			return
 
 		QTreeWidgetItem(self.main_item_shot, [seq])
@@ -670,7 +670,7 @@ class Manager(QWidget):
 	def add_item_shot(self, shot):
 		
 		if shot == "":
-			self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Must put a name in 'shot' line edit.")
+			self.status_bar.showMessage("# ❌ Any name in line edit. Must put a name in 'shot' line edit.")
 			return
 
 		QTreeWidgetItem(self.tree_asset.currentItem(), [shot])
@@ -685,10 +685,10 @@ class Manager(QWidget):
 			self.line_asset_creation.clear()
 
 			Scene.create_character(char)
-			self.status_bar.showMessage("# [ EVENT ] : character '{}' created.".format(char))
+			self.status_bar.showMessage("# ✅ Character '{}' created.".format(char))
 
 		else:
-			self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Must put a name in 'asset' line edit.")
+			self.status_bar.showMessage("# ❌ Any name in line edit. Must put a name in 'asset' line edit.")
 
 
 	def create_prop(self):
@@ -699,10 +699,10 @@ class Manager(QWidget):
 			self.add_item_prop(prop)
 			self.line_asset_creation.clear()
 			Scene.create_prop(prop)
-			self.status_bar.showMessage("# [ EVENT ] : prop '{}' created.".format(prop))
+			self.status_bar.showMessage("# ✅ Prop '{}' created.".format(prop))
 
 		else:
-			self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Must put a name in 'asset' line edit.")
+			self.status_bar.showMessage("# ❌ Any name in line edit. Must put a name in 'asset' line edit.")
 		
 
 	def create_set(self):
@@ -713,10 +713,10 @@ class Manager(QWidget):
 			self.add_item_set(set)
 			self.line_asset_creation.clear()
 			Scene.create_set(set)
-			self.status_bar.showMessage("# [ EVENT ] : set '{}' created.".format(set))
+			self.status_bar.showMessage("# ✅ Set '{}' created.".format(set))
 
 		else:
-			self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Must put a name in 'asset' line edit.")
+			self.status_bar.showMessage("# ❌ Any name in line edit. Must put a name in 'asset' line edit.")
 
 
 	def create_set_item(self):
@@ -730,16 +730,16 @@ class Manager(QWidget):
 					self.add_item_set_item(set_item)
 					self.line_asset_creation.clear()
 					Scene.create_item(set_item, set)
-					self.status_bar.showMessage("# [ EVENT ] : item '{}' created in set '{}'.".format(set_item, set))
+					self.status_bar.showMessage("# ✅ Item '{}' created in set '{}'.".format(set_item, set))
 
 				else:
-					self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Must put a name in 'asset' line edit.")
+					self.status_bar.showMessage("# ❌ Any name in line edit. Must put a name in 'asset' line edit.")
 
 			else:
-				self.status_bar.showMessage("# [ ERROR ] : Select 'items' folder under the desired set in order to create an item.")
+				self.status_bar.showMessage("# ❌ Select 'items' folder under the desired set in order to create an item.")
 
 		else:
-			self.status_bar.showMessage("# [ ERROR ] : Select 'items' folder under the desired set in order to create an item.")
+			self.status_bar.showMessage("# ❌ Select 'items' folder under the desired set in order to create an item.")
 
 
 	def create_set_module(self):
@@ -754,16 +754,16 @@ class Manager(QWidget):
 					self.add_item_set_module(set_module)
 					self.line_asset_creation.clear()
 					Scene.create_module(set_module, set)
-					self.status_bar.showMessage("# [ EVENT ] : item '{}' created in set '{}'.".format(set_module, set))
+					self.status_bar.showMessage("# ✅ Module '{}' created in set '{}'.".format(set_module, set))
 
 				else:
-					self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Must put a name in 'asset' line edit.")
+					self.status_bar.showMessage("# ❌ Any name in line edit. Must put a name in 'asset' line edit.")
 
 			else:
-				self.status_bar.showMessage("# [ ERROR ] : Select 'modules' folder under the desired set in order to create a module.")
+				self.status_bar.showMessage("# ❌ Select 'modules' folder under the desired set in order to create a module.")
 
 		else:
-			self.status_bar.showMessage("# [ ERROR ] : Select 'modules' folder under the desired set in order to create a module.")
+			self.status_bar.showMessage("# ❌ Select 'modules' folder under the desired set in order to create a module.")
 
 
 	def create_set_dressing(self):
@@ -778,16 +778,16 @@ class Manager(QWidget):
 					self.add_item_set_module(set_dressing)
 					self.line_asset_creation.clear()
 					Scene.create_dressing(set_dressing, set)
-					self.status_bar.showMessage("# [ EVENT ] : item '{}' created in set '{}'.".format(set_dressing, set))
+					self.status_bar.showMessage("# ✅ Dressing '{}' created in set '{}'.".format(set_dressing, set))
 
 				else:
-					self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Must put a name in 'asset' line edit.")
+					self.status_bar.showMessage("# ❌ Any name in line edit. Must put a name in 'asset' line edit.")
 
 			else:
-				self.status_bar.showMessage("# [ ERROR ] : Select 'dressing' folder under the desired set in order to create a dressing.")
+				self.status_bar.showMessage("# ❌ Select 'dressing' folder under the desired set in order to create a dressing.")
 
 		else:
-			self.status_bar.showMessage("# [ ERROR ] : Select 'dressing' folder under the desired set in order to create a dressing.")
+			self.status_bar.showMessage("# ❌ Select 'dressing' folder under the desired set in order to create a dressing.")
 
 
 	def create_sequence(self):
@@ -800,7 +800,7 @@ class Manager(QWidget):
 			Scene.create_sequence(seq_name)
 
 		else:
-			self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Must put a name in 'shot' line edit.")
+			self.status_bar.showMessage("# ❌ Any name in line edit. Must put a name in 'shot' line edit.")
 
 
 	def create_shot(self):
@@ -813,4 +813,4 @@ class Manager(QWidget):
 			Scene.create_shot(shot_name, self.tree_asset.currentItem().text(0))
 
 		else:
-			self.status_bar.showMessage("# [ ERROR ] : Any name in line edit. Must put a name in 'shot' line edit.")
+			self.status_bar.showMessage("# ❌ Any name in line edit. Must put a name in 'shot' line edit.")
