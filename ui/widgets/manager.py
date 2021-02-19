@@ -551,15 +551,15 @@ class Manager(QWidget):
 					last = file
 
 			if 'Import' in action:
-				Scene.import_scene(scene)
+				Scene.import_scene(folder + "/" + last)
 				self.status_bar.showMessage("# [ EVENT ] : '{}' imported.".format(last))
 
 			if 'Open' in action:
-				Scene.open_scene(scene)
+				Scene.open_scene(folder + "/" + last)
 				self.status_bar.showMessage("# [ EVENT ] : '{}' opened.".format(last))
 
 			if 'Reference' in action:
-				Scene.reference_scene(scene)
+				Scene.reference_scene(folder + "/" + last)
 				self.status_bar.showMessage("# [ EVENT ] : '{}' referenced.".format(last))
 
 
@@ -582,15 +582,15 @@ class Manager(QWidget):
 					last = file
 
 			if 'Import' in action:
-				Scene.import_scene(scene)
+				Scene.import_scene(folder + "/" + last)
 				self.status_bar.showMessage("# [ EVENT ] : '{}' imported.".format(last))
 
 			if 'Open' in action:
-				Scene.open_scene(scene)
+				Scene.open_scene(folder + "/" + last)
 				self.status_bar.showMessage("# [ EVENT ] : '{}' opened.".format(last))
 
 			if 'Reference' in action:
-				Scene.reference_scene(scene)
+				Scene.reference_scene(folder + "/" + last)
 				self.status_bar.showMessage("# [ EVENT ] : '{}' referenced.".format(last))
 
 
