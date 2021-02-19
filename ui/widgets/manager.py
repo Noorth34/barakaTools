@@ -547,7 +547,7 @@ class Manager(QWidget):
 			files_list = Directory.get_children(folder)
 
 			for file in files_list:
-				if text_selected_item in file and file.endswith(".ma"):
+				if seq in file and file.endswith(".ma"):
 					last = file
 
 			if 'Import' in action:
@@ -578,7 +578,7 @@ class Manager(QWidget):
 			files_list = Directory.get_children(folder)
 
 			for file in files_list:
-				if text_selected_item in file and file.endswith(".ma"):
+				if shot in file and file.endswith(".ma"):
 					last = file
 
 			if 'Import' in action:
