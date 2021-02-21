@@ -9,6 +9,33 @@ from functools import partial
 import constants as const
 import sys
 
+class Emoji():
+	SUCCESS = "✅"
+	HAPPY = "😀"
+	ERROR = "❌"
+
+class Error():
+	OPEN_ERROR = "{}  Can't open scene".format(Emoji.ERROR)
+	IMPORT_ERROR = "{}  Can't import scene".format(Emoji.ERROR)
+	REFERENCE_ERROR = "{}  Can't reference scene".format(Emoji.ERROR)
+	CREATE_ERROR = "{}  Can't create asset".format(Emoji.ERROR)
+
+
+class Warning():
+	pass
+
+
+class Success():
+	OPEN_SUCCESS = "{}  Scene opened successfully".format(Emoji.SUCCESS)
+	IMPORT_SUCCESS = "{}  Scene imported successfully".format(Emoji.SUCCESS)
+	REFERENCE_SUCCESS = "{}  Scene referenced successfully".format(Emoji.SUCCESS)
+	CREATE_SUCCESS = "{}  Asset created successfully".format(Emoji.SUCCESS)
+
+
+class Callback():
+	START = "# Hi sweeties ! {}".format(Emoji.HAPPY)
+
+
 class Manager(QWidget):
 
 	def __init__(self):
@@ -164,6 +191,7 @@ class Manager(QWidget):
 		self.main_item_asset.setFlags(Qt.ItemIsEnabled)
 
 		self.item_character = QTreeWidgetItem(self.main_item_asset, ['character'])
+
 		self.item_prop = QTreeWidgetItem(self.main_item_asset, ['prop'])
 		self.item_set = QTreeWidgetItem(self.main_item_asset, ['set'])
 
