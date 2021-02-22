@@ -2,6 +2,7 @@
 
 from PySide2.QtWidgets import *
 from PySide2.QtCore import Qt
+from PySide2.QtGui import QIcon
 from modules.scene import Scene
 from modules.directory import Directory
 from modules.path import Path
@@ -93,7 +94,7 @@ class Manager(QWidget):
 
 			# status bar
 		self.status_bar = QStatusBar()
-		self.status_bar.showMessage("# Hi sweeties ! 😀")
+		self.status_bar.showMessage(Callback.START)
 
 		# Connect SIGNAL to SLOT
 
@@ -190,10 +191,17 @@ class Manager(QWidget):
 		self.main_item_asset = QTreeWidgetItem(self.tree_asset, ['ASSET'])
 		self.main_item_asset.setFlags(Qt.ItemIsEnabled)
 
-		self.item_character = QTreeWidgetItem(self.main_item_asset, ['character'])
+		self.item_character = QTreeWidgetItem(self.main_item_asset, ["Characters"])
+		icon_char = QIcon(const.BARAKA_ICONS_PATH + "/man.png")
+		self.item_character.setIcon(0, icon_char)
 
-		self.item_prop = QTreeWidgetItem(self.main_item_asset, ['prop'])
-		self.item_set = QTreeWidgetItem(self.main_item_asset, ['set'])
+		self.item_prop = QTreeWidgetItem(self.main_item_asset, ['Props'])
+		icon_prop = QIcon(const.BARAKA_ICONS_PATH + "/hammer.png")
+		self.item_prop.setIcon(0, icon_prop)
+
+		self.item_set = QTreeWidgetItem(self.main_item_asset, ['Sets'])
+		icon_set = QIcon(const.BARAKA_ICONS_PATH + "/christmas-tree.png")
+		self.item_set.setIcon(0, icon_set)
 
 		self.item_character.setFlags(Qt.ItemIsEnabled)
 		self.item_prop.setFlags(Qt.ItemIsEnabled)
@@ -218,30 +226,35 @@ class Manager(QWidget):
 				# For Characters
 				if categ == "character":
 					item_char = QTreeWidgetItem(self.item_character, [proj])
+					item_char.setIcon(0, icon_char)
 
 
 				# For Props
 				if categ == "prop":
 					item_prop = QTreeWidgetItem(self.item_prop, [proj])
+					item_prop.setIcon(0, icon_prop)
 
 
 				# For Sets
 				if categ == "set":
 					item_set = QTreeWidgetItem(self.item_set, [proj])
+					item_set.setIcon(0, icon_set)
 
 					# Check for items folder
 					for folder in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/geo".format(categ, proj) ): 
 						if folder == "items": 
-							item_items = QTreeWidgetItem(item_set, ['items'])
+							item_items = QTreeWidgetItem(item_set, ['Items'])
+							item_items.setIcon(0, QIcon(const.BARAKA_ICONS_PATH + "/sugar-cubes.png"))
 
 							# List all item folders
 							for i in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/geo/items".format(categ, proj) ):
 								item_item_folder = QTreeWidgetItem(item_items, [i])
+								item_item_folder.setIcon(0, QIcon(const.BARAKA_ICONS_PATH + "/sugar-cubes.png"))
 
 					# Check for modules folder
 					for folder in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/lookdev".format(categ, proj) ):
 						if folder == "modules": 
-							item_module = QTreeWidgetItem(item_set, ['modules'])
+							item_module = QTreeWidgetItem(item_set, ['Modules'])
 
 							# List all module folders
 							for i in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/lookdev/modules".format(categ, proj) ):
@@ -251,7 +264,7 @@ class Manager(QWidget):
 					# Check for dressing folder
 					for folder in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit".format(categ, proj) ):
 						if folder == "dressing": 
-							item_dressing = QTreeWidgetItem(item_set, ['dressing'])
+							item_dressing = QTreeWidgetItem(item_set, ['Dressing'])
 
 							# List all dressing folders
 							for i in Directory.get_children( const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/edit/dressing".format(categ, proj) ):
