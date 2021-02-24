@@ -111,7 +111,7 @@ class Scene():
 
             if "/items/" in scene or "/modules/" in scene or "/dressing/" in scene:
                 dir_backup = Scene.create_dir_backup(in_set=True)
-                dir_publish = scene.replace("/edit/", "/publish/").replace("/{}/".format(asset), "").replace(scene_name, "")
+                dir_publish = "/".join( scene.replace("/edit/", "/publish/").split("/")[0:-2] ).replace(scene_name, "")
 
                 full_backup_scene_path = dir_backup + "/" + asset + "/" + state_changed_scene
                 full_publish_scene_path = dir_publish + "/" + state_changed_scene_no_index
@@ -147,7 +147,7 @@ class Scene():
         asset = Scene.get_asset(scene)
 
         if in_set == True:
-            publish_dir = File.get_parent(scene).replace("/edit/", "/publish/").replace("/{}".format(asset), "")
+            publish_dir = "/".join( File.get_parent(scene).replace("/edit/", "/publish/").split("/")[0:-1] )
 
         else:
             publish_dir = File.get_parent(scene).replace("/edit/", "/publish/")

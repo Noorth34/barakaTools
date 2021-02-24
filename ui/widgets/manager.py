@@ -191,15 +191,15 @@ class Manager(QWidget):
 		self.main_item_asset = QTreeWidgetItem(self.tree_asset, ['ASSET'])
 		self.main_item_asset.setFlags(Qt.ItemIsEnabled)
 
-		self.item_character = QTreeWidgetItem(self.main_item_asset, ["Characters"])
+		self.item_character = QTreeWidgetItem(self.main_item_asset, ["Character"])
 		icon_char = QIcon(const.BARAKA_ICONS_PATH + "/man.png")
 		self.item_character.setIcon(0, icon_char)
 
-		self.item_prop = QTreeWidgetItem(self.main_item_asset, ['Props'])
+		self.item_prop = QTreeWidgetItem(self.main_item_asset, ['Prop'])
 		icon_prop = QIcon(const.BARAKA_ICONS_PATH + "/hammer.png")
 		self.item_prop.setIcon(0, icon_prop)
 
-		self.item_set = QTreeWidgetItem(self.main_item_asset, ['Sets'])
+		self.item_set = QTreeWidgetItem(self.main_item_asset, ['Set'])
 		icon_set = QIcon(const.BARAKA_ICONS_PATH + "/christmas-tree.png")
 		self.item_set.setIcon(0, icon_set)
 
@@ -404,16 +404,16 @@ class Manager(QWidget):
 		except:
 			return
 
-		if selected_item_parent() in ['character', 'prop', 'set']:
+		if selected_item_parent() in ['Character', 'Prop', 'Set']:
 			action = context_menu_asset.exec_( self.mapToGlobal( event.pos() ) )
 
-		if selected_item_parent() == "items":
+		if selected_item_parent() == "Items":
 			action = context_menu_items.exec_( self.mapToGlobal( event.pos() ) )
 
-		if selected_item_parent() == "modules":
+		if selected_item_parent() == "Modules":
 			action = context_menu_modules.exec_( self.mapToGlobal( event.pos() ) )
 
-		if selected_item_parent() == "dressing":
+		if selected_item_parent() == "Dressing":
 			action = context_menu_dressing.exec_( self.mapToGlobal( event.pos() ) )
 
 		if self.tree_asset.currentItem().text(0).startswith("shot"):
@@ -429,7 +429,7 @@ class Manager(QWidget):
 		text_selected_item = selected_item.text(0)
 		parent_selected_item = selected_item.parent().text(0)
 
-		if parent_selected_item in ["items", "modules"]:
+		if parent_selected_item in ["Items", "Modules"]:
 			
 			# Asset Proj root
 			proj = selected_item.parent().parent()
@@ -442,22 +442,22 @@ class Manager(QWidget):
 			if action_type == "Edit":
 
 				folder = const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/{}/{}/{}/{}".format(
-					text_categ,
-					text_proj,
+					text_categ.lower(),
+					text_proj.lower(),
 					action_type.lower(),
 					scene_type.lower(),
-					parent_selected_item,
-					text_selected_item
+					parent_selected_item.lower(),
+					text_selected_item.lower()
 					)
 
 			if action_type == "Publish":
 
 				folder = const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/{}/{}/{}".format(
-					text_categ,
-					text_proj,
+					text_categ.lower(),
+					text_proj.lower(),
 					action_type.lower(),
 					scene_type.lower(),
-					parent_selected_item
+					parent_selected_item.lower()
 					)
 
 			files_list = Directory.get_children(folder)
@@ -482,7 +482,7 @@ class Manager(QWidget):
 					self.status_bar.showMessage("# ✅ '{}' referenced.".format(last))
 
 
-		if parent_selected_item == "dressing":
+		if parent_selected_item == "Dressing":
 			
 			# Asset Proj root
 			proj = selected_item.parent().parent() # proj
@@ -502,18 +502,18 @@ class Manager(QWidget):
 			if action_type == "Edit":
 
 				folder = const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/{}/{}/{}".format(
-					text_categ,
-					text_proj,
+					text_categ.lower(),
+					text_proj.lower(),
 					action_type.lower(),
 					scene_type.lower(),
-					text_selected_item
+					text_selected_item.lower()
 					)
 
 			if action_type == "Publish":
 
 				folder = const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/{}/{}".format(
-					text_categ,
-					text_proj,
+					text_categ.lower(),
+					text_proj.lower(),
 					action_type.lower(),
 					scene_type.lower()
 					)
@@ -540,15 +540,15 @@ class Manager(QWidget):
 					self.status_bar.showMessage("# ✅ '{}' referenced.".format(last))
 
 
-		if parent_selected_item not in ["items", "modules", "dressing"]:
+		if parent_selected_item not in ["Items", "Modules", "Dressing"]:
 			
 			categ = selected_item.parent()
 			text_categ = categ.text(0)
 
 			# Normal
 			folder = const.PIPELINE_ASSET_PATH + "/{}/{}/maya/scenes/{}/{}".format(
-				text_categ,
-				text_selected_item,
+				text_categ.lower(),
+				text_selected_item.lower(),
 				action_type.lower(),
 				scene_type.lower()
 				)
@@ -763,7 +763,7 @@ class Manager(QWidget):
 	def create_set_item(self):
 
 		if self.tree_asset.currentItem() is not None:
-			if self.tree_asset.currentItem().text(0) == "items":
+			if self.tree_asset.currentItem().text(0) == "Items":
 				set = self.tree_asset.currentItem().parent().text(0)
 				set_item = self.line_asset_creation.text()
 
@@ -777,16 +777,16 @@ class Manager(QWidget):
 					self.status_bar.showMessage("# ❌ Any name in line edit. Must put a name in 'asset' line edit.")
 
 			else:
-				self.status_bar.showMessage("# ❌ Select 'items' folder under the desired set in order to create an item.")
+				self.status_bar.showMessage("# ❌ Select 'Items' folder under the desired set in order to create an item.")
 
 		else:
-			self.status_bar.showMessage("# ❌ Select 'items' folder under the desired set in order to create an item.")
+			self.status_bar.showMessage("# ❌ Select 'Items' folder under the desired set in order to create an item.")
 
 
 	def create_set_module(self):
 
 		if self.tree_asset.currentItem() is not None:
-			if self.tree_asset.currentItem().text(0) == "modules":
+			if self.tree_asset.currentItem().text(0) == "Modules":
 				set = self.tree_asset.currentItem().parent().text(0)
 				set_module = self.line_asset_creation.text()
 
@@ -801,16 +801,16 @@ class Manager(QWidget):
 					self.status_bar.showMessage("# ❌ Any name in line edit. Must put a name in 'asset' line edit.")
 
 			else:
-				self.status_bar.showMessage("# ❌ Select 'modules' folder under the desired set in order to create a module.")
+				self.status_bar.showMessage("# ❌ Select 'Modules' folder under the desired set in order to create a module.")
 
 		else:
-			self.status_bar.showMessage("# ❌ Select 'modules' folder under the desired set in order to create a module.")
+			self.status_bar.showMessage("# ❌ Select 'Modules' folder under the desired set in order to create a module.")
 
 
 	def create_set_dressing(self):
 
 		if self.tree_asset.currentItem() is not None:
-			if self.tree_asset.currentItem().text(0) == "dressing":
+			if self.tree_asset.currentItem().text(0) == "Dressing":
 				set = self.tree_asset.currentItem().parent().text(0)
 				set_dressing = self.line_asset_creation.text()
 
@@ -825,10 +825,10 @@ class Manager(QWidget):
 					self.status_bar.showMessage("# ❌ Any name in line edit. Must put a name in 'asset' line edit.")
 
 			else:
-				self.status_bar.showMessage("# ❌ Select 'dressing' folder under the desired set in order to create a dressing.")
+				self.status_bar.showMessage("# ❌ Select 'Dressing' folder under the desired set in order to create a dressing.")
 
 		else:
-			self.status_bar.showMessage("# ❌ Select 'dressing' folder under the desired set in order to create a dressing.")
+			self.status_bar.showMessage("# ❌ Select 'Dressing' folder under the desired set in order to create a dressing.")
 
 
 	def create_sequence(self):
