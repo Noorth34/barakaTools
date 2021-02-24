@@ -559,8 +559,6 @@ class Manager(QWidget):
 				if text_selected_item in file and file.endswith(".ma"):
 					last = file
 
-			print(folder + "/" + last)
-
 			# Edit > Open last
 			if 'Import' in action:
 				Scene.import_scene(folder + "/" + last)
