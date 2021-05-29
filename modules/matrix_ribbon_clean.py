@@ -243,12 +243,13 @@ class FacialRibbonMatrix():
 
 		for id, pt_surf_info in enumerate(self.point_on_surface_infos):
 			if self.direction == "U":
-				paramU = id + 0.5
+				paramU = (id + 0.5) / 10.0
 				paramV = 0.5
 			elif self.direction == "V":
 				paramU = 0.5
-				paramV = id + 0.5
+				paramV = (id + 0.5) / 10.0
 
+			cmds.setAttr("{}.turnOnPercentage".format(pt_surf_info), 1)
 			cmds.setAttr("{}.parameterU".format(pt_surf_info), paramU)
 			cmds.setAttr("{}.parameterV".format(pt_surf_info), paramV)
 
@@ -286,43 +287,110 @@ class FacialRibbonMatrix():
 
 
 	def _delete(self):
-		self._delete_rivets()
+		self._unbind_surface()
+		self._delete_driver_joints()
 		self._delete_decompose_matrices()
 		self._delete_four_by_four_matrices()
 		self._delete_point_on_surface_infos()
 		self._delete_binds()
+		self._delete_rivets()
 
 
 	def _delete_rivets(self):
 		if hasattr(self, "rivets"):
 			if self.rivets:
-				cmds.delete(self.rivets)
+				try:
+					cmds.delete(self.rivets)
+				except ValueError:
+					cmds.warning("Rivets nodes have already been deleted.")
+					pass
 		self.rivets = None
 
 
 	def _delete_binds(self):
 		if hasattr(self, "binds"):
 			if self.binds:
-				cmds.delete(self.binds)
+				try:
+					cmds.delete(self.binds)
+				except ValueError:
+					cmds.warning("Binds nodes have already been deleted.")
+					pass
 		self.binds = None
 
 
 	def _delete_point_on_surface_infos(self):
 		if hasattr(self, "point_on_surface_infos"):
 			if self.point_on_surface_infos:
-				cmds.delete(self.point_on_surface_infos)
+				try:
+					cmds.delete(self.point_on_surface_infos)
+				except ValueError:
+					cmds.warning("ptOnSurfInfo nodes have already been deleted.")
+					pass
 		self.point_on_surface_infos = None
 
 
 	def _delete_four_by_four_matrices(self):
 		if hasattr(self, "four_by_four_matrices"):
 			if self.four_by_four_matrices:
-				cmds.delete(self.four_by_four_matrices)
+				try:
+					cmds.delete(self.four_by_four_matrices)
+				except ValueError:
+					cmds.warning("fbfMatrix nodes have already been deleted.")
+					pass
 		self.four_by_four_matrices = None
 
 
 	def _delete_decompose_matrices(self):
 		if hasattr(self, "decompose_matrices"):
 			if self.decompose_matrices:
-				cmds.delete(self.decompose_matrices)
+				try:
+					cmds.delete(self.decompose_matrices)
+				except ValueError:
+					cmds.warning("dMatrix nodes have already been deleted.")
+					pass
 		self.decompose_matrices = None
+
+
+	def _delete_driver_joints(self):
+		if hasattr(self, "driver_joints"):
+			if self.driver_joints:
+				try:
+					cmds.delete(self.driver_joints)
+				except ValueError:
+					cmds.warning("drivJnts nodes have already been deleted.")
+					pass
+		self.driver_joints = None
+
+
+	def _unbind_surface(self):
+		if hasattr(self, "skin_cluster"):
+			if self.skin_cluster:
+				cmds.skinCluster(self.skinCluster, edit=True, unbind=True)
+
+"""
+		self.grp_binds = self._organize_binds()
+		self.grp_driver_joints = self._organize_driver_joints()
+
+		self.offset_driver_joints = self._offset_driver_joints()
+"""
+
+	def _delete_grp_binds(self):
+		if hasattr(self, "grp_binds"):
+			if self.grp_binds:
+				try:
+					cmds.delete(self.grp_binds)
+				except ValueError:
+					cmds.warning("Binds Group has already been deleted.")
+					pass
+		self.grp_binds = None
+
+
+	def _delete_grp_driver_joints(self):
+		if hasattr(self, "grp_driver_joints"):
+			if self.grp_driver_joints:
+				try:
+					cmds.delete(self.grp_driver_joints)
+				except ValueError:
+					cmds.warning("Driver Joints Group has already been deleted.")
+					pass
+		self.grp_driver_joints = None
